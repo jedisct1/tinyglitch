@@ -16,6 +16,7 @@ pub fn build(b: *Builder) void {
     exe.setBuildMode(mode);
     exe.addSystemIncludeDir("src");
     exe.linkSystemLibrary("avformat");
+    exe.linkSystemLibrary("avcodec");
     exe.install();
 
     const run_cmd = exe.run();
@@ -23,4 +24,7 @@ pub fn build(b: *Builder) void {
     if (b.args) |args| {
         run_cmd.addArgs(args);
     }
+
+    const run_step = b.step("run", "Run the app");
+    run_step.dependOn(&run_cmd.step);
 }
