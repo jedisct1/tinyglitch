@@ -2,7 +2,6 @@ const std = @import("std");
 const mem = std.mem;
 const av = @cImport({
     @cInclude("./av.h");
-    //    @cInclude("libavcodec/avcodec.h");
 });
 
 const AVFormatContext = av.AVFormatContext;
@@ -12,9 +11,10 @@ const AVPacket = av.AVPacket;
 const AVRational = av.AVRational;
 
 pub fn main() anyerror!void {
-    _ = av.av_register_all();
-
     const input_file = "/tmp/fastly.mp4";
+    const out_file = "/tmp/out.mp4";
+
+    av.av_register_all();
     var format_ctx: [*c]AVFormatContext = null;
     if (av.avformat_open_input(&format_ctx, input_file, null, null) != 0) {
         return error.FileNotFound;
@@ -23,27 +23,21 @@ pub fn main() anyerror!void {
     if (av.avformat_find_stream_info(format_ctx, null) != 0) {
         return error.NoStreamInfo;
     }
-    av.av_dump_format(format_ctx, 0, input_file, 0);
 
-    const out_file = "/tmp/out.mp4";
     var out_format_ctx: [*c]AVFormatContext = null;
     if (av.avformat_alloc_output_context2(&out_format_ctx, null, "mp4", out_file) != 0) {
         return error.WriteError;
     }
-
     const nb_streams = format_ctx.*.nb_streams;
-    var i: usize = 0;
 
+    var i: usize = 0;
     while (i < nb_streams) : (i += 1) {
-        std.debug.print("Found stream: {d}\n", .{i});
         const in_stream = format_ctx.*.streams[i].*;
         const out_stream = av.avformat_new_stream(out_format_ctx, in_stream.codec.*.codec);
         if (out_stream == null) {
             return error.ParseError;
         }
-        out_stream.*.duration = 4499;
         if ((out_format_ctx.*.oformat.*.flags & 0x0040) != 0) {
-            std.debug.print("global header flag\n", .{});
             out_stream.*.codec.*.flags |= (1 << 22); // global header
         }
         if (av.avcodec_parameters_copy(out_stream.*.codecpar, in_stream.codecpar) != 0) {
@@ -55,38 +49,35 @@ pub fn main() anyerror!void {
     const video_stream_idx = video_stream_idx: {
         while (i < nb_streams) : (i += 1) {
             if (@enumToInt(format_ctx.*.streams[i].*.codec.*.codec_type) == av.AVMEDIA_TYPE_VIDEO) {
-                std.debug.print("Found video index\n", .{});
                 break :video_stream_idx i;
             }
         }
         return error.NoVideoStream;
     };
-    const video_stream = format_ctx.*.streams[video_stream_idx];
-    const out_video_stream = out_format_ctx.*.streams[video_stream_idx];
-    out_video_stream.*.r_frame_rate = video_stream.*.r_frame_rate;
-    out_video_stream.*.time_base = video_stream.*.time_base;
-    out_video_stream.*.duration = video_stream.*.duration;
-    out_video_stream.*.start_time = video_stream.*.start_time;
-    out_video_stream.*.nb_frames = video_stream.*.nb_frames;
-    out_video_stream.*.metadata = video_stream.*.metadata;
-    out_video_stream.*.attached_pic = video_stream.*.attached_pic;
 
-    std.debug.print("-----OUT:\n", .{});
+    const in_video_stream = format_ctx.*.streams[video_stream_idx];
+    const out_video_stream = out_format_ctx.*.streams[video_stream_idx];
+    out_video_stream.*.r_frame_rate = in_video_stream.*.r_frame_rate;
+    out_video_stream.*.time_base = in_video_stream.*.time_base;
+    out_video_stream.*.duration = in_video_stream.*.duration;
+    out_video_stream.*.start_time = in_video_stream.*.start_time;
+    out_video_stream.*.nb_frames = in_video_stream.*.nb_frames;
+    out_video_stream.*.metadata = in_video_stream.*.metadata;
+    out_video_stream.*.attached_pic = in_video_stream.*.attached_pic;
+
     av.av_dump_format(out_format_ctx, 0, out_file, 1);
 
     if (av.avio_open(&out_format_ctx.*.pb, out_file, 2) != 0) {
         return error.WriteError;
     }
     defer _ = av.avio_close(out_format_ctx.*.pb);
+
     if (av.avformat_write_header(out_format_ctx, null) != 0) {
         return error.WriteError;
     }
 
-    while (true) {
-        var packet: AVPacket = undefined;
-        if (av.av_read_frame(format_ctx, &packet) != 0) {
-            break;
-        }
+    var packet: AVPacket = undefined;
+    while (av.av_read_frame(format_ctx, &packet) != 0) {
         defer av.av_packet_unref(&packet);
         const data = packet.data[0..@intCast(usize, packet.size)];
         if (packet.stream_index != video_stream_idx) {
@@ -94,7 +85,6 @@ pub fn main() anyerror!void {
             continue;
         } else if (packet.flags == 0x0001) {
             std.debug.print("key frame\n", .{});
-            std.debug.print("x -> {d} {x}\n", .{ data.len, data[0..8] });
             mem.copy(u8, packet.data[data.len - 8 .. data.len], "*FASTLY*");
         }
         if (av.av_interleaved_write_frame(out_format_ctx, &packet) != 0) {
@@ -104,6 +94,4 @@ pub fn main() anyerror!void {
     if (av.av_write_trailer(out_format_ctx) != 0) {
         return error.WriteError;
     }
-
-    std.debug.print("DONE.\n", .{});
 }
