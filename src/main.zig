@@ -77,7 +77,7 @@ pub fn main() anyerror!void {
     }
 
     var packet: AVPacket = undefined;
-    while (av.av_read_frame(format_ctx, &packet) != 0) {
+    while (av.av_read_frame(format_ctx, &packet) == 0) {
         defer av.av_packet_unref(&packet);
         const data = packet.data[0..@intCast(usize, packet.size)];
         if (packet.stream_index != video_stream_idx) {
