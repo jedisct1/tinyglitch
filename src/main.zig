@@ -9,11 +9,12 @@ const AVFormatContext = av.AVFormatContext;
 const AVCodecContext = av.AVCodecContext;
 const AVCodec = av.AVCodec;
 const AVPacket = av.AVPacket;
+const AVRational = av.AVRational;
 
 pub fn main() anyerror!void {
     _ = av.av_register_all();
 
-    const input_file = "/tmp/test.mp4";
+    const input_file = "/tmp/fastly.mp4";
     var format_ctx: [*c]AVFormatContext = null;
     if (av.avformat_open_input(&format_ctx, input_file, null, null) != 0) {
         return error.FileNotFound;
@@ -40,6 +41,7 @@ pub fn main() anyerror!void {
         if (out_stream == null) {
             return error.ParseError;
         }
+        out_stream.*.duration = 4499;
         if ((out_format_ctx.*.oformat.*.flags & 0x0040) != 0) {
             std.debug.print("global header flag\n", .{});
             out_stream.*.codec.*.flags |= (1 << 22); // global header
@@ -59,8 +61,19 @@ pub fn main() anyerror!void {
         }
         return error.NoVideoStream;
     };
+    const video_stream = format_ctx.*.streams[video_stream_idx];
+    const out_video_stream = out_format_ctx.*.streams[video_stream_idx];
+    out_video_stream.*.r_frame_rate = video_stream.*.r_frame_rate;
+    out_video_stream.*.time_base = video_stream.*.time_base;
+    out_video_stream.*.duration = video_stream.*.duration;
+    out_video_stream.*.start_time = video_stream.*.start_time;
+    out_video_stream.*.nb_frames = video_stream.*.nb_frames;
+    out_video_stream.*.metadata = video_stream.*.metadata;
+    out_video_stream.*.attached_pic = video_stream.*.attached_pic;
 
+    std.debug.print("-----OUT:\n", .{});
     av.av_dump_format(out_format_ctx, 0, out_file, 1);
+
     if (av.avio_open(&out_format_ctx.*.pb, out_file, 2) != 0) {
         return error.WriteError;
     }
