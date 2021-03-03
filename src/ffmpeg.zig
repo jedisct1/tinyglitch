@@ -623,19 +623,16 @@ pub fn __sputc(arg__c: c_int, arg__p: [*c]FILE) callconv(.C) c_int {
         const ref = &_p.*._w;
         ref.* -= 1;
         break :blk ref.*;
-    }) >= @as(c_int, 0)) or ((_p.*._w >= _p.*._lbfsize) and (@bitCast(c_int, @as(c_uint, @bitCast(u8, @truncate(i8, _c)))) != @as(c_int, '\n'))))
-        return @bitCast(c_int, @as(c_uint, blk: {
-            const tmp = @bitCast(u8, @truncate(i8, _c));
-            (blk_1: {
-                const ref = &_p.*._p;
-                const tmp_2 = ref.*;
-                ref.* += 1;
-                break :blk_1 tmp_2;
-            }).?.* = tmp;
-            break :blk tmp;
-        }))
-    else
-        return __swbuf(_c, _p);
+    }) >= @as(c_int, 0)) or ((_p.*._w >= _p.*._lbfsize) and (@bitCast(c_int, @as(c_uint, @bitCast(u8, @truncate(i8, _c)))) != @as(c_int, '\n')))) return @bitCast(c_int, @as(c_uint, blk: {
+        const tmp = @bitCast(u8, @truncate(i8, _c));
+        (blk_1: {
+            const ref = &_p.*._p;
+            const tmp_2 = ref.*;
+            ref.* += 1;
+            break :blk_1 tmp_2;
+        }).?.* = tmp;
+        break :blk tmp;
+    })) else return __swbuf(_c, _p);
     return 0;
 }
 pub extern fn flockfile([*c]FILE) void;
@@ -651,6 +648,7 @@ pub extern fn tempnam(__dir: [*c]const u8, __prefix: [*c]const u8) [*c]u8;
 pub const off_t = __darwin_off_t;
 pub extern fn fseeko(__stream: [*c]FILE, __offset: off_t, __whence: c_int) c_int;
 pub extern fn ftello(__stream: [*c]FILE) off_t;
+pub extern fn snprintf(__str: [*c]u8, __size: c_ulong, __format: [*c]const u8, ...) c_int;
 pub extern fn vfscanf(noalias __stream: [*c]FILE, noalias __format: [*c]const u8, [*c]struct___va_list_tag) c_int;
 pub extern fn vscanf(noalias __format: [*c]const u8, [*c]struct___va_list_tag) c_int;
 pub extern fn vsnprintf(__str: [*c]u8, __size: c_ulong, __format: [*c]const u8, [*c]struct___va_list_tag) c_int;
@@ -1944,6 +1942,7 @@ pub const struct_AVClass = extern struct {
     category: AVClassCategory,
     get_category: ?fn (?*c_void) callconv(.C) AVClassCategory,
     query_ranges: ?fn ([*c]?*struct_AVOptionRanges, ?*c_void, [*c]const u8, c_int) callconv(.C) c_int,
+    child_class_iterate: ?fn ([*c]?*c_void) callconv(.C) [*c]const struct_AVClass,
 };
 pub const AVClass = struct_AVClass;
 pub extern fn av_log(avcl: ?*c_void, level: c_int, fmt: [*c]const u8, ...) void;
@@ -2161,7 +2160,9 @@ pub const enum_AVPixelFormat = extern enum(c_int) {
     AV_PIX_FMT_VULKAN = 193,
     AV_PIX_FMT_Y210BE = 194,
     AV_PIX_FMT_Y210LE = 195,
-    AV_PIX_FMT_NB = 196,
+    AV_PIX_FMT_X2RGB10LE = 196,
+    AV_PIX_FMT_X2RGB10BE = 197,
+    AV_PIX_FMT_NB = 198,
     _,
 };
 pub const AV_PIX_FMT_NONE = @enumToInt(enum_AVPixelFormat.AV_PIX_FMT_NONE);
@@ -2365,6 +2366,8 @@ pub const AV_PIX_FMT_NV42 = @enumToInt(enum_AVPixelFormat.AV_PIX_FMT_NV42);
 pub const AV_PIX_FMT_VULKAN = @enumToInt(enum_AVPixelFormat.AV_PIX_FMT_VULKAN);
 pub const AV_PIX_FMT_Y210BE = @enumToInt(enum_AVPixelFormat.AV_PIX_FMT_Y210BE);
 pub const AV_PIX_FMT_Y210LE = @enumToInt(enum_AVPixelFormat.AV_PIX_FMT_Y210LE);
+pub const AV_PIX_FMT_X2RGB10LE = @enumToInt(enum_AVPixelFormat.AV_PIX_FMT_X2RGB10LE);
+pub const AV_PIX_FMT_X2RGB10BE = @enumToInt(enum_AVPixelFormat.AV_PIX_FMT_X2RGB10BE);
 pub const AV_PIX_FMT_NB = @enumToInt(enum_AVPixelFormat.AV_PIX_FMT_NB);
 pub const enum_AVColorPrimaries = extern enum(c_int) {
     AVCOL_PRI_RESERVED0 = 0,
@@ -2590,6 +2593,7 @@ pub extern fn av_buffer_get_opaque(buf: [*c]const AVBufferRef) ?*c_void;
 pub extern fn av_buffer_get_ref_count(buf: [*c]const AVBufferRef) c_int;
 pub extern fn av_buffer_make_writable(buf: [*c][*c]AVBufferRef) c_int;
 pub extern fn av_buffer_realloc(buf: [*c][*c]AVBufferRef, size: c_int) c_int;
+pub extern fn av_buffer_replace(dst: [*c][*c]AVBufferRef, src: [*c]AVBufferRef) c_int;
 pub const struct_AVBufferPool = opaque {};
 pub const AVBufferPool = struct_AVBufferPool;
 pub extern fn av_buffer_pool_init(size: c_int, alloc: ?fn (c_int) callconv(.C) [*c]AVBufferRef) ?*AVBufferPool;
@@ -2673,6 +2677,8 @@ pub const enum_AVFrameSideDataType = extern enum(c_int) {
     AV_FRAME_DATA_DYNAMIC_HDR_PLUS,
     AV_FRAME_DATA_REGIONS_OF_INTEREST,
     AV_FRAME_DATA_VIDEO_ENC_PARAMS,
+    AV_FRAME_DATA_SEI_UNREGISTERED,
+    AV_FRAME_DATA_FILM_GRAIN_PARAMS,
     _,
 };
 pub const AV_FRAME_DATA_PANSCAN = @enumToInt(enum_AVFrameSideDataType.AV_FRAME_DATA_PANSCAN);
@@ -2697,6 +2703,8 @@ pub const AV_FRAME_DATA_S12M_TIMECODE = @enumToInt(enum_AVFrameSideDataType.AV_F
 pub const AV_FRAME_DATA_DYNAMIC_HDR_PLUS = @enumToInt(enum_AVFrameSideDataType.AV_FRAME_DATA_DYNAMIC_HDR_PLUS);
 pub const AV_FRAME_DATA_REGIONS_OF_INTEREST = @enumToInt(enum_AVFrameSideDataType.AV_FRAME_DATA_REGIONS_OF_INTEREST);
 pub const AV_FRAME_DATA_VIDEO_ENC_PARAMS = @enumToInt(enum_AVFrameSideDataType.AV_FRAME_DATA_VIDEO_ENC_PARAMS);
+pub const AV_FRAME_DATA_SEI_UNREGISTERED = @enumToInt(enum_AVFrameSideDataType.AV_FRAME_DATA_SEI_UNREGISTERED);
+pub const AV_FRAME_DATA_FILM_GRAIN_PARAMS = @enumToInt(enum_AVFrameSideDataType.AV_FRAME_DATA_FILM_GRAIN_PARAMS);
 pub const enum_AVActiveFormatDescription = extern enum(c_int) {
     AV_AFD_SAME = 8,
     AV_AFD_4_3 = 9,
@@ -3131,6 +3139,10 @@ pub const enum_AVCodecID = extern enum(c_int) {
     AV_CODEC_ID_SCREENPRESSO = 190,
     AV_CODEC_ID_RSCC = 191,
     AV_CODEC_ID_AVS2 = 192,
+    AV_CODEC_ID_PGX = 193,
+    AV_CODEC_ID_AVS3 = 194,
+    AV_CODEC_ID_MSP2 = 195,
+    AV_CODEC_ID_VVC = 196,
     AV_CODEC_ID_Y41P = 32768,
     AV_CODEC_ID_AVRP = 32769,
     AV_CODEC_ID_012V = 32770,
@@ -3184,6 +3196,13 @@ pub const enum_AVCodecID = extern enum(c_int) {
     AV_CODEC_ID_MV30 = 32818,
     AV_CODEC_ID_NOTCHLC = 32819,
     AV_CODEC_ID_PFM = 32820,
+    AV_CODEC_ID_MOBICLIP = 32821,
+    AV_CODEC_ID_PHOTOCD = 32822,
+    AV_CODEC_ID_IPU = 32823,
+    AV_CODEC_ID_ARGO = 32824,
+    AV_CODEC_ID_CRI = 32825,
+    AV_CODEC_ID_SIMBIOSIS_IMX = 32826,
+    AV_CODEC_ID_SGA_VIDEO = 32827,
     AV_CODEC_ID_FIRST_AUDIO = 65536,
     AV_CODEC_ID_PCM_S16LE = 65536,
     AV_CODEC_ID_PCM_S16BE = 65537,
@@ -3221,6 +3240,7 @@ pub const enum_AVCodecID = extern enum(c_int) {
     AV_CODEC_ID_PCM_F16LE = 67586,
     AV_CODEC_ID_PCM_F24LE = 67587,
     AV_CODEC_ID_PCM_VIDC = 67588,
+    AV_CODEC_ID_PCM_SGA = 67589,
     AV_CODEC_ID_ADPCM_IMA_QT = 69632,
     AV_CODEC_ID_ADPCM_IMA_WAV = 69633,
     AV_CODEC_ID_ADPCM_IMA_DK3 = 69634,
@@ -3270,6 +3290,7 @@ pub const enum_AVCodecID = extern enum(c_int) {
     AV_CODEC_ID_ADPCM_IMA_ALP = 71695,
     AV_CODEC_ID_ADPCM_IMA_MTF = 71696,
     AV_CODEC_ID_ADPCM_IMA_CUNNING = 71697,
+    AV_CODEC_ID_ADPCM_IMA_MOFLEX = 71698,
     AV_CODEC_ID_AMR_NB = 73728,
     AV_CODEC_ID_AMR_WB = 73729,
     AV_CODEC_ID_RA_144 = 77824,
@@ -3375,6 +3396,7 @@ pub const enum_AVCodecID = extern enum(c_int) {
     AV_CODEC_ID_MPEGH_3D_AUDIO = 88087,
     AV_CODEC_ID_SIREN = 88088,
     AV_CODEC_ID_HCA = 88089,
+    AV_CODEC_ID_FASTAUDIO = 88090,
     AV_CODEC_ID_FIRST_SUBTITLE = 94208,
     AV_CODEC_ID_DVD_SUBTITLE = 94208,
     AV_CODEC_ID_DVB_SUBTITLE = 94209,
@@ -3614,6 +3636,10 @@ pub const AV_CODEC_ID_DXV = @enumToInt(enum_AVCodecID.AV_CODEC_ID_DXV);
 pub const AV_CODEC_ID_SCREENPRESSO = @enumToInt(enum_AVCodecID.AV_CODEC_ID_SCREENPRESSO);
 pub const AV_CODEC_ID_RSCC = @enumToInt(enum_AVCodecID.AV_CODEC_ID_RSCC);
 pub const AV_CODEC_ID_AVS2 = @enumToInt(enum_AVCodecID.AV_CODEC_ID_AVS2);
+pub const AV_CODEC_ID_PGX = @enumToInt(enum_AVCodecID.AV_CODEC_ID_PGX);
+pub const AV_CODEC_ID_AVS3 = @enumToInt(enum_AVCodecID.AV_CODEC_ID_AVS3);
+pub const AV_CODEC_ID_MSP2 = @enumToInt(enum_AVCodecID.AV_CODEC_ID_MSP2);
+pub const AV_CODEC_ID_VVC = @enumToInt(enum_AVCodecID.AV_CODEC_ID_VVC);
 pub const AV_CODEC_ID_Y41P = @enumToInt(enum_AVCodecID.AV_CODEC_ID_Y41P);
 pub const AV_CODEC_ID_AVRP = @enumToInt(enum_AVCodecID.AV_CODEC_ID_AVRP);
 pub const AV_CODEC_ID_012V = @enumToInt(enum_AVCodecID.AV_CODEC_ID_012V);
@@ -3667,6 +3693,13 @@ pub const AV_CODEC_ID_CDTOONS = @enumToInt(enum_AVCodecID.AV_CODEC_ID_CDTOONS);
 pub const AV_CODEC_ID_MV30 = @enumToInt(enum_AVCodecID.AV_CODEC_ID_MV30);
 pub const AV_CODEC_ID_NOTCHLC = @enumToInt(enum_AVCodecID.AV_CODEC_ID_NOTCHLC);
 pub const AV_CODEC_ID_PFM = @enumToInt(enum_AVCodecID.AV_CODEC_ID_PFM);
+pub const AV_CODEC_ID_MOBICLIP = @enumToInt(enum_AVCodecID.AV_CODEC_ID_MOBICLIP);
+pub const AV_CODEC_ID_PHOTOCD = @enumToInt(enum_AVCodecID.AV_CODEC_ID_PHOTOCD);
+pub const AV_CODEC_ID_IPU = @enumToInt(enum_AVCodecID.AV_CODEC_ID_IPU);
+pub const AV_CODEC_ID_ARGO = @enumToInt(enum_AVCodecID.AV_CODEC_ID_ARGO);
+pub const AV_CODEC_ID_CRI = @enumToInt(enum_AVCodecID.AV_CODEC_ID_CRI);
+pub const AV_CODEC_ID_SIMBIOSIS_IMX = @enumToInt(enum_AVCodecID.AV_CODEC_ID_SIMBIOSIS_IMX);
+pub const AV_CODEC_ID_SGA_VIDEO = @enumToInt(enum_AVCodecID.AV_CODEC_ID_SGA_VIDEO);
 pub const AV_CODEC_ID_FIRST_AUDIO = @enumToInt(enum_AVCodecID.AV_CODEC_ID_FIRST_AUDIO);
 pub const AV_CODEC_ID_PCM_S16LE = @enumToInt(enum_AVCodecID.AV_CODEC_ID_PCM_S16LE);
 pub const AV_CODEC_ID_PCM_S16BE = @enumToInt(enum_AVCodecID.AV_CODEC_ID_PCM_S16BE);
@@ -3704,6 +3737,7 @@ pub const AV_CODEC_ID_PCM_S64BE = @enumToInt(enum_AVCodecID.AV_CODEC_ID_PCM_S64B
 pub const AV_CODEC_ID_PCM_F16LE = @enumToInt(enum_AVCodecID.AV_CODEC_ID_PCM_F16LE);
 pub const AV_CODEC_ID_PCM_F24LE = @enumToInt(enum_AVCodecID.AV_CODEC_ID_PCM_F24LE);
 pub const AV_CODEC_ID_PCM_VIDC = @enumToInt(enum_AVCodecID.AV_CODEC_ID_PCM_VIDC);
+pub const AV_CODEC_ID_PCM_SGA = @enumToInt(enum_AVCodecID.AV_CODEC_ID_PCM_SGA);
 pub const AV_CODEC_ID_ADPCM_IMA_QT = @enumToInt(enum_AVCodecID.AV_CODEC_ID_ADPCM_IMA_QT);
 pub const AV_CODEC_ID_ADPCM_IMA_WAV = @enumToInt(enum_AVCodecID.AV_CODEC_ID_ADPCM_IMA_WAV);
 pub const AV_CODEC_ID_ADPCM_IMA_DK3 = @enumToInt(enum_AVCodecID.AV_CODEC_ID_ADPCM_IMA_DK3);
@@ -3753,6 +3787,7 @@ pub const AV_CODEC_ID_ADPCM_IMA_APM = @enumToInt(enum_AVCodecID.AV_CODEC_ID_ADPC
 pub const AV_CODEC_ID_ADPCM_IMA_ALP = @enumToInt(enum_AVCodecID.AV_CODEC_ID_ADPCM_IMA_ALP);
 pub const AV_CODEC_ID_ADPCM_IMA_MTF = @enumToInt(enum_AVCodecID.AV_CODEC_ID_ADPCM_IMA_MTF);
 pub const AV_CODEC_ID_ADPCM_IMA_CUNNING = @enumToInt(enum_AVCodecID.AV_CODEC_ID_ADPCM_IMA_CUNNING);
+pub const AV_CODEC_ID_ADPCM_IMA_MOFLEX = @enumToInt(enum_AVCodecID.AV_CODEC_ID_ADPCM_IMA_MOFLEX);
 pub const AV_CODEC_ID_AMR_NB = @enumToInt(enum_AVCodecID.AV_CODEC_ID_AMR_NB);
 pub const AV_CODEC_ID_AMR_WB = @enumToInt(enum_AVCodecID.AV_CODEC_ID_AMR_WB);
 pub const AV_CODEC_ID_RA_144 = @enumToInt(enum_AVCodecID.AV_CODEC_ID_RA_144);
@@ -3858,6 +3893,7 @@ pub const AV_CODEC_ID_ACELP_KELVIN = @enumToInt(enum_AVCodecID.AV_CODEC_ID_ACELP
 pub const AV_CODEC_ID_MPEGH_3D_AUDIO = @enumToInt(enum_AVCodecID.AV_CODEC_ID_MPEGH_3D_AUDIO);
 pub const AV_CODEC_ID_SIREN = @enumToInt(enum_AVCodecID.AV_CODEC_ID_SIREN);
 pub const AV_CODEC_ID_HCA = @enumToInt(enum_AVCodecID.AV_CODEC_ID_HCA);
+pub const AV_CODEC_ID_FASTAUDIO = @enumToInt(enum_AVCodecID.AV_CODEC_ID_FASTAUDIO);
 pub const AV_CODEC_ID_FIRST_SUBTITLE = @enumToInt(enum_AVCodecID.AV_CODEC_ID_FIRST_SUBTITLE);
 pub const AV_CODEC_ID_DVD_SUBTITLE = @enumToInt(enum_AVCodecID.AV_CODEC_ID_DVD_SUBTITLE);
 pub const AV_CODEC_ID_DVB_SUBTITLE = @enumToInt(enum_AVCodecID.AV_CODEC_ID_DVB_SUBTITLE);
@@ -3985,6 +4021,7 @@ pub const enum_AVPacketSideDataType = extern enum(c_int) {
     AV_PKT_DATA_PRFT,
     AV_PKT_DATA_ICC_PROFILE,
     AV_PKT_DATA_DOVI_CONF,
+    AV_PKT_DATA_S12M_TIMECODE,
     AV_PKT_DATA_NB,
     _,
 };
@@ -4018,6 +4055,7 @@ pub const AV_PKT_DATA_AFD = @enumToInt(enum_AVPacketSideDataType.AV_PKT_DATA_AFD
 pub const AV_PKT_DATA_PRFT = @enumToInt(enum_AVPacketSideDataType.AV_PKT_DATA_PRFT);
 pub const AV_PKT_DATA_ICC_PROFILE = @enumToInt(enum_AVPacketSideDataType.AV_PKT_DATA_ICC_PROFILE);
 pub const AV_PKT_DATA_DOVI_CONF = @enumToInt(enum_AVPacketSideDataType.AV_PKT_DATA_DOVI_CONF);
+pub const AV_PKT_DATA_S12M_TIMECODE = @enumToInt(enum_AVPacketSideDataType.AV_PKT_DATA_S12M_TIMECODE);
 pub const AV_PKT_DATA_NB = @enumToInt(enum_AVPacketSideDataType.AV_PKT_DATA_NB);
 pub const struct_AVPacketSideData = extern struct {
     data: [*c]u8,
@@ -4040,6 +4078,11 @@ pub const struct_AVPacket = extern struct {
     convergence_duration: i64,
 };
 pub const AVPacket = struct_AVPacket;
+pub const struct_AVPacketList = extern struct {
+    pkt: AVPacket,
+    next: [*c]struct_AVPacketList,
+};
+pub const AVPacketList = struct_AVPacketList;
 pub const enum_AVSideDataParamChangeFlags = extern enum(c_int) {
     AV_SIDE_DATA_PARAM_CHANGE_CHANNEL_COUNT = 1,
     AV_SIDE_DATA_PARAM_CHANGE_CHANNEL_LAYOUT = 2,
@@ -4194,13 +4237,12 @@ pub const struct_AVCodec = extern struct {
     encode2: ?fn ([*c]struct_AVCodecContext, [*c]struct_AVPacket, [*c]const struct_AVFrame, [*c]c_int) callconv(.C) c_int,
     decode: ?fn ([*c]struct_AVCodecContext, ?*c_void, [*c]c_int, [*c]struct_AVPacket) callconv(.C) c_int,
     close: ?fn ([*c]struct_AVCodecContext) callconv(.C) c_int,
-    send_frame: ?fn ([*c]struct_AVCodecContext, [*c]const struct_AVFrame) callconv(.C) c_int,
     receive_packet: ?fn ([*c]struct_AVCodecContext, [*c]struct_AVPacket) callconv(.C) c_int,
     receive_frame: ?fn ([*c]struct_AVCodecContext, [*c]struct_AVFrame) callconv(.C) c_int,
     flush: ?fn ([*c]struct_AVCodecContext) callconv(.C) void,
     caps_internal: c_int,
     bsfs: [*c]const u8,
-    hw_configs: [*c]?*const struct_AVCodecHWConfigInternal,
+    hw_configs: [*c]const ?*const struct_AVCodecHWConfigInternal,
     codec_tags: [*c]const u32,
 };
 pub const struct_AVCodecInternal = opaque {};
@@ -4651,8 +4693,8 @@ pub extern fn av_picture_crop(dst: [*c]AVPicture, src: [*c]const AVPicture, pix_
 pub extern fn av_picture_pad(dst: [*c]AVPicture, src: [*c]const AVPicture, height: c_int, width: c_int, pix_fmt: enum_AVPixelFormat, padtop: c_int, padbottom: c_int, padleft: c_int, padright: c_int, color: [*c]c_int) c_int;
 pub extern fn avcodec_get_chroma_sub_sample(pix_fmt: enum_AVPixelFormat, h_shift: [*c]c_int, v_shift: [*c]c_int) void;
 pub extern fn avcodec_pix_fmt_to_codec_tag(pix_fmt: enum_AVPixelFormat) c_uint;
-pub extern fn avcodec_get_pix_fmt_loss(dst_pix_fmt: enum_AVPixelFormat, src_pix_fmt: enum_AVPixelFormat, has_alpha: c_int) c_int;
 pub extern fn avcodec_find_best_pix_fmt_of_list(pix_fmt_list: [*c]const enum_AVPixelFormat, src_pix_fmt: enum_AVPixelFormat, has_alpha: c_int, loss_ptr: [*c]c_int) enum_AVPixelFormat;
+pub extern fn avcodec_get_pix_fmt_loss(dst_pix_fmt: enum_AVPixelFormat, src_pix_fmt: enum_AVPixelFormat, has_alpha: c_int) c_int;
 pub extern fn avcodec_find_best_pix_fmt_of_2(dst_pix_fmt1: enum_AVPixelFormat, dst_pix_fmt2: enum_AVPixelFormat, src_pix_fmt: enum_AVPixelFormat, has_alpha: c_int, loss_ptr: [*c]c_int) enum_AVPixelFormat;
 pub extern fn avcodec_find_best_pix_fmt2(dst_pix_fmt1: enum_AVPixelFormat, dst_pix_fmt2: enum_AVPixelFormat, src_pix_fmt: enum_AVPixelFormat, has_alpha: c_int, loss_ptr: [*c]c_int) enum_AVPixelFormat;
 pub extern fn avcodec_default_get_format(s: [*c]struct_AVCodecContext, fmt: [*c]const enum_AVPixelFormat) enum_AVPixelFormat;
@@ -5001,22 +5043,6 @@ pub const struct_AVOutputFormat = extern struct {
     deinit: ?fn ([*c]struct_AVFormatContext) callconv(.C) void,
     check_bitstream: ?fn ([*c]struct_AVFormatContext, [*c]const AVPacket) callconv(.C) c_int,
 };
-const struct_unnamed_18 = extern struct {
-    last_dts: i64,
-    duration_gcd: i64,
-    duration_count: c_int,
-    rfps_duration_sum: i64,
-    duration_error: [*c][2][399]f64,
-    codec_info_duration: i64,
-    codec_info_duration_fields: i64,
-    frame_delay_evidence: c_int,
-    found_decoder: c_int,
-    last_duration: i64,
-    fps_first_dts: i64,
-    fps_first_dts_idx: c_int,
-    fps_last_dts: i64,
-    fps_last_dts_idx: c_int,
-};
 pub const enum_AVStreamParseType = extern enum(c_int) {
     AVSTREAM_PARSE_NONE,
     AVSTREAM_PARSE_FULL,
@@ -5032,12 +5058,6 @@ pub const AVSTREAM_PARSE_HEADERS = @enumToInt(enum_AVStreamParseType.AVSTREAM_PA
 pub const AVSTREAM_PARSE_TIMESTAMPS = @enumToInt(enum_AVStreamParseType.AVSTREAM_PARSE_TIMESTAMPS);
 pub const AVSTREAM_PARSE_FULL_ONCE = @enumToInt(enum_AVStreamParseType.AVSTREAM_PARSE_FULL_ONCE);
 pub const AVSTREAM_PARSE_FULL_RAW = @enumToInt(enum_AVStreamParseType.AVSTREAM_PARSE_FULL_RAW);
-pub const struct_AVPacketList = extern struct {
-    pkt: AVPacket,
-    next: [*c]struct_AVPacketList,
-}; // /usr/local/opt/ffmpeg/include/libavformat/avformat.h:807:9: warning: struct demoted to opaque type - has bitfield
-pub const struct_AVIndexEntry = opaque {};
-pub const AVIndexEntry = struct_AVIndexEntry;
 pub const struct_AVStreamInternal = opaque {};
 pub const AVStreamInternal = struct_AVStreamInternal;
 pub const struct_AVStream = extern struct {
@@ -5061,7 +5081,7 @@ pub const struct_AVStream = extern struct {
     r_frame_rate: AVRational,
     recommended_encoder_configuration: [*c]u8,
     codecpar: [*c]AVCodecParameters,
-    info: [*c]struct_unnamed_18,
+    unused: ?*c_void,
     pts_wrap_bits: c_int,
     first_dts: i64,
     cur_dts: i64,
@@ -5071,36 +5091,16 @@ pub const struct_AVStream = extern struct {
     codec_info_nb_frames: c_int,
     need_parsing: enum_AVStreamParseType,
     parser: [*c]struct_AVCodecParserContext,
-    last_in_packet_buffer: [*c]struct_AVPacketList,
-    probe_data: AVProbeData,
-    pts_buffer: [17]i64,
-    index_entries: ?*AVIndexEntry,
-    nb_index_entries: c_int,
-    index_entries_allocated_size: c_uint,
+    unused7: ?*c_void,
+    unused6: AVProbeData,
+    unused5: [17]i64,
+    unused2: ?*c_void,
+    unused3: c_int,
+    unused4: c_uint,
     stream_identifier: c_int,
-    program_num: c_int,
-    pmt_version: c_int,
-    pmt_stream_idx: c_int,
-    interleaver_chunk_size: i64,
-    interleaver_chunk_duration: i64,
-    request_probe: c_int,
-    skip_to_keyframe: c_int,
-    skip_samples: c_int,
-    start_skip_samples: i64,
-    first_discard_sample: i64,
-    last_discard_sample: i64,
-    nb_decoded_frames: c_int,
-    mux_ts_offset: i64,
-    pts_wrap_reference: i64,
-    pts_wrap_behavior: c_int,
-    update_initial_durations_done: c_int,
-    pts_reorder_error: [17]i64,
-    pts_reorder_error_count: [17]u8,
-    last_dts_for_order_check: i64,
-    dts_ordered: u8,
-    dts_misordered: u8,
-    inject_global_side_data: c_int,
-    display_aspect_ratio: AVRational,
+    unused8: c_int,
+    unused9: c_int,
+    unused10: c_int,
     internal: ?*AVStreamInternal,
 };
 pub const AVStream = struct_AVStream;
@@ -5221,7 +5221,9 @@ pub const struct_AVFormatContext = extern struct {
 pub extern fn av_get_packet(s: [*c]AVIOContext, pkt: [*c]AVPacket, size: c_int) c_int;
 pub extern fn av_append_packet(s: [*c]AVIOContext, pkt: [*c]AVPacket, size: c_int) c_int;
 pub const AVOutputFormat = struct_AVOutputFormat;
-pub const AVInputFormat = struct_AVInputFormat;
+pub const AVInputFormat = struct_AVInputFormat; // /Users/j/src/ffmpeg/libavformat/avformat.h:815:9: warning: struct demoted to opaque type - has bitfield
+pub const struct_AVIndexEntry = opaque {};
+pub const AVIndexEntry = struct_AVIndexEntry;
 pub extern fn av_stream_get_r_frame_rate(s: [*c]const AVStream) AVRational;
 pub extern fn av_stream_set_r_frame_rate(s: [*c]AVStream, r: AVRational) void;
 pub extern fn av_stream_get_recommended_encoder_configuration(s: [*c]const AVStream) [*c]u8;
@@ -5249,7 +5251,6 @@ pub extern fn av_format_get_open_cb(s: [*c]const AVFormatContext) AVOpenCallback
 pub extern fn av_format_set_open_cb(s: [*c]AVFormatContext, callback: AVOpenCallback) void;
 pub extern fn av_format_inject_global_side_data(s: [*c]AVFormatContext) void;
 pub extern fn av_fmt_ctx_get_duration_estimation_method(ctx: [*c]const AVFormatContext) enum_AVDurationEstimationMethod;
-pub const AVPacketList = struct_AVPacketList;
 pub extern fn avformat_version() c_uint;
 pub extern fn avformat_configuration() [*c]const u8;
 pub extern fn avformat_license() [*c]const u8;
@@ -6127,27 +6128,27 @@ pub const NTOHLL = @compileError("unable to translate C expr: unexpected token .
 pub const HTONL = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/_endian.h:146:9
 pub const HTONS = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/_endian.h:147:9
 pub const HTONLL = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/_endian.h:148:9
-pub const av_always_inline = @compileError("unable to translate C expr: unexpected token .Keyword_inline"); // /usr/local/opt/ffmpeg/include/libavutil/attributes.h:45:13
-pub const av_extern_inline = @compileError("unable to translate C expr: unexpected token .Keyword_extern"); // /usr/local/opt/ffmpeg/include/libavutil/attributes.h:55:13
-pub const av_const = @compileError("unable to translate C expr: unexpected token .Keyword_const"); // /usr/local/opt/ffmpeg/include/libavutil/attributes.h:82:13
-pub const av_uninit = @compileError("unable to translate C expr: unexpected token .Equal"); // /usr/local/opt/ffmpeg/include/libavutil/attributes.h:154:13
-pub const AV_TOSTRING = @compileError("unable to translate C expr: unexpected token .Hash"); // /usr/local/opt/ffmpeg/include/libavutil/macros.h:37:9
-pub const AV_GLUE = @compileError("unable to translate C expr: unexpected token .HashHash"); // /usr/local/opt/ffmpeg/include/libavutil/macros.h:39:9
-pub const AV_PRAGMA = @compileError("unable to translate C expr: unexpected token .Hash"); // /usr/local/opt/ffmpeg/include/libavutil/macros.h:46:9
-pub const AV_VERSION_DOT = @compileError("unable to translate C expr: unexpected token .HashHash"); // /usr/local/opt/ffmpeg/include/libavutil/version.h:57:9
-pub const FFSWAP = @compileError("unable to translate C expr: unexpected token .Keyword_do"); // /usr/local/opt/ffmpeg/include/libavutil/common.h:99:9
-pub const GET_UTF8 = @compileError("unable to translate C expr: unexpected token .Equal"); // /usr/local/opt/ffmpeg/include/libavutil/common.h:427:9
-pub const GET_UTF16 = @compileError("unable to translate C expr: unexpected token .Equal"); // /usr/local/opt/ffmpeg/include/libavutil/common.h:452:9
-pub const PUT_UTF8 = @compileError("unable to translate C expr: unexpected token .LBrace"); // /usr/local/opt/ffmpeg/include/libavutil/common.h:480:9
-pub const PUT_UTF16 = @compileError("unable to translate C expr: unexpected token .LBrace"); // /usr/local/opt/ffmpeg/include/libavutil/common.h:514:9
-pub const DECLARE_ALIGNED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /usr/local/opt/ffmpeg/include/libavutil/mem.h:112:13
-pub const DECLARE_ASM_ALIGNED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /usr/local/opt/ffmpeg/include/libavutil/mem.h:113:13
-pub const DECLARE_ASM_CONST = @compileError("unable to translate C expr: unexpected token .Keyword_static"); // /usr/local/opt/ffmpeg/include/libavutil/mem.h:114:13
-pub const av_alloc_size = @compileError("unable to translate C expr: expected ')'"); // /usr/local/opt/ffmpeg/include/libavutil/mem.h:169:13
-pub const AV_PIX_FMT_NE = @compileError("unable to translate C expr: unexpected token .HashHash"); // /usr/local/opt/ffmpeg/include/libavutil/pixfmt.h:367:12
-pub const AV_PIX_FMT_0BGR32 = @compileError("unable to translate C expr: unexpected token .Invalid"); // /usr/local/opt/ffmpeg/include/libavutil/pixfmt.h:375:9
+pub const av_always_inline = @compileError("unable to translate C expr: unexpected token .Keyword_inline"); // /Users/j/src/ffmpeg/libavutil/attributes.h:45:13
+pub const av_extern_inline = @compileError("unable to translate C expr: unexpected token .Keyword_extern"); // /Users/j/src/ffmpeg/libavutil/attributes.h:55:13
+pub const av_const = @compileError("unable to translate C expr: unexpected token .Keyword_const"); // /Users/j/src/ffmpeg/libavutil/attributes.h:82:13
+pub const av_uninit = @compileError("unable to translate C expr: unexpected token .Equal"); // /Users/j/src/ffmpeg/libavutil/attributes.h:154:13
+pub const AV_TOSTRING = @compileError("unable to translate C expr: unexpected token .Hash"); // /Users/j/src/ffmpeg/libavutil/macros.h:37:9
+pub const AV_GLUE = @compileError("unable to translate C expr: unexpected token .HashHash"); // /Users/j/src/ffmpeg/libavutil/macros.h:39:9
+pub const AV_PRAGMA = @compileError("unable to translate C expr: unexpected token .Hash"); // /Users/j/src/ffmpeg/libavutil/macros.h:46:9
+pub const AV_VERSION_DOT = @compileError("unable to translate C expr: unexpected token .HashHash"); // /Users/j/src/ffmpeg/libavutil/version.h:57:9
+pub const FFSWAP = @compileError("unable to translate C expr: unexpected token .Keyword_do"); // /Users/j/src/ffmpeg/libavutil/common.h:108:9
+pub const GET_UTF8 = @compileError("unable to translate C expr: unexpected token .Equal"); // /Users/j/src/ffmpeg/libavutil/common.h:499:9
+pub const GET_UTF16 = @compileError("unable to translate C expr: unexpected token .Equal"); // /Users/j/src/ffmpeg/libavutil/common.h:524:9
+pub const PUT_UTF8 = @compileError("unable to translate C expr: unexpected token .LBrace"); // /Users/j/src/ffmpeg/libavutil/common.h:552:9
+pub const PUT_UTF16 = @compileError("unable to translate C expr: unexpected token .LBrace"); // /Users/j/src/ffmpeg/libavutil/common.h:586:9
+pub const DECLARE_ALIGNED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /Users/j/src/ffmpeg/libavutil/mem.h:117:13
+pub const DECLARE_ASM_ALIGNED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /Users/j/src/ffmpeg/libavutil/mem.h:118:13
+pub const DECLARE_ASM_CONST = @compileError("unable to translate C expr: unexpected token .Keyword_static"); // /Users/j/src/ffmpeg/libavutil/mem.h:119:13
+pub const av_alloc_size = @compileError("unable to translate C expr: expected ')'"); // /Users/j/src/ffmpeg/libavutil/mem.h:175:13
+pub const AV_PIX_FMT_NE = @compileError("unable to translate C expr: unexpected token .HashHash"); // /Users/j/src/ffmpeg/libavutil/pixfmt.h:369:12
+pub const AV_PIX_FMT_0BGR32 = @compileError("unable to translate C expr: unexpected token .Invalid"); // /Users/j/src/ffmpeg/libavutil/pixfmt.h:377:9
 pub const __CLOCK_AVAILABILITY = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/any-macos-any/time.h:148:9
-pub const avio_print = @compileError("unable to translate C expr: expected ')'"); // /usr/local/opt/ffmpeg/include/libavformat/avio.h:594:9
+pub const avio_print = @compileError("unable to translate C expr: expected ')'"); // /Users/j/src/ffmpeg/libavformat/avio.h:594:9
 pub const __llvm__ = 1;
 pub const __clang__ = 1;
 pub const __clang_major__ = 11;
@@ -7891,7 +7892,7 @@ pub fn AV_VERSION_MICRO(a: anytype) callconv(.Inline) @TypeOf(a & 0xFF) {
     return a & 0xFF;
 }
 pub const LIBAVUTIL_VERSION_MAJOR = 56;
-pub const LIBAVUTIL_VERSION_MINOR = 51;
+pub const LIBAVUTIL_VERSION_MINOR = 66;
 pub const LIBAVUTIL_VERSION_MICRO = 100;
 pub const LIBAVUTIL_VERSION_INT = AV_VERSION_INT(LIBAVUTIL_VERSION_MAJOR, LIBAVUTIL_VERSION_MINOR, LIBAVUTIL_VERSION_MICRO);
 pub const LIBAVUTIL_VERSION = AV_VERSION(LIBAVUTIL_VERSION_MAJOR, LIBAVUTIL_VERSION_MINOR, LIBAVUTIL_VERSION_MICRO);
@@ -7905,8 +7906,11 @@ pub const FF_API_PKT_PTS = LIBAVUTIL_VERSION_MAJOR < 57;
 pub const FF_API_CRYPTO_SIZE_T = LIBAVUTIL_VERSION_MAJOR < 57;
 pub const FF_API_FRAME_GET_SET = LIBAVUTIL_VERSION_MAJOR < 57;
 pub const FF_API_PSEUDOPAL = LIBAVUTIL_VERSION_MAJOR < 57;
+pub const FF_API_CHILD_CLASS_NEXT = LIBAVUTIL_VERSION_MAJOR < 57;
+pub const FF_API_D2STR = LIBAVUTIL_VERSION_MAJOR < 58;
+pub const FF_API_DECLARE_ALIGNED = LIBAVUTIL_VERSION_MAJOR < 58;
 pub const AV_HAVE_BIGENDIAN = 0;
-pub const AV_HAVE_FAST_UNALIGNED = 1;
+pub const AV_HAVE_FAST_UNALIGNED = 0;
 pub fn AV_NE(be: anytype, le: anytype) callconv(.Inline) @TypeOf(le) {
     return le;
 }
@@ -7934,6 +7938,12 @@ pub fn FFSIGN(a: anytype) callconv(.Inline) @TypeOf(if (a > 0) 1 else -1) {
 }
 pub fn FFNABS(a: anytype) callconv(.Inline) @TypeOf(if (a <= 0) a else -a) {
     return if (a <= 0) a else -a;
+}
+pub fn FFABSU(a: anytype) callconv(.Inline) @TypeOf(if (a <= 0) -@import("std").meta.cast(c_uint, a) else @import("std").meta.cast(c_uint, a)) {
+    return if (a <= 0) -@import("std").meta.cast(c_uint, a) else @import("std").meta.cast(c_uint, a);
+}
+pub fn FFABS64U(a: anytype) callconv(.Inline) @TypeOf(if (a <= 0) -@import("std").meta.cast(u64, a) else @import("std").meta.cast(u64, a)) {
+    return if (a <= 0) -@import("std").meta.cast(u64, a) else @import("std").meta.cast(u64, a);
 }
 pub fn FFDIFFSIGN(x: anytype, y: anytype) callconv(.Inline) @TypeOf(@boolToInt(x > y) - @boolToInt(x < y)) {
     return @boolToInt(x > y) - @boolToInt(x < y);
@@ -8136,6 +8146,7 @@ pub const AV_PIX_FMT_AYUV64 = AV_PIX_FMT_NE(AYUV64BE, AYUV64LE);
 pub const AV_PIX_FMT_P010 = AV_PIX_FMT_NE(P010BE, P010LE);
 pub const AV_PIX_FMT_P016 = AV_PIX_FMT_NE(P016BE, P016LE);
 pub const AV_PIX_FMT_Y210 = AV_PIX_FMT_NE(Y210BE, Y210LE);
+pub const AV_PIX_FMT_X2RGB10 = AV_PIX_FMT_NE(X2RGB10BE, X2RGB10LE);
 pub fn av_int_list_length(list: anytype, term: anytype) callconv(.Inline) @TypeOf(av_int_list_length_for_size(@import("std").meta.sizeof(list.*), list, term)) {
     return av_int_list_length_for_size(@import("std").meta.sizeof(list.*), list, term);
 }
@@ -8183,6 +8194,8 @@ pub const AV_CPU_FLAG_NEON = 1 << 5;
 pub const AV_CPU_FLAG_ARMV8 = 1 << 6;
 pub const AV_CPU_FLAG_VFP_VM = 1 << 7;
 pub const AV_CPU_FLAG_SETEND = 1 << 16;
+pub const AV_CPU_FLAG_MMI = 1 << 0;
+pub const AV_CPU_FLAG_MSA = 1 << 1;
 pub const AV_CH_FRONT_LEFT = 0x00000001;
 pub const AV_CH_FRONT_RIGHT = 0x00000002;
 pub const AV_CH_FRONT_CENTER = 0x00000004;
@@ -8208,6 +8221,11 @@ pub const AV_CH_WIDE_RIGHT = @as(c_ulonglong, 0x0000000100000000);
 pub const AV_CH_SURROUND_DIRECT_LEFT = @as(c_ulonglong, 0x0000000200000000);
 pub const AV_CH_SURROUND_DIRECT_RIGHT = @as(c_ulonglong, 0x0000000400000000);
 pub const AV_CH_LOW_FREQUENCY_2 = @as(c_ulonglong, 0x0000000800000000);
+pub const AV_CH_TOP_SIDE_LEFT = @as(c_ulonglong, 0x0000001000000000);
+pub const AV_CH_TOP_SIDE_RIGHT = @as(c_ulonglong, 0x0000002000000000);
+pub const AV_CH_BOTTOM_FRONT_CENTER = @as(c_ulonglong, 0x0000004000000000);
+pub const AV_CH_BOTTOM_FRONT_LEFT = @as(c_ulonglong, 0x0000008000000000);
+pub const AV_CH_BOTTOM_FRONT_RIGHT = @as(c_ulonglong, 0x0000010000000000);
 pub const AV_CH_LAYOUT_NATIVE = @as(c_ulonglong, 0x8000000000000000);
 pub const AV_CH_LAYOUT_MONO = AV_CH_FRONT_CENTER;
 pub const AV_CH_LAYOUT_STEREO = AV_CH_FRONT_LEFT | AV_CH_FRONT_RIGHT;
@@ -8237,6 +8255,7 @@ pub const AV_CH_LAYOUT_7POINT1_WIDE_BACK = (AV_CH_LAYOUT_5POINT1_BACK | AV_CH_FR
 pub const AV_CH_LAYOUT_OCTAGONAL = ((AV_CH_LAYOUT_5POINT0 | AV_CH_BACK_LEFT) | AV_CH_BACK_CENTER) | AV_CH_BACK_RIGHT;
 pub const AV_CH_LAYOUT_HEXADECAGONAL = (((((((AV_CH_LAYOUT_OCTAGONAL | AV_CH_WIDE_LEFT) | AV_CH_WIDE_RIGHT) | AV_CH_TOP_BACK_LEFT) | AV_CH_TOP_BACK_RIGHT) | AV_CH_TOP_BACK_CENTER) | AV_CH_TOP_FRONT_CENTER) | AV_CH_TOP_FRONT_LEFT) | AV_CH_TOP_FRONT_RIGHT;
 pub const AV_CH_LAYOUT_STEREO_DOWNMIX = AV_CH_STEREO_LEFT | AV_CH_STEREO_RIGHT;
+pub const AV_CH_LAYOUT_22POINT2 = (((((((((((((((((AV_CH_LAYOUT_5POINT1_BACK | AV_CH_FRONT_LEFT_OF_CENTER) | AV_CH_FRONT_RIGHT_OF_CENTER) | AV_CH_BACK_CENTER) | AV_CH_LOW_FREQUENCY_2) | AV_CH_SIDE_LEFT) | AV_CH_SIDE_RIGHT) | AV_CH_TOP_FRONT_LEFT) | AV_CH_TOP_FRONT_RIGHT) | AV_CH_TOP_FRONT_CENTER) | AV_CH_TOP_CENTER) | AV_CH_TOP_BACK_LEFT) | AV_CH_TOP_BACK_RIGHT) | AV_CH_TOP_SIDE_LEFT) | AV_CH_TOP_SIDE_RIGHT) | AV_CH_TOP_BACK_CENTER) | AV_CH_BOTTOM_FRONT_CENTER) | AV_CH_BOTTOM_FRONT_LEFT) | AV_CH_BOTTOM_FRONT_RIGHT;
 pub const AV_DICT_MATCH_CASE = 1;
 pub const AV_DICT_IGNORE_SUFFIX = 2;
 pub const AV_DICT_DONT_STRDUP_KEY = 4;
@@ -8253,15 +8272,14 @@ pub const FF_DECODE_ERROR_CONCEALMENT_ACTIVE = 4;
 pub const FF_DECODE_ERROR_DECODE_SLICES = 8;
 pub const AV_CODEC_ID_IFF_BYTERUN1 = AV_CODEC_ID_IFF_ILBM;
 pub const AV_CODEC_ID_H265 = AV_CODEC_ID_HEVC;
+pub const AV_CODEC_ID_H266 = AV_CODEC_ID_VVC;
 pub const LIBAVCODEC_VERSION_MAJOR = 58;
-pub const LIBAVCODEC_VERSION_MINOR = 91;
+pub const LIBAVCODEC_VERSION_MINOR = 128;
 pub const LIBAVCODEC_VERSION_MICRO = 100;
 pub const LIBAVCODEC_VERSION_INT = AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, LIBAVCODEC_VERSION_MINOR, LIBAVCODEC_VERSION_MICRO);
 pub const LIBAVCODEC_VERSION = AV_VERSION(LIBAVCODEC_VERSION_MAJOR, LIBAVCODEC_VERSION_MINOR, LIBAVCODEC_VERSION_MICRO);
 pub const LIBAVCODEC_BUILD = LIBAVCODEC_VERSION_INT;
 pub const LIBAVCODEC_IDENT = "Lavc" ++ AV_STRINGIFY(LIBAVCODEC_VERSION);
-pub const FF_API_LOWRES = LIBAVCODEC_VERSION_MAJOR < 59;
-pub const FF_API_DEBUG_MV = LIBAVCODEC_VERSION_MAJOR < 58;
 pub const FF_API_AVCTX_TIMEBASE = LIBAVCODEC_VERSION_MAJOR < 59;
 pub const FF_API_CODED_FRAME = LIBAVCODEC_VERSION_MAJOR < 59;
 pub const FF_API_SIDEDATA_ONLY_PKT = LIBAVCODEC_VERSION_MAJOR < 59;
@@ -8291,6 +8309,13 @@ pub const FF_API_UNSANITIZED_BITRATES = LIBAVCODEC_VERSION_MAJOR < 59;
 pub const FF_API_OPENH264_SLICE_MODE = LIBAVCODEC_VERSION_MAJOR < 59;
 pub const FF_API_OPENH264_CABAC = LIBAVCODEC_VERSION_MAJOR < 59;
 pub const FF_API_UNUSED_CODEC_CAPS = LIBAVCODEC_VERSION_MAJOR < 59;
+pub const FF_API_AVPRIV_PUT_BITS = LIBAVCODEC_VERSION_MAJOR < 59;
+pub const FF_API_OLD_ENCDEC = LIBAVCODEC_VERSION_MAJOR < 59;
+pub const FF_API_AVCODEC_PIX_FMT = LIBAVCODEC_VERSION_MAJOR < 59;
+pub const FF_API_MPV_RC_STRATEGY = LIBAVCODEC_VERSION_MAJOR < 59;
+pub const FF_API_THREAD_SAFE_CALLBACKS = LIBAVCODEC_VERSION_MAJOR < 60;
+pub const FF_API_DEBUG_MV = LIBAVCODEC_VERSION_MAJOR < 60;
+pub const FF_API_GET_FRAME_CLASS = LIBAVCODEC_VERSION_MAJOR < 60;
 pub const AV_PKT_DATA_QUALITY_FACTOR = AV_PKT_DATA_QUALITY_STATS;
 pub const AV_PKT_FLAG_KEY = 0x0001;
 pub const AV_PKT_FLAG_CORRUPT = 0x0002;
@@ -8357,6 +8382,7 @@ pub const AV_CODEC_FLAG2_RO_FLUSH_NOOP = 1 << 30;
 pub const AV_CODEC_EXPORT_DATA_MVS = 1 << 0;
 pub const AV_CODEC_EXPORT_DATA_PRFT = 1 << 1;
 pub const AV_CODEC_EXPORT_DATA_VIDEO_ENC_PARAMS = 1 << 2;
+pub const AV_CODEC_EXPORT_DATA_FILM_GRAIN = 1 << 3;
 pub const AV_GET_BUFFER_FLAG_REF = 1 << 0;
 pub const FF_COMPRESSION_DEFAULT = -1;
 pub const FF_PRED_LEFT = 0;
@@ -8537,6 +8563,8 @@ pub const FF_PROFILE_HEVC_MAIN = 1;
 pub const FF_PROFILE_HEVC_MAIN_10 = 2;
 pub const FF_PROFILE_HEVC_MAIN_STILL_PICTURE = 3;
 pub const FF_PROFILE_HEVC_REXT = 4;
+pub const FF_PROFILE_VVC_MAIN_10 = 1;
+pub const FF_PROFILE_VVC_MAIN_10_444 = 33;
 pub const FF_PROFILE_AV1_MAIN = 0;
 pub const FF_PROFILE_AV1_HIGH = 1;
 pub const FF_PROFILE_AV1_PROFESSIONAL = 2;
@@ -8590,7 +8618,7 @@ pub const CLOCK_PROCESS_CPUTIME_ID = _CLOCK_PROCESS_CPUTIME_ID;
 pub const CLOCK_THREAD_CPUTIME_ID = _CLOCK_THREAD_CPUTIME_ID;
 pub const TIME_UTC = 1;
 pub const LIBAVFORMAT_VERSION_MAJOR = 58;
-pub const LIBAVFORMAT_VERSION_MINOR = 45;
+pub const LIBAVFORMAT_VERSION_MINOR = 70;
 pub const LIBAVFORMAT_VERSION_MICRO = 100;
 pub const LIBAVFORMAT_VERSION_INT = AV_VERSION_INT(LIBAVFORMAT_VERSION_MAJOR, LIBAVFORMAT_VERSION_MINOR, LIBAVFORMAT_VERSION_MICRO);
 pub const LIBAVFORMAT_VERSION = AV_VERSION(LIBAVFORMAT_VERSION_MAJOR, LIBAVFORMAT_VERSION_MINOR, LIBAVFORMAT_VERSION_MICRO);
@@ -8612,6 +8640,8 @@ pub const FF_API_OLD_RTSP_OPTIONS = LIBAVFORMAT_VERSION_MAJOR < 59;
 pub const FF_API_DASH_MIN_SEG_DURATION = LIBAVFORMAT_VERSION_MAJOR < 59;
 pub const FF_API_LAVF_MP4A_LATM = LIBAVFORMAT_VERSION_MAJOR < 59;
 pub const FF_API_AVIOFORMAT = LIBAVFORMAT_VERSION_MAJOR < 59;
+pub const FF_API_DEMUXER_OPEN = LIBAVFORMAT_VERSION_MAJOR < 59;
+pub const FF_API_LAVF_PRIV_OPT = LIBAVFORMAT_VERSION_MAJOR < 60;
 pub const FF_API_R_FRAME_RATE = 1;
 pub const AVIO_SEEKABLE_NORMAL = 1 << 0;
 pub const AVIO_SEEKABLE_TIME = 1 << 1;
@@ -8668,8 +8698,7 @@ pub const AV_PTS_WRAP_IGNORE = 0;
 pub const AV_PTS_WRAP_ADD_OFFSET = 1;
 pub const AV_PTS_WRAP_SUB_OFFSET = -1;
 pub const AVSTREAM_EVENT_FLAG_METADATA_UPDATED = 0x0001;
-pub const MAX_STD_TIMEBASES = (((30 * 12) + 30) + 3) + 6;
-pub const MAX_REORDER_DELAY = 16;
+pub const AVSTREAM_EVENT_FLAG_NEW_PACKETS = 1 << 1;
 pub const AV_PROGRAM_RUNNING = 1;
 pub const AVFMTCTX_NOHEADER = 0x0001;
 pub const AVFMTCTX_UNSEEKABLE = 0x0002;
