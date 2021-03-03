@@ -3,13 +3,10 @@ const SipHash = std.crypto.auth.siphash.SipHash64(2, 4);
 const Kdf = std.crypto.kdf.hkdf.HkdfSha256;
 const math = std.math;
 const mem = std.mem;
-const av = @cImport({
-    @cInclude("libavcodec/avcodec.h");
-    @cInclude("libavformat/avformat.h");
-    @cInclude("libavutil/avutil.h");
-});
+const av = @import("ffmpeg.zig");
 const fs = std.fs;
 const heap = std.heap;
+const zigly = @import("zigly/lib.zig");
 
 const AVFormatContext = av.AVFormatContext;
 const AVCodecContext = av.AVCodecContext;
@@ -81,9 +78,11 @@ const AVBufferedWriter = struct {
     }
 };
 
-pub fn main() anyerror!void {
+fn start() !void {
     const allocator = heap.page_allocator;
     av.av_register_all();
+
+    try zigly.compatibilityCheck();
 
     // Key derivation
     const prk = Kdf.extract("watermark", watermark_key);
@@ -91,9 +90,16 @@ pub fn main() anyerror!void {
     Kdf.expand(&prf_key, "prf key", prk);
     const prf = SipHash.init(&prf_key);
 
-    // Read the input file
-
-    var in_data = try fs.cwd().readFileAlloc(allocator, input_file, 50 * 1024 * 1024);
+    // Read the input data
+    var downstream = try zigly.downstream();
+    var request = downstream.request;
+    if (!try request.isPost()) {
+        var response = downstream.response;
+        try response.setStatus(401);
+        try response.flush();
+        return;
+    }
+    const in_data = try request.body.readAll(allocator);
     defer allocator.free(in_data);
 
     // Create a buffered reader for libavformat
@@ -207,5 +213,12 @@ pub fn main() anyerror!void {
     if (av.av_write_trailer(out_format_ctx) != 0) {
         return error.WriteError;
     }
-    try fs.cwd().writeFile(out_file, buffered_writer.bytes());
+    var response = downstream.response;
+    try response.headers.set("Content-Type", "video/mp4");
+    try response.body.writeAll(buffered_writer.bytes());
+    try response.flush();
+}
+
+pub export fn _start() callconv(.C) void {
+    start() catch unreachable;
 }
