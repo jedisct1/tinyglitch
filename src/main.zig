@@ -82,10 +82,12 @@ const AVBufferedWriter = struct {
 };
 
 pub fn main() anyerror!void {
-    const allocator = heap.page_allocator;
+    var gpa = heap.GeneralPurposeAllocator(.{ .safety = true }){};
+    var allocator = &gpa.allocator;
     av.av_register_all();
 
     // Key derivation
+
     const prk = Kdf.extract("watermark", watermark_key);
     var prf_key: [SipHash.key_length]u8 = undefined;
     Kdf.expand(&prf_key, "prf key", prk);
