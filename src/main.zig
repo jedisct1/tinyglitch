@@ -16,8 +16,6 @@ const AVRational = av.AVRational;
 
 const watermark_key = "Watermark Secret";
 
-extern var errno: c_int;
-
 const AVBufferedReader = struct {
     buffer: [*c]u8 = null,
     data: []u8,
@@ -123,8 +121,6 @@ fn start() !void {
     format_ctx.*.flags = av.AVFMT_FLAG_CUSTOM_IO;
     const avformat_open_ret = av.avformat_open_input(&format_ctx, "file:///tmp/dummy.mp4", null, null);
     if (avformat_open_ret != 0) {
-        std.debug.print("avformat_open() returned {d}\n", .{avformat_open_ret});
-        std.debug.print("errno={d}\n", .{errno});
         var response = downstream.response;
         try response.setStatus(500);
         try response.body.writeAll("avformat_open() failed");
