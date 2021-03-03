@@ -44,18 +44,33 @@ const AVBufferedReader = struct {
 
 const AVBufferedWriter = struct {
     buffer: [*c]u8 = null,
-    fp: fs.File,
+    allocator: *mem.Allocator,
+    data: []u8,
+    pos: usize = 0,
+
+    fn deinit(self: *AVBufferedWriter) void {
+        self.allocator.free(self.data);
+    }
+
+    fn bytes(self: *const AVBufferedWriter) []const u8 {
+        return self.data;
+    }
 
     fn write_buffer(c_self: ?*c_void, c_buf: [*c]u8, c_buf_len: c_int) callconv(.C) c_int {
         var self = @intToPtr(*AVBufferedWriter, @ptrToInt(c_self));
         const buf: []u8 = c_buf[0..@intCast(usize, c_buf_len)];
-        self.fp.writeAll(buf) catch return -1;
+        const required_len = self.pos + @intCast(usize, buf.len);
+        if (self.data.len < required_len) {
+            self.data = self.allocator.realloc(self.data, required_len) catch return -1;
+        }
+        mem.copy(u8, self.data[self.pos..][0..buf.len], buf);
+        self.pos += buf.len;
         return c_buf_len;
     }
 
     fn seek(c_self: ?*c_void, offset: i64, whence: c_int) callconv(.C) i64 {
         var self = @intToPtr(*AVBufferedWriter, @ptrToInt(c_self));
-        self.fp.seekTo(@intCast(u64, offset)) catch return -1;
+        self.pos = @intCast(usize, offset);
         return offset;
     }
 };
@@ -69,18 +84,13 @@ pub fn main() anyerror!void {
 
     // Read the input file
 
-    var input_data = try fs.cwd().readFileAlloc(allocator, input_file, 50 * 1024 * 1024);
-    defer allocator.free(input_data);
-
-    // Create the output file
-
-    var write_fp = try fs.cwd().createFile(out_file, fs.File.CreateFlags{});
-    defer write_fp.close();
+    var in_data = try fs.cwd().readFileAlloc(allocator, input_file, 50 * 1024 * 1024);
+    defer allocator.free(in_data);
 
     // Create a buffered reader for libavformat
 
     const in_buffer_size = mem.page_size;
-    var buffered_reader = AVBufferedReader{ .data = input_data, .buffer = @ptrCast([*c]u8, av.av_malloc(in_buffer_size).?) };
+    var buffered_reader = AVBufferedReader{ .data = in_data, .buffer = @ptrCast([*c]u8, av.av_malloc(in_buffer_size).?) };
     const avio_in_ctx = av.avio_alloc_context(buffered_reader.buffer, in_buffer_size, 0, &buffered_reader, AVBufferedReader.read_buffer, null, AVBufferedReader.seek);
     if (avio_in_ctx == null) {
         return error.InternalError;
@@ -100,7 +110,9 @@ pub fn main() anyerror!void {
     // Create a buffered writer for libavformat
 
     const out_buffer_size = mem.page_size;
-    var buffered_writer = AVBufferedWriter{ .fp = write_fp, .buffer = @ptrCast([*c]u8, av.av_malloc(out_buffer_size).?) };
+    var out_data = try allocator.alloc(u8, in_data.len);
+    var buffered_writer = AVBufferedWriter{ .data = out_data, .allocator = allocator, .buffer = @ptrCast([*c]u8, av.av_malloc(out_buffer_size).?) };
+    defer buffered_writer.deinit();
     const avio_out_ctx = av.avio_alloc_context(buffered_writer.buffer, out_buffer_size, 1, &buffered_writer, null, AVBufferedWriter.write_buffer, AVBufferedWriter.seek);
     if (avio_out_ctx == null) {
         return error.InternalError;
@@ -183,4 +195,5 @@ pub fn main() anyerror!void {
     if (av.av_write_trailer(out_format_ctx) != 0) {
         return error.WriteError;
     }
+    try fs.cwd().writeFile(out_file, buffered_writer.bytes());
 }
