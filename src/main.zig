@@ -14,9 +14,9 @@ const AVCodec = av.AVCodec;
 const AVPacket = av.AVPacket;
 const AVRational = av.AVRational;
 
-const input_file = "in.mp4";
-const out_file = "out.mp4";
 const watermark_key = "Watermark Secret";
+
+extern var errno: c_int;
 
 const AVBufferedReader = struct {
     buffer: [*c]u8 = null,
@@ -96,11 +96,15 @@ fn start() !void {
     if (!try request.isPost()) {
         var response = downstream.response;
         try response.setStatus(401);
+        try response.body.writeAll("Use POST");
         try response.flush();
         return;
     }
     const in_data = try request.body.readAll(allocator);
     defer allocator.free(in_data);
+    std.debug.print("input size: {d}\n", .{in_data.len});
+    std.debug.print("input start: {s}\n", .{std.fmt.fmtSliceHexLower(in_data[0..16])});
+    std.debug.print("input end: {s}\n", .{std.fmt.fmtSliceHexLower(in_data[in_data.len - 16 ..])});
 
     // Create a buffered reader for libavformat
 
@@ -117,15 +121,22 @@ fn start() !void {
     defer av.av_free(format_ctx);
     format_ctx.*.pb = avio_in_ctx;
     format_ctx.*.flags = av.AVFMT_FLAG_CUSTOM_IO;
-    if (av.avformat_open_input(&format_ctx, "", null, null) != 0) {
-        return error.InternalError;
+    const avformat_open_ret = av.avformat_open_input(&format_ctx, "file:///tmp/dummy.mp4", null, null);
+    if (avformat_open_ret != 0) {
+        std.debug.print("avformat_open() returned {d}\n", .{avformat_open_ret});
+        std.debug.print("errno={d}\n", .{errno});
+        var response = downstream.response;
+        try response.setStatus(500);
+        try response.body.writeAll("avformat_open() failed");
+        try response.flush();
+        return;
     }
     defer av.avformat_close_input(&format_ctx);
 
     // Create a buffered writer for libavformat
 
     const out_buffer_size = mem.page_size;
-    var out_data = try allocator.alloc(u8, in_data.len);
+    var out_data = try allocator.alloc(u8, 2 * in_data.len);
     var buffered_writer = AVBufferedWriter{ .data = out_data, .allocator = allocator, .buffer = @ptrCast([*c]u8, av.av_malloc(out_buffer_size).?) };
     defer buffered_writer.deinit();
     const avio_out_ctx = av.avio_alloc_context(buffered_writer.buffer, out_buffer_size, 1, &buffered_writer, null, AVBufferedWriter.write_buffer, AVBufferedWriter.seek);
@@ -134,7 +145,7 @@ fn start() !void {
     }
     defer _ = av.av_free(avio_out_ctx);
     var out_format_ctx: [*c]AVFormatContext = null;
-    if (av.avformat_alloc_output_context2(&out_format_ctx, null, "mp4", out_file) != 0) {
+    if (av.avformat_alloc_output_context2(&out_format_ctx, null, "mp4", "file:///tmp/dummy.mp4") != 0) {
         return error.WriteError;
     }
     out_format_ctx.*.pb = avio_out_ctx;
@@ -181,7 +192,7 @@ fn start() !void {
     out_video_stream.*.nb_frames = in_video_stream.*.nb_frames;
     out_video_stream.*.metadata = in_video_stream.*.metadata;
     out_video_stream.*.attached_pic = in_video_stream.*.attached_pic;
-    av.av_dump_format(out_format_ctx, 0, out_file, 1);
+    av.av_dump_format(out_format_ctx, 0, "file:///tmp/dummy.mp4", 1);
     if (av.avformat_write_header(out_format_ctx, null) != 0) {
         return error.WriteError;
     }
@@ -209,7 +220,6 @@ fn start() !void {
     }
 
     // Finalization
-
     if (av.av_write_trailer(out_format_ctx) != 0) {
         return error.WriteError;
     }

@@ -9,7 +9,7 @@ pub fn build(b: *Builder) !void {
     const exe = b.addExecutable("avglitch", "src/main.zig");
     exe.setTarget(target);
     exe.setBuildMode(mode);
-    exe.addObjectFile("libffmpeg-wasm.a");
+    exe.addObjectFile("ffmpeg-wasi.a");
     exe.install();
 
     const run_cmd = exe.run();
