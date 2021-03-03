@@ -14,7 +14,8 @@ pub fn build(b: *Builder) void {
     const exe = b.addExecutable("avglitch", "src/main.zig");
     exe.setTarget(target);
     exe.setBuildMode(mode);
-    exe.addSystemIncludeDir("src");
+    exe.addSystemIncludeDir("/usr/local/opt/ffmpeg/include");
+    exe.addSystemIncludeDir("/usr/include/ffmpeg");
     exe.linkSystemLibrary("avformat");
     exe.linkSystemLibrary("avcodec");
     exe.install();

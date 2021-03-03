@@ -1,7 +1,8 @@
 const std = @import("std");
 const mem = std.mem;
 const av = @cImport({
-    @cInclude("./av.h");
+    @cInclude("libavcodec/avcodec.h");
+    @cInclude("libavformat/avformat.h");
 });
 
 const AVFormatContext = av.AVFormatContext;
@@ -11,8 +12,8 @@ const AVPacket = av.AVPacket;
 const AVRational = av.AVRational;
 
 pub fn main() anyerror!void {
-    const input_file = "/tmp/fastly.mp4";
-    const out_file = "/tmp/out.mp4";
+    const input_file = "in.mp4";
+    const out_file = "out.mp4";
 
     av.av_register_all();
     var format_ctx: [*c]AVFormatContext = null;
@@ -37,8 +38,8 @@ pub fn main() anyerror!void {
         if (out_stream == null) {
             return error.ParseError;
         }
-        if ((out_format_ctx.*.oformat.*.flags & 0x0040) != 0) {
-            out_stream.*.codec.*.flags |= (1 << 22); // global header
+        if ((out_format_ctx.*.oformat.*.flags & av.AVFMT_GLOBALHEADER) != 0) {
+            out_stream.*.codec.*.flags |= av.AV_CODEC_FLAG_GLOBAL_HEADER;
         }
         if (av.avcodec_parameters_copy(out_stream.*.codecpar, in_stream.codecpar) != 0) {
             return error.ParseError;
@@ -83,9 +84,10 @@ pub fn main() anyerror!void {
         if (packet.stream_index != video_stream_idx) {
             std.debug.print("ignored (stream idx)\n", .{});
             continue;
-        } else if (packet.flags == 0x0001) {
+        } else if (packet.flags == av.AVINDEX_KEYFRAME) {
             std.debug.print("key frame\n", .{});
-            mem.copy(u8, packet.data[data.len - 8 .. data.len], "*FASTLY*");
+            const glitch = "*";
+            mem.copy(u8, packet.data[data.len - glitch.len .. data.len], glitch);
         }
         if (av.av_interleaved_write_frame(out_format_ctx, &packet) != 0) {
             return error.WriteError;
