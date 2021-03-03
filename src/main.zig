@@ -1,9 +1,13 @@
 const std = @import("std");
+const math = std.math;
 const mem = std.mem;
 const av = @cImport({
     @cInclude("libavcodec/avcodec.h");
     @cInclude("libavformat/avformat.h");
+    @cInclude("libavutil/avutil.h");
 });
+const fs = std.fs;
+const heap = std.heap;
 
 const AVFormatContext = av.AVFormatContext;
 const AVCodecContext = av.AVCodecContext;
@@ -11,20 +15,66 @@ const AVCodec = av.AVCodec;
 const AVPacket = av.AVPacket;
 const AVRational = av.AVRational;
 
+const AVBufferedReader = struct {
+    buffer: [*c]u8 = null,
+    data: []u8,
+    pos: usize = 0,
+
+    fn read_buffer(c_self: ?*c_void, c_buf: [*c]u8, c_buf_len: c_int) callconv(.C) c_int {
+        var self = @intToPtr(*AVBufferedReader, @ptrToInt(c_self));
+        if (self.pos >= self.data.len) {
+            return -1;
+        }
+        var buf: []u8 = c_buf[0..@intCast(usize, c_buf_len)];
+        const len = math.min(self.data.len - self.pos, buf.len);
+        mem.copy(u8, buf, self.data[self.pos..][0..len]);
+        self.pos += len;
+        return @intCast(c_int, len);
+    }
+
+    fn seek(c_self: ?*c_void, offset: i64, whence: c_int) callconv(.C) i64 {
+        var self = @intToPtr(*AVBufferedReader, @ptrToInt(c_self));
+        if (whence == av.AVSEEK_SIZE) {
+            return @intCast(i64, self.data.len);
+        }
+        self.pos = @intCast(usize, offset);
+        return offset;
+    }
+};
+
 pub fn main() anyerror!void {
     const input_file = "in.mp4";
     const out_file = "out.mp4";
+    const allocator = heap.page_allocator;
+
+    const dir = fs.cwd();
+    var input_data = try dir.readFileAlloc(allocator, input_file, 50 * 1024 * 1024);
+    defer allocator.free(input_data);
 
     av.av_register_all();
     var format_ctx: [*c]AVFormatContext = null;
-    if (av.avformat_open_input(&format_ctx, input_file, null, null) != 0) {
-        return error.FileNotFound;
+
+    const buffer_size = mem.page_size;
+    var buffered_reader = AVBufferedReader{ .data = input_data, .buffer = @ptrCast([*c]u8, av.av_malloc(buffer_size).?) };
+    const avio_in_ctx = av.avio_alloc_context(buffered_reader.buffer, buffer_size, 0, &buffered_reader, AVBufferedReader.read_buffer, null, AVBufferedReader.seek);
+    if (avio_in_ctx == null) {
+        return error.InternalError;
     }
-    defer av.free(format_ctx);
+    format_ctx = av.avformat_alloc_context();
+    if (format_ctx == null) {
+        return error.InternalError;
+    }
+    defer av.av_free(format_ctx);
+    format_ctx.*.pb = avio_in_ctx;
+    format_ctx.*.flags = av.AVFMT_FLAG_CUSTOM_IO;
+    if (av.avformat_open_input(&format_ctx, "", null, null) != 0) {
+        return error.InternalError;
+    }
+
+    defer av.avformat_close_input(&format_ctx);
     if (av.avformat_find_stream_info(format_ctx, null) != 0) {
         return error.NoStreamInfo;
     }
-
     var out_format_ctx: [*c]AVFormatContext = null;
     if (av.avformat_alloc_output_context2(&out_format_ctx, null, "mp4", out_file) != 0) {
         return error.WriteError;
