@@ -1,4 +1,6 @@
 const std = @import("std");
+const SipHash = std.crypto.auth.siphash.SipHash64(2, 4);
+const Kdf = std.crypto.kdf.hkdf.HkdfSha256;
 const math = std.math;
 const mem = std.mem;
 const av = @cImport({
@@ -17,6 +19,7 @@ const AVRational = av.AVRational;
 
 const input_file = "in.mp4";
 const out_file = "out.mp4";
+const watermark_key = "Watermark Secret";
 
 const AVBufferedReader = struct {
     buffer: [*c]u8 = null,
@@ -80,8 +83,13 @@ const AVBufferedWriter = struct {
 
 pub fn main() anyerror!void {
     const allocator = heap.page_allocator;
-
     av.av_register_all();
+
+    // Key derivation
+    const prk = Kdf.extract("watermark", watermark_key);
+    var prf_key: [SipHash.key_length]u8 = undefined;
+    Kdf.expand(&prf_key, "prf key", prk);
+    const prf = SipHash.init(&prf_key);
 
     // Read the input file
 
@@ -175,16 +183,20 @@ pub fn main() anyerror!void {
     // Copy frames, watermarking key frames
 
     var packet: AVPacket = undefined;
+    var keyframe_idx: u32 = 0;
     while (av.av_read_frame(format_ctx, &packet) == 0) {
         defer av.av_packet_unref(&packet);
-        const data = packet.data[0..@intCast(usize, packet.size)];
+        const data: []u8 = packet.data[0..@intCast(usize, packet.size)];
         if (packet.stream_index != video_stream_idx) {
             std.debug.print("ignored (stream idx)\n", .{});
             continue;
         } else if (packet.flags == av.AVINDEX_KEYFRAME) {
-            std.debug.print("key frame\n", .{});
-            const glitch = "*";
-            mem.copy(u8, packet.data[data.len - glitch.len .. data.len], glitch);
+            var prfx = prf;
+            prfx.update(&mem.toBytes(keyframe_idx));
+            const glitch = @truncate(u8, prfx.finalInt());
+            data[data.len - 1] = glitch;
+            std.debug.print("glitching key frame {d} with {d}\n", .{ keyframe_idx, glitch });
+            keyframe_idx += 1;
         }
         if (av.av_interleaved_write_frame(out_format_ctx, &packet) != 0) {
             return error.WriteError;
