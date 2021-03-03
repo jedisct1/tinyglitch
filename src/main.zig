@@ -15,6 +15,9 @@ const AVCodec = av.AVCodec;
 const AVPacket = av.AVPacket;
 const AVRational = av.AVRational;
 
+const input_file = "in.mp4";
+const out_file = "out.mp4";
+
 const AVBufferedReader = struct {
     buffer: [*c]u8 = null,
     data: []u8,
@@ -76,8 +79,6 @@ const AVBufferedWriter = struct {
 };
 
 pub fn main() anyerror!void {
-    const input_file = "in.mp4";
-    const out_file = "out.mp4";
     const allocator = heap.page_allocator;
 
     av.av_register_all();
