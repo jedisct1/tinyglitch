@@ -42,25 +42,50 @@ const AVBufferedReader = struct {
     }
 };
 
+const AVBufferedWriter = struct {
+    buffer: [*c]u8 = null,
+    fp: fs.File,
+
+    fn write_buffer(c_self: ?*c_void, c_buf: [*c]u8, c_buf_len: c_int) callconv(.C) c_int {
+        var self = @intToPtr(*AVBufferedWriter, @ptrToInt(c_self));
+        const buf: []u8 = c_buf[0..@intCast(usize, c_buf_len)];
+        self.fp.writeAll(buf) catch return -1;
+        return c_buf_len;
+    }
+
+    fn seek(c_self: ?*c_void, offset: i64, whence: c_int) callconv(.C) i64 {
+        var self = @intToPtr(*AVBufferedWriter, @ptrToInt(c_self));
+        self.fp.seekTo(@intCast(u64, offset)) catch return -1;
+        return offset;
+    }
+};
+
 pub fn main() anyerror!void {
     const input_file = "in.mp4";
     const out_file = "out.mp4";
     const allocator = heap.page_allocator;
 
-    const dir = fs.cwd();
-    var input_data = try dir.readFileAlloc(allocator, input_file, 50 * 1024 * 1024);
+    av.av_register_all();
+
+    // Read the input file
+
+    var input_data = try fs.cwd().readFileAlloc(allocator, input_file, 50 * 1024 * 1024);
     defer allocator.free(input_data);
 
-    av.av_register_all();
-    var format_ctx: [*c]AVFormatContext = null;
+    // Create the output file
 
-    const buffer_size = mem.page_size;
-    var buffered_reader = AVBufferedReader{ .data = input_data, .buffer = @ptrCast([*c]u8, av.av_malloc(buffer_size).?) };
-    const avio_in_ctx = av.avio_alloc_context(buffered_reader.buffer, buffer_size, 0, &buffered_reader, AVBufferedReader.read_buffer, null, AVBufferedReader.seek);
+    var write_fp = try fs.cwd().createFile(out_file, fs.File.CreateFlags{});
+    defer write_fp.close();
+
+    // Create a buffered reader for libavformat
+
+    const in_buffer_size = mem.page_size;
+    var buffered_reader = AVBufferedReader{ .data = input_data, .buffer = @ptrCast([*c]u8, av.av_malloc(in_buffer_size).?) };
+    const avio_in_ctx = av.avio_alloc_context(buffered_reader.buffer, in_buffer_size, 0, &buffered_reader, AVBufferedReader.read_buffer, null, AVBufferedReader.seek);
     if (avio_in_ctx == null) {
         return error.InternalError;
     }
-    format_ctx = av.avformat_alloc_context();
+    var format_ctx = av.avformat_alloc_context();
     if (format_ctx == null) {
         return error.InternalError;
     }
@@ -70,17 +95,30 @@ pub fn main() anyerror!void {
     if (av.avformat_open_input(&format_ctx, "", null, null) != 0) {
         return error.InternalError;
     }
-
     defer av.avformat_close_input(&format_ctx);
-    if (av.avformat_find_stream_info(format_ctx, null) != 0) {
-        return error.NoStreamInfo;
+
+    // Create a buffered writer for libavformat
+
+    const out_buffer_size = mem.page_size;
+    var buffered_writer = AVBufferedWriter{ .fp = write_fp, .buffer = @ptrCast([*c]u8, av.av_malloc(out_buffer_size).?) };
+    const avio_out_ctx = av.avio_alloc_context(buffered_writer.buffer, out_buffer_size, 1, &buffered_writer, null, AVBufferedWriter.write_buffer, AVBufferedWriter.seek);
+    if (avio_out_ctx == null) {
+        return error.InternalError;
     }
+    defer _ = av.av_free(avio_out_ctx);
     var out_format_ctx: [*c]AVFormatContext = null;
     if (av.avformat_alloc_output_context2(&out_format_ctx, null, "mp4", out_file) != 0) {
         return error.WriteError;
     }
-    const nb_streams = format_ctx.*.nb_streams;
+    out_format_ctx.*.pb = avio_out_ctx;
+    out_format_ctx.*.flags = av.AVFMT_FLAG_CUSTOM_IO;
 
+    // Fetch stream information
+
+    if (av.avformat_find_stream_info(format_ctx, null) != 0) {
+        return error.NoStreamInfo;
+    }
+    const nb_streams = format_ctx.*.nb_streams;
     var i: usize = 0;
     while (i < nb_streams) : (i += 1) {
         const in_stream = format_ctx.*.streams[i].*;
@@ -95,7 +133,6 @@ pub fn main() anyerror!void {
             return error.ParseError;
         }
     }
-
     i = 0;
     const video_stream_idx = video_stream_idx: {
         while (i < nb_streams) : (i += 1) {
@@ -106,6 +143,8 @@ pub fn main() anyerror!void {
         return error.NoVideoStream;
     };
 
+    // Copy the input stream metadata to the output stream
+
     const in_video_stream = format_ctx.*.streams[video_stream_idx];
     const out_video_stream = out_format_ctx.*.streams[video_stream_idx];
     out_video_stream.*.r_frame_rate = in_video_stream.*.r_frame_rate;
@@ -115,17 +154,12 @@ pub fn main() anyerror!void {
     out_video_stream.*.nb_frames = in_video_stream.*.nb_frames;
     out_video_stream.*.metadata = in_video_stream.*.metadata;
     out_video_stream.*.attached_pic = in_video_stream.*.attached_pic;
-
     av.av_dump_format(out_format_ctx, 0, out_file, 1);
-
-    if (av.avio_open(&out_format_ctx.*.pb, out_file, 2) != 0) {
-        return error.WriteError;
-    }
-    defer _ = av.avio_close(out_format_ctx.*.pb);
-
     if (av.avformat_write_header(out_format_ctx, null) != 0) {
         return error.WriteError;
     }
+
+    // Copy frames, watermarking key frames
 
     var packet: AVPacket = undefined;
     while (av.av_read_frame(format_ctx, &packet) == 0) {
@@ -143,6 +177,9 @@ pub fn main() anyerror!void {
             return error.WriteError;
         }
     }
+
+    // Finalization
+
     if (av.av_write_trailer(out_format_ctx) != 0) {
         return error.WriteError;
     }
