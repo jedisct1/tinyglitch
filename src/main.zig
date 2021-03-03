@@ -188,7 +188,6 @@ pub fn main() anyerror!void {
         defer av.av_packet_unref(&packet);
         const data: []u8 = packet.data[0..@intCast(usize, packet.size)];
         if (packet.stream_index != video_stream_idx) {
-            std.debug.print("ignored (stream idx)\n", .{});
             continue;
         } else if (packet.flags == av.AVINDEX_KEYFRAME) {
             var prfx = prf;
