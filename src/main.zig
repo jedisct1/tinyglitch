@@ -59,7 +59,7 @@ const AVBufferedWriter = struct {
     }
 
     fn bytes(self: *const AVBufferedWriter) []const u8 {
-        return self.data;
+        return self.data[0..self.pos];
     }
 
     fn write_buffer(c_self: ?*c_void, c_buf: [*c]u8, c_buf_len: c_int) callconv(.C) c_int {
