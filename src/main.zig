@@ -83,12 +83,14 @@ fn start() !void {
     try zigly.compatibilityCheck();
 
     // Key derivation
+
     const prk = Kdf.extract("watermark", watermark_key);
     var prf_key: [SipHash.key_length]u8 = undefined;
     Kdf.expand(&prf_key, "prf key", prk);
     const prf = SipHash.init(&prf_key);
 
     // Read the input data
+
     var downstream = try zigly.downstream();
     var request = downstream.request;
     if (!try request.isPost()) {
@@ -216,6 +218,7 @@ fn start() !void {
     }
 
     // Finalization
+
     if (av.av_write_trailer(out_format_ctx) != 0) {
         return error.WriteError;
     }
