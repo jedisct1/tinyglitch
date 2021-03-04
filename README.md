@@ -18,3 +18,6 @@ curl -o /tmp/out.mp4 -H'Content-Type: video/mp4' --data-binary '@/tmp/in.mp4' ht
 
 Both the `ffmpeg` libraries and the application do heap allocations, using different
 allocators. Which causes memory corruption.
+
+We need to add support for custom allocators to the `ffmpeg` libraries, or find a
+way to override the `wasi-sysroot` allocator.
