@@ -7,7 +7,7 @@ const av = @import("ffmpeg.zig");
 const fs = std.fs;
 const heap = std.heap;
 const zigly = @import("zigly/lib.zig");
-
+const Allocator = mem.Allocator;
 const AVFormatContext = av.AVFormatContext;
 const AVCodecContext = av.AVCodecContext;
 const AVCodec = av.AVCodec;
@@ -45,7 +45,7 @@ const AVBufferedReader = struct {
 
 const AVBufferedWriter = struct {
     buffer: [*c]u8 = null,
-    allocator: *mem.Allocator,
+    allocator: *Allocator,
     data: []u8,
     pos: usize = 0,
 
@@ -76,8 +76,46 @@ const AVBufferedWriter = struct {
     }
 };
 
+// Custom allocator, proxying to the ffmpeg one
+
+pub const av_allocator = &av_allocator_state;
+var av_allocator_state = Allocator{
+    .allocFn = rawCAlloc,
+    .resizeFn = rawCResize,
+};
+
+fn rawCAlloc(
+    self: *Allocator,
+    len: usize,
+    ptr_align: u29,
+    len_align: u29,
+    ret_addr: usize,
+) Allocator.Error![]u8 {
+    std.debug.assert(ptr_align <= @alignOf(std.c.max_align_t));
+    const ptr = @ptrCast([*]u8, av.av_malloc(len) orelse return error.OutOfMemory);
+    return ptr[0..len];
+}
+
+fn rawCResize(
+    self: *Allocator,
+    buf: []u8,
+    old_align: u29,
+    new_len: usize,
+    len_align: u29,
+    ret_addr: usize,
+) Allocator.Error!usize {
+    if (new_len == 0) {
+        av.av_free(buf.ptr);
+        return 0;
+    }
+    if (new_len <= buf.len) {
+        return mem.alignAllocLen(buf.len, new_len, len_align);
+    }
+    return error.OutOfMemory;
+}
+
 fn start() !void {
-    const allocator = heap.page_allocator;
+    const allocator = av_allocator;
     av.av_register_all();
 
     try zigly.compatibilityCheck();
@@ -134,7 +172,7 @@ fn start() !void {
     // Create a buffered writer for libavformat
 
     const out_buffer_size = mem.page_size;
-    var out_data = try allocator.alloc(u8, 2 * in_data.len);
+    var out_data = try allocator.alloc(u8, in_data.len);
     var buffered_writer = AVBufferedWriter{ .data = out_data, .allocator = allocator, .buffer = @ptrCast([*c]u8, av.av_malloc(out_buffer_size).?) };
     defer buffered_writer.deinit();
     const avio_out_ctx = av.avio_alloc_context(buffered_writer.buffer, out_buffer_size, 1, &buffered_writer, null, AVBufferedWriter.write_buffer, AVBufferedWriter.seek);
