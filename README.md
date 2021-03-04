@@ -8,6 +8,12 @@ and `libavutil` ported to WebAssembly/WASI.
 Since these libraries also depend on the WASI sysroot, linking is a little bit tricky,
 but it may work.
 
+## Testing
+
+```sh
+curl -o /tmp/out.mp4 --http1.1 -H'Content-Type: video/mp4' --data-binary '@/tmp/in.mp4' https://...
+```
+
 ## Native version
 
 Available in the [master branch](https://github.com/jedisct1/tinyglitch).
