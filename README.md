@@ -6,10 +6,15 @@ Uses [Zigly](https://github.com/jedisct1/zigly), as well as `libavformat`, `liba
 and `libavutil` ported to WebAssembly/WASI.
 
 Since these libraries also depend on the WASI sysroot, linking is a little bit tricky,
-but it works.
+but it may work.
 
 ## Testing
 
 ```sh
 curl -o /tmp/out.mp4 -H'Content-Type: video/mp4' --data-binary '@/tmp/in.mp4' https://...
 ```
+
+## Known issues
+
+Both the `ffmpeg` libraries and the application do heap allocations, using different
+allocators. Which causes memory corruption.
