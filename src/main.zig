@@ -138,7 +138,7 @@ fn start() !void {
         try response.flush();
         return;
     }
-    const in_data = try request.body.readAll(allocator);
+    const in_data = try request.body.readAll(allocator, 0);
     defer allocator.free(in_data);
     std.debug.print("input size: {d}\n", .{in_data.len});
     std.debug.print("input start: {s}\n", .{std.fmt.fmtSliceHexLower(in_data[0..16])});
