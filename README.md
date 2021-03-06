@@ -139,7 +139,7 @@ Having multiple memory allocators in the same WebAssembly application is bound t
 
 In order to avoid this, use the following allocator:
 
-``zig
+```zig
 const Allocator = std.mem.Allocator;
 pub const av_allocator = &av_allocator_state;
 var av_allocator_state = Allocator{
