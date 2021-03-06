@@ -125,7 +125,7 @@ The only suitable linker for this is `wasm-ld`.
 
 1) Compile your application into an object. This is necessary to avoid symbol collisions with the WASI C library:
 ```sh
-zig build-obj -target wasm32-wasi -O ReleaseSafe src/main.zig`
+zig build-obj -target wasm32-wasi -O ReleaseSafe src/main.zig
 ```
 2) Use `wasm-ld` to link this object, the `ffmpeg` libraries, the WASI C library and the builtins:
 ```sh
