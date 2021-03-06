@@ -1,143 +1,299 @@
 pub usingnamespace @import("std").c.builtins;
-pub const errno_t = c_int;
-pub extern fn __error() [*c]c_int;
+pub extern threadlocal var errno: c_int;
+pub const ptrdiff_t = c_long;
+pub const wchar_t = c_int;
+const struct_unnamed_1 = extern struct {
+    __clang_max_align_nonce1: c_longlong align(8),
+    __clang_max_align_nonce2: c_longdouble align(16),
+};
+pub const max_align_t = struct_unnamed_1;
+pub const intmax_t = c_longlong;
+pub const uintmax_t = c_ulonglong;
+pub const time_t = c_longlong;
+pub const suseconds_t = c_longlong;
+pub const struct_timeval = extern struct {
+    tv_sec: time_t,
+    tv_usec: suseconds_t,
+};
+pub const struct_timespec = extern struct {
+    tv_sec: time_t,
+    tv_nsec: c_long,
+};
+pub const struct_iovec = extern struct {
+    iov_base: ?*c_void,
+    iov_len: usize,
+};
+pub const int_fast8_t = i8;
+pub const int_fast64_t = i64;
 pub const int_least8_t = i8;
 pub const int_least16_t = i16;
 pub const int_least32_t = i32;
 pub const int_least64_t = i64;
+pub const uint_fast8_t = u8;
+pub const uint_fast64_t = u64;
 pub const uint_least8_t = u8;
 pub const uint_least16_t = u16;
 pub const uint_least32_t = u32;
 pub const uint_least64_t = u64;
-pub const int_fast8_t = i8;
 pub const int_fast16_t = i16;
 pub const int_fast32_t = i32;
-pub const int_fast64_t = i64;
-pub const uint_fast8_t = u8;
 pub const uint_fast16_t = u16;
-pub const uint_fast32_t = u32;
-pub const uint_fast64_t = u64;
-pub const __int8_t = i8;
-pub const __uint8_t = u8;
-pub const __int16_t = c_short;
-pub const __uint16_t = c_ushort;
-pub const __int32_t = c_int;
-pub const __uint32_t = c_uint;
-pub const __int64_t = c_longlong;
-pub const __uint64_t = c_ulonglong;
-pub const __darwin_intptr_t = c_long;
-pub const __darwin_natural_t = c_uint;
-pub const __darwin_ct_rune_t = c_int;
-const union_unnamed_1 = extern union {
-    __mbstate8: [128]u8,
-    _mbstateL: c_longlong,
+pub const uint_fast32_t = u32; // /opt/wasi-sysroot/include/wasi/api.h:30:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:31:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:32:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:33:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:34:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:35:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:36:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:37:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:38:1: warning: ignoring StaticAssert declaration
+pub const __wasi_size_t = c_ulong; // /opt/wasi-sysroot/include/wasi/api.h:48:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:49:1: warning: ignoring StaticAssert declaration
+pub const __wasi_filesize_t = u64; // /opt/wasi-sysroot/include/wasi/api.h:56:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:57:1: warning: ignoring StaticAssert declaration
+pub const __wasi_timestamp_t = u64; // /opt/wasi-sysroot/include/wasi/api.h:64:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:65:1: warning: ignoring StaticAssert declaration
+pub const __wasi_clockid_t = u32; // /opt/wasi-sysroot/include/wasi/api.h:96:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:97:1: warning: ignoring StaticAssert declaration
+pub const __wasi_errno_t = u16; // /opt/wasi-sysroot/include/wasi/api.h:492:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:493:1: warning: ignoring StaticAssert declaration
+pub const __wasi_rights_t = u64; // /opt/wasi-sysroot/include/wasi/api.h:657:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:658:1: warning: ignoring StaticAssert declaration
+pub const __wasi_fd_t = c_int; // /opt/wasi-sysroot/include/wasi/api.h:665:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:666:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_iovec_t = extern struct {
+    buf: [*c]u8,
+    buf_len: __wasi_size_t,
 };
-pub const __mbstate_t = union_unnamed_1;
-pub const __darwin_mbstate_t = __mbstate_t;
-pub const __darwin_ptrdiff_t = c_long;
-pub const __darwin_size_t = c_ulong;
-pub const struct___va_list_tag = extern struct {
-    gp_offset: c_uint,
-    fp_offset: c_uint,
-    overflow_arg_area: ?*c_void,
-    reg_save_area: ?*c_void,
+pub const __wasi_iovec_t = struct___wasi_iovec_t; // /opt/wasi-sysroot/include/wasi/api.h:684:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:685:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:686:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:687:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_ciovec_t = extern struct {
+    buf: [*c]const u8,
+    buf_len: __wasi_size_t,
 };
-pub const __builtin_va_list = [1]struct___va_list_tag;
-pub const __darwin_va_list = __builtin_va_list;
-pub const __darwin_wchar_t = c_int;
-pub const __darwin_rune_t = __darwin_wchar_t;
-pub const __darwin_wint_t = c_int;
-pub const __darwin_clock_t = c_ulong;
-pub const __darwin_socklen_t = __uint32_t;
-pub const __darwin_ssize_t = c_long;
-pub const __darwin_time_t = c_long;
-pub const __darwin_blkcnt_t = __int64_t;
-pub const __darwin_blksize_t = __int32_t;
-pub const __darwin_dev_t = __int32_t;
-pub const __darwin_fsblkcnt_t = c_uint;
-pub const __darwin_fsfilcnt_t = c_uint;
-pub const __darwin_gid_t = __uint32_t;
-pub const __darwin_id_t = __uint32_t;
-pub const __darwin_ino64_t = __uint64_t;
-pub const __darwin_ino_t = __darwin_ino64_t;
-pub const __darwin_mach_port_name_t = __darwin_natural_t;
-pub const __darwin_mach_port_t = __darwin_mach_port_name_t;
-pub const __darwin_mode_t = __uint16_t;
-pub const __darwin_off_t = __int64_t;
-pub const __darwin_pid_t = __int32_t;
-pub const __darwin_sigset_t = __uint32_t;
-pub const __darwin_suseconds_t = __int32_t;
-pub const __darwin_uid_t = __uint32_t;
-pub const __darwin_useconds_t = __uint32_t;
-pub const __darwin_uuid_t = [16]u8;
-pub const __darwin_uuid_string_t = [37]u8;
-pub const struct___darwin_pthread_handler_rec = extern struct {
-    __routine: ?fn (?*c_void) callconv(.C) void,
-    __arg: ?*c_void,
-    __next: [*c]struct___darwin_pthread_handler_rec,
+pub const __wasi_ciovec_t = struct___wasi_ciovec_t; // /opt/wasi-sysroot/include/wasi/api.h:705:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:706:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:707:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:708:1: warning: ignoring StaticAssert declaration
+pub const __wasi_filedelta_t = i64; // /opt/wasi-sysroot/include/wasi/api.h:715:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:716:1: warning: ignoring StaticAssert declaration
+pub const __wasi_whence_t = u8; // /opt/wasi-sysroot/include/wasi/api.h:738:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:739:1: warning: ignoring StaticAssert declaration
+pub const __wasi_dircookie_t = u64; // /opt/wasi-sysroot/include/wasi/api.h:748:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:749:1: warning: ignoring StaticAssert declaration
+pub const __wasi_dirnamlen_t = u32; // /opt/wasi-sysroot/include/wasi/api.h:756:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:757:1: warning: ignoring StaticAssert declaration
+pub const __wasi_inode_t = u64; // /opt/wasi-sysroot/include/wasi/api.h:764:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:765:1: warning: ignoring StaticAssert declaration
+pub const __wasi_filetype_t = u8; // /opt/wasi-sysroot/include/wasi/api.h:812:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:813:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_dirent_t = extern struct {
+    d_next: __wasi_dircookie_t,
+    d_ino: __wasi_inode_t,
+    d_namlen: __wasi_dirnamlen_t,
+    d_type: __wasi_filetype_t,
 };
-pub const struct__opaque_pthread_attr_t = extern struct {
-    __sig: c_long,
-    __opaque: [56]u8,
+pub const __wasi_dirent_t = struct___wasi_dirent_t; // /opt/wasi-sysroot/include/wasi/api.h:841:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:842:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:843:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:844:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:845:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:846:1: warning: ignoring StaticAssert declaration
+pub const __wasi_advice_t = u8; // /opt/wasi-sysroot/include/wasi/api.h:883:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:884:1: warning: ignoring StaticAssert declaration
+pub const __wasi_fdflags_t = u16; // /opt/wasi-sysroot/include/wasi/api.h:918:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:919:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_fdstat_t = extern struct {
+    fs_filetype: __wasi_filetype_t,
+    fs_flags: __wasi_fdflags_t,
+    fs_rights_base: __wasi_rights_t,
+    fs_rights_inheriting: __wasi_rights_t,
 };
-pub const struct__opaque_pthread_cond_t = extern struct {
-    __sig: c_long,
-    __opaque: [40]u8,
+pub const __wasi_fdstat_t = struct___wasi_fdstat_t; // /opt/wasi-sysroot/include/wasi/api.h:948:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:949:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:950:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:951:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:952:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:953:1: warning: ignoring StaticAssert declaration
+pub const __wasi_device_t = u64; // /opt/wasi-sysroot/include/wasi/api.h:961:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:962:1: warning: ignoring StaticAssert declaration
+pub const __wasi_fstflags_t = u16; // /opt/wasi-sysroot/include/wasi/api.h:989:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:990:1: warning: ignoring StaticAssert declaration
+pub const __wasi_lookupflags_t = u32; // /opt/wasi-sysroot/include/wasi/api.h:1002:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1003:1: warning: ignoring StaticAssert declaration
+pub const __wasi_oflags_t = u16; // /opt/wasi-sysroot/include/wasi/api.h:1030:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1031:1: warning: ignoring StaticAssert declaration
+pub const __wasi_linkcount_t = u64; // /opt/wasi-sysroot/include/wasi/api.h:1038:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1039:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_filestat_t = extern struct {
+    dev: __wasi_device_t,
+    ino: __wasi_inode_t,
+    filetype: __wasi_filetype_t,
+    nlink: __wasi_linkcount_t,
+    size: __wasi_filesize_t,
+    atim: __wasi_timestamp_t,
+    mtim: __wasi_timestamp_t,
+    ctim: __wasi_timestamp_t,
 };
-pub const struct__opaque_pthread_condattr_t = extern struct {
-    __sig: c_long,
-    __opaque: [8]u8,
+pub const __wasi_filestat_t = struct___wasi_filestat_t; // /opt/wasi-sysroot/include/wasi/api.h:1087:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1088:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1089:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1090:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1091:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1092:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1093:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1094:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1095:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1096:1: warning: ignoring StaticAssert declaration
+pub const __wasi_userdata_t = u64; // /opt/wasi-sysroot/include/wasi/api.h:1104:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1105:1: warning: ignoring StaticAssert declaration
+pub const __wasi_eventtype_t = u8; // /opt/wasi-sysroot/include/wasi/api.h:1130:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1131:1: warning: ignoring StaticAssert declaration
+pub const __wasi_eventrwflags_t = u16; // /opt/wasi-sysroot/include/wasi/api.h:1144:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1145:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_event_fd_readwrite_t = extern struct {
+    nbytes: __wasi_filesize_t,
+    flags: __wasi_eventrwflags_t,
 };
-pub const struct__opaque_pthread_mutex_t = extern struct {
-    __sig: c_long,
-    __opaque: [56]u8,
+pub const __wasi_event_fd_readwrite_t = struct___wasi_event_fd_readwrite_t; // /opt/wasi-sysroot/include/wasi/api.h:1164:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1165:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1166:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1167:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_event_t = extern struct {
+    userdata: __wasi_userdata_t,
+    @"error": __wasi_errno_t,
+    type: __wasi_eventtype_t,
+    fd_readwrite: __wasi_event_fd_readwrite_t,
 };
-pub const struct__opaque_pthread_mutexattr_t = extern struct {
-    __sig: c_long,
-    __opaque: [8]u8,
+pub const __wasi_event_t = struct___wasi_event_t; // /opt/wasi-sysroot/include/wasi/api.h:1196:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1197:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1198:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1199:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1200:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1201:1: warning: ignoring StaticAssert declaration
+pub const __wasi_subclockflags_t = u16; // /opt/wasi-sysroot/include/wasi/api.h:1218:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1219:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_subscription_clock_t = extern struct {
+    id: __wasi_clockid_t,
+    timeout: __wasi_timestamp_t,
+    precision: __wasi_timestamp_t,
+    flags: __wasi_subclockflags_t,
 };
-pub const struct__opaque_pthread_once_t = extern struct {
-    __sig: c_long,
-    __opaque: [8]u8,
+pub const __wasi_subscription_clock_t = struct___wasi_subscription_clock_t; // /opt/wasi-sysroot/include/wasi/api.h:1248:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1249:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1250:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1251:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1252:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1253:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_subscription_fd_readwrite_t = extern struct {
+    file_descriptor: __wasi_fd_t,
 };
-pub const struct__opaque_pthread_rwlock_t = extern struct {
-    __sig: c_long,
-    __opaque: [192]u8,
+pub const __wasi_subscription_fd_readwrite_t = struct___wasi_subscription_fd_readwrite_t; // /opt/wasi-sysroot/include/wasi/api.h:1267:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1268:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1269:1: warning: ignoring StaticAssert declaration
+pub const union___wasi_subscription_u_u_t = extern union {
+    clock: __wasi_subscription_clock_t,
+    fd_read: __wasi_subscription_fd_readwrite_t,
+    fd_write: __wasi_subscription_fd_readwrite_t,
 };
-pub const struct__opaque_pthread_rwlockattr_t = extern struct {
-    __sig: c_long,
-    __opaque: [16]u8,
+pub const __wasi_subscription_u_u_t = union___wasi_subscription_u_u_t;
+pub const struct___wasi_subscription_u_t = extern struct {
+    tag: __wasi_eventtype_t,
+    u: __wasi_subscription_u_u_t,
 };
-pub const struct__opaque_pthread_t = extern struct {
-    __sig: c_long,
-    __cleanup_stack: [*c]struct___darwin_pthread_handler_rec,
-    __opaque: [8176]u8,
+pub const __wasi_subscription_u_t = struct___wasi_subscription_u_t; // /opt/wasi-sysroot/include/wasi/api.h:1284:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1285:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1286:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1287:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1288:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_subscription_t = extern struct {
+    userdata: __wasi_userdata_t,
+    u: __wasi_subscription_u_t,
 };
-pub const __darwin_pthread_attr_t = struct__opaque_pthread_attr_t;
-pub const __darwin_pthread_cond_t = struct__opaque_pthread_cond_t;
-pub const __darwin_pthread_condattr_t = struct__opaque_pthread_condattr_t;
-pub const __darwin_pthread_key_t = c_ulong;
-pub const __darwin_pthread_mutex_t = struct__opaque_pthread_mutex_t;
-pub const __darwin_pthread_mutexattr_t = struct__opaque_pthread_mutexattr_t;
-pub const __darwin_pthread_once_t = struct__opaque_pthread_once_t;
-pub const __darwin_pthread_rwlock_t = struct__opaque_pthread_rwlock_t;
-pub const __darwin_pthread_rwlockattr_t = struct__opaque_pthread_rwlockattr_t;
-pub const __darwin_pthread_t = [*c]struct__opaque_pthread_t;
-pub const u_int8_t = u8;
-pub const u_int16_t = c_ushort;
-pub const u_int32_t = c_uint;
-pub const u_int64_t = c_ulonglong;
-pub const register_t = i64;
-pub const user_addr_t = u_int64_t;
-pub const user_size_t = u_int64_t;
-pub const user_ssize_t = i64;
-pub const user_long_t = i64;
-pub const user_ulong_t = u_int64_t;
-pub const user_time_t = i64;
-pub const user_off_t = i64;
-pub const syscall_arg_t = u_int64_t;
-pub const intmax_t = c_long;
-pub const uintmax_t = c_ulong;
+pub const __wasi_subscription_t = struct___wasi_subscription_t; // /opt/wasi-sysroot/include/wasi/api.h:1307:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1308:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1309:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1310:1: warning: ignoring StaticAssert declaration
+pub const __wasi_exitcode_t = u32; // /opt/wasi-sysroot/include/wasi/api.h:1317:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1318:1: warning: ignoring StaticAssert declaration
+pub const __wasi_signal_t = u8; // /opt/wasi-sysroot/include/wasi/api.h:1511:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1512:1: warning: ignoring StaticAssert declaration
+pub const __wasi_riflags_t = u16; // /opt/wasi-sysroot/include/wasi/api.h:1529:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1530:1: warning: ignoring StaticAssert declaration
+pub const __wasi_roflags_t = u16; // /opt/wasi-sysroot/include/wasi/api.h:1542:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1543:1: warning: ignoring StaticAssert declaration
+pub const __wasi_siflags_t = u16; // /opt/wasi-sysroot/include/wasi/api.h:1551:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1552:1: warning: ignoring StaticAssert declaration
+pub const __wasi_sdflags_t = u8; // /opt/wasi-sysroot/include/wasi/api.h:1569:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1570:1: warning: ignoring StaticAssert declaration
+pub const __wasi_preopentype_t = u8; // /opt/wasi-sysroot/include/wasi/api.h:1582:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1583:1: warning: ignoring StaticAssert declaration
+pub const struct___wasi_prestat_dir_t = extern struct {
+    pr_name_len: __wasi_size_t,
+};
+pub const __wasi_prestat_dir_t = struct___wasi_prestat_dir_t; // /opt/wasi-sysroot/include/wasi/api.h:1596:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1597:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1598:1: warning: ignoring StaticAssert declaration
+pub const union___wasi_prestat_u_t = extern union {
+    dir: __wasi_prestat_dir_t,
+};
+pub const __wasi_prestat_u_t = union___wasi_prestat_u_t;
+pub const struct___wasi_prestat_t = extern struct {
+    tag: __wasi_preopentype_t,
+    u: __wasi_prestat_u_t,
+};
+pub const __wasi_prestat_t = struct___wasi_prestat_t; // /opt/wasi-sysroot/include/wasi/api.h:1611:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1612:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1613:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1614:1: warning: ignoring StaticAssert declaration
+// /opt/wasi-sysroot/include/wasi/api.h:1615:1: warning: ignoring StaticAssert declaration
+pub extern fn __wasi_args_get(argv: [*c][*c]u8, argv_buf: [*c]u8) __wasi_errno_t;
+pub extern fn __wasi_args_sizes_get(argc: [*c]__wasi_size_t, argv_buf_size: [*c]__wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_environ_get(environ: [*c][*c]u8, environ_buf: [*c]u8) __wasi_errno_t;
+pub extern fn __wasi_environ_sizes_get(environc: [*c]__wasi_size_t, environ_buf_size: [*c]__wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_clock_res_get(id: __wasi_clockid_t, resolution: [*c]__wasi_timestamp_t) __wasi_errno_t;
+pub extern fn __wasi_clock_time_get(id: __wasi_clockid_t, precision: __wasi_timestamp_t, time: [*c]__wasi_timestamp_t) __wasi_errno_t;
+pub extern fn __wasi_fd_advise(fd: __wasi_fd_t, offset: __wasi_filesize_t, len: __wasi_filesize_t, advice: __wasi_advice_t) __wasi_errno_t;
+pub extern fn __wasi_fd_allocate(fd: __wasi_fd_t, offset: __wasi_filesize_t, len: __wasi_filesize_t) __wasi_errno_t;
+pub extern fn __wasi_fd_close(fd: __wasi_fd_t) __wasi_errno_t;
+pub extern fn __wasi_fd_datasync(fd: __wasi_fd_t) __wasi_errno_t;
+pub extern fn __wasi_fd_fdstat_get(fd: __wasi_fd_t, stat: [*c]__wasi_fdstat_t) __wasi_errno_t;
+pub extern fn __wasi_fd_fdstat_set_flags(fd: __wasi_fd_t, flags: __wasi_fdflags_t) __wasi_errno_t;
+pub extern fn __wasi_fd_fdstat_set_rights(fd: __wasi_fd_t, fs_rights_base: __wasi_rights_t, fs_rights_inheriting: __wasi_rights_t) __wasi_errno_t;
+pub extern fn __wasi_fd_filestat_get(fd: __wasi_fd_t, buf: [*c]__wasi_filestat_t) __wasi_errno_t;
+pub extern fn __wasi_fd_filestat_set_size(fd: __wasi_fd_t, size: __wasi_filesize_t) __wasi_errno_t;
+pub extern fn __wasi_fd_filestat_set_times(fd: __wasi_fd_t, atim: __wasi_timestamp_t, mtim: __wasi_timestamp_t, fst_flags: __wasi_fstflags_t) __wasi_errno_t;
+pub extern fn __wasi_fd_pread(fd: __wasi_fd_t, iovs: [*c]const __wasi_iovec_t, iovs_len: usize, offset: __wasi_filesize_t, nread: [*c]__wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_fd_prestat_get(fd: __wasi_fd_t, buf: [*c]__wasi_prestat_t) __wasi_errno_t;
+pub extern fn __wasi_fd_prestat_dir_name(fd: __wasi_fd_t, path: [*c]u8, path_len: __wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_fd_pwrite(fd: __wasi_fd_t, iovs: [*c]const __wasi_ciovec_t, iovs_len: usize, offset: __wasi_filesize_t, nwritten: [*c]__wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_fd_read(fd: __wasi_fd_t, iovs: [*c]const __wasi_iovec_t, iovs_len: usize, nread: [*c]__wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_fd_readdir(fd: __wasi_fd_t, buf: [*c]u8, buf_len: __wasi_size_t, cookie: __wasi_dircookie_t, bufused: [*c]__wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_fd_renumber(fd: __wasi_fd_t, to: __wasi_fd_t) __wasi_errno_t;
+pub extern fn __wasi_fd_seek(fd: __wasi_fd_t, offset: __wasi_filedelta_t, whence: __wasi_whence_t, newoffset: [*c]__wasi_filesize_t) __wasi_errno_t;
+pub extern fn __wasi_fd_sync(fd: __wasi_fd_t) __wasi_errno_t;
+pub extern fn __wasi_fd_tell(fd: __wasi_fd_t, offset: [*c]__wasi_filesize_t) __wasi_errno_t;
+pub extern fn __wasi_fd_write(fd: __wasi_fd_t, iovs: [*c]const __wasi_ciovec_t, iovs_len: usize, nwritten: [*c]__wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_path_create_directory(fd: __wasi_fd_t, path: [*c]const u8, path_len: usize) __wasi_errno_t;
+pub extern fn __wasi_path_filestat_get(fd: __wasi_fd_t, flags: __wasi_lookupflags_t, path: [*c]const u8, path_len: usize, buf: [*c]__wasi_filestat_t) __wasi_errno_t;
+pub extern fn __wasi_path_filestat_set_times(fd: __wasi_fd_t, flags: __wasi_lookupflags_t, path: [*c]const u8, path_len: usize, atim: __wasi_timestamp_t, mtim: __wasi_timestamp_t, fst_flags: __wasi_fstflags_t) __wasi_errno_t;
+pub extern fn __wasi_path_link(old_fd: __wasi_fd_t, old_flags: __wasi_lookupflags_t, old_path: [*c]const u8, old_path_len: usize, new_fd: __wasi_fd_t, new_path: [*c]const u8, new_path_len: usize) __wasi_errno_t;
+pub extern fn __wasi_path_open(fd: __wasi_fd_t, dirflags: __wasi_lookupflags_t, path: [*c]const u8, path_len: usize, oflags: __wasi_oflags_t, fs_rights_base: __wasi_rights_t, fs_rights_inherting: __wasi_rights_t, fdflags: __wasi_fdflags_t, opened_fd: [*c]__wasi_fd_t) __wasi_errno_t;
+pub extern fn __wasi_path_readlink(fd: __wasi_fd_t, path: [*c]const u8, path_len: usize, buf: [*c]u8, buf_len: __wasi_size_t, bufused: [*c]__wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_path_remove_directory(fd: __wasi_fd_t, path: [*c]const u8, path_len: usize) __wasi_errno_t;
+pub extern fn __wasi_path_rename(fd: __wasi_fd_t, old_path: [*c]const u8, old_path_len: usize, new_fd: __wasi_fd_t, new_path: [*c]const u8, new_path_len: usize) __wasi_errno_t;
+pub extern fn __wasi_path_symlink(old_path: [*c]const u8, old_path_len: usize, fd: __wasi_fd_t, new_path: [*c]const u8, new_path_len: usize) __wasi_errno_t;
+pub extern fn __wasi_path_unlink_file(fd: __wasi_fd_t, path: [*c]const u8, path_len: usize) __wasi_errno_t;
+pub extern fn __wasi_poll_oneoff(in: [*c]const __wasi_subscription_t, out: [*c]__wasi_event_t, nsubscriptions: __wasi_size_t, nevents: [*c]__wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_proc_exit(rval: __wasi_exitcode_t) void;
+pub extern fn __wasi_proc_raise(sig: __wasi_signal_t) __wasi_errno_t;
+pub extern fn __wasi_sched_yield() __wasi_errno_t;
+pub extern fn __wasi_random_get(buf: [*c]u8, buf_len: __wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_sock_recv(fd: __wasi_fd_t, ri_data: [*c]const __wasi_iovec_t, ri_data_len: usize, ri_flags: __wasi_riflags_t, ro_datalen: [*c]__wasi_size_t, ro_flags: [*c]__wasi_roflags_t) __wasi_errno_t;
+pub extern fn __wasi_sock_send(fd: __wasi_fd_t, si_data: [*c]const __wasi_ciovec_t, si_data_len: usize, si_flags: __wasi_siflags_t, so_datalen: [*c]__wasi_size_t) __wasi_errno_t;
+pub extern fn __wasi_sock_shutdown(fd: __wasi_fd_t, how: __wasi_sdflags_t) __wasi_errno_t;
 pub extern fn avutil_version() c_uint;
 pub extern fn av_version_info() [*c]const u8;
 pub extern fn avutil_configuration() [*c]const u8;
@@ -180,1448 +336,441 @@ pub const AV_PICTURE_TYPE_SI = @enumToInt(enum_AVPictureType.AV_PICTURE_TYPE_SI)
 pub const AV_PICTURE_TYPE_SP = @enumToInt(enum_AVPictureType.AV_PICTURE_TYPE_SP);
 pub const AV_PICTURE_TYPE_BI = @enumToInt(enum_AVPictureType.AV_PICTURE_TYPE_BI);
 pub extern fn av_get_picture_type_char(pict_type: enum_AVPictureType) u8;
-pub const __darwin_nl_item = c_int;
-pub const __darwin_wctrans_t = c_int;
-pub const __darwin_wctype_t = __uint32_t;
-pub const wchar_t = __darwin_wchar_t;
-pub extern fn imaxabs(j: intmax_t) intmax_t;
 const struct_unnamed_2 = extern struct {
     quot: intmax_t,
     rem: intmax_t,
 };
 pub const imaxdiv_t = struct_unnamed_2;
-pub extern fn imaxdiv(__numer: intmax_t, __denom: intmax_t) imaxdiv_t;
-pub extern fn strtoimax(noalias __nptr: [*c]const u8, noalias __endptr: [*c][*c]u8, __base: c_int) intmax_t;
-pub extern fn strtoumax(noalias __nptr: [*c]const u8, noalias __endptr: [*c][*c]u8, __base: c_int) uintmax_t;
-pub extern fn wcstoimax(noalias __nptr: [*c]const wchar_t, noalias __endptr: [*c][*c]wchar_t, __base: c_int) intmax_t;
-pub extern fn wcstoumax(noalias __nptr: [*c]const wchar_t, noalias __endptr: [*c][*c]wchar_t, __base: c_int) uintmax_t;
+pub extern fn imaxabs(intmax_t) intmax_t;
+pub extern fn imaxdiv(intmax_t, intmax_t) imaxdiv_t;
+pub extern fn strtoimax(noalias [*c]const u8, noalias [*c][*c]u8, c_int) intmax_t;
+pub extern fn strtoumax(noalias [*c]const u8, noalias [*c][*c]u8, c_int) uintmax_t;
+pub extern fn wcstoimax(noalias [*c]const wchar_t, noalias [*c][*c]wchar_t, c_int) intmax_t;
+pub extern fn wcstoumax(noalias [*c]const wchar_t, noalias [*c][*c]wchar_t, c_int) uintmax_t;
 pub const float_t = f32;
 pub const double_t = f64;
-pub extern fn __math_errhandling() c_int;
-pub extern fn __fpclassifyf(f32) c_int;
-pub extern fn __fpclassifyd(f64) c_int;
-pub extern fn __fpclassifyl(c_longdouble) c_int;
-pub fn __inline_isfinitef(arg___x: f32) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt((__x == __x) and (__builtin_fabsf(__x) != __builtin_inff()));
-}
-pub fn __inline_isfinited(arg___x: f64) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt((__x == __x) and (__builtin_fabs(__x) != __builtin_inf()));
-}
-pub fn __inline_isfinitel(arg___x: c_longdouble) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt((__x == __x) and (__builtin_fabsl(__x) != __builtin_infl()));
-}
-pub fn __inline_isinff(arg___x: f32) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt(__builtin_fabsf(__x) == __builtin_inff());
-}
-pub fn __inline_isinfd(arg___x: f64) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt(__builtin_fabs(__x) == __builtin_inf());
-}
-pub fn __inline_isinfl(arg___x: c_longdouble) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt(__builtin_fabsl(__x) == __builtin_infl());
-}
-pub fn __inline_isnanf(arg___x: f32) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt(__x != __x);
-}
-pub fn __inline_isnand(arg___x: f64) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt(__x != __x);
-}
-pub fn __inline_isnanl(arg___x: c_longdouble) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt(__x != __x);
-}
-pub fn __inline_isnormalf(arg___x: f32) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt((__inline_isfinitef(__x) != 0) and (__builtin_fabsf(__x) >= 0.000000000000000000000000000000000000011754943508222875));
-}
-pub fn __inline_isnormald(arg___x: f64) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt((__inline_isfinited(__x) != 0) and (__builtin_fabs(__x) >= 0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000022250738585072014));
-}
-pub fn __inline_isnormall(arg___x: c_longdouble) callconv(.C) c_int {
-    var __x = arg___x;
-    return @boolToInt((__inline_isfinitel(__x) != 0) and (__builtin_fabsl(__x) >= 0));
-}
-pub fn __inline_signbitf(arg___x: f32) callconv(.C) c_int {
-    var __x = arg___x;
-    const union_unnamed_3 = extern union {
-        __f: f32,
-        __u: c_uint,
-    };
-    var __u: union_unnamed_3 = undefined;
-    __u.__f = __x;
-    return @bitCast(c_int, __u.__u >> @intCast(@import("std").math.Log2Int(c_uint), 31));
-}
-pub fn __inline_signbitd(arg___x: f64) callconv(.C) c_int {
-    var __x = arg___x;
-    const union_unnamed_4 = extern union {
-        __f: f64,
-        __u: c_ulonglong,
-    };
-    var __u: union_unnamed_4 = undefined;
-    __u.__f = __x;
-    return @bitCast(c_int, @truncate(c_uint, __u.__u >> @intCast(@import("std").math.Log2Int(c_ulonglong), 63)));
-}
-const struct_unnamed_6 = extern struct {
-    __m: c_ulonglong,
-    __sexp: c_ushort,
-};
-pub fn __inline_signbitl(arg___x: c_longdouble) callconv(.C) c_int {
-    var __x = arg___x;
-    const union_unnamed_5 = extern union {
-        __ld: c_longdouble,
-        __p: struct_unnamed_6,
-    };
-    var __u: union_unnamed_5 = undefined;
-    __u.__ld = __x;
-    return @bitCast(c_int, @as(c_uint, __u.__p.__sexp)) >> @intCast(@import("std").math.Log2Int(c_int), 15);
-}
-pub extern fn acosf(f32) f32;
 pub extern fn acos(f64) f64;
+pub extern fn acosf(f32) f32;
 pub extern fn acosl(c_longdouble) c_longdouble;
-pub extern fn asinf(f32) f32;
-pub extern fn asin(f64) f64;
-pub extern fn asinl(c_longdouble) c_longdouble;
-pub extern fn atanf(f32) f32;
-pub extern fn atan(f64) f64;
-pub extern fn atanl(c_longdouble) c_longdouble;
-pub extern fn atan2f(f32, f32) f32;
-pub extern fn atan2(f64, f64) f64;
-pub extern fn atan2l(c_longdouble, c_longdouble) c_longdouble;
-pub extern fn cosf(f32) f32;
-pub extern fn cos(f64) f64;
-pub extern fn cosl(c_longdouble) c_longdouble;
-pub extern fn sinf(f32) f32;
-pub extern fn sin(f64) f64;
-pub extern fn sinl(c_longdouble) c_longdouble;
-pub extern fn tanf(f32) f32;
-pub extern fn tan(f64) f64;
-pub extern fn tanl(c_longdouble) c_longdouble;
-pub extern fn acoshf(f32) f32;
 pub extern fn acosh(f64) f64;
+pub extern fn acoshf(f32) f32;
 pub extern fn acoshl(c_longdouble) c_longdouble;
-pub extern fn asinhf(f32) f32;
+pub extern fn asin(f64) f64;
+pub extern fn asinf(f32) f32;
+pub extern fn asinl(c_longdouble) c_longdouble;
 pub extern fn asinh(f64) f64;
+pub extern fn asinhf(f32) f32;
 pub extern fn asinhl(c_longdouble) c_longdouble;
-pub extern fn atanhf(f32) f32;
+pub extern fn atan(f64) f64;
+pub extern fn atanf(f32) f32;
+pub extern fn atanl(c_longdouble) c_longdouble;
+pub extern fn atan2(f64, f64) f64;
+pub extern fn atan2f(f32, f32) f32;
+pub extern fn atan2l(c_longdouble, c_longdouble) c_longdouble;
 pub extern fn atanh(f64) f64;
+pub extern fn atanhf(f32) f32;
 pub extern fn atanhl(c_longdouble) c_longdouble;
-pub extern fn coshf(f32) f32;
-pub extern fn cosh(f64) f64;
-pub extern fn coshl(c_longdouble) c_longdouble;
-pub extern fn sinhf(f32) f32;
-pub extern fn sinh(f64) f64;
-pub extern fn sinhl(c_longdouble) c_longdouble;
-pub extern fn tanhf(f32) f32;
-pub extern fn tanh(f64) f64;
-pub extern fn tanhl(c_longdouble) c_longdouble;
-pub extern fn expf(f32) f32;
-pub extern fn exp(f64) f64;
-pub extern fn expl(c_longdouble) c_longdouble;
-pub extern fn exp2f(f32) f32;
-pub extern fn exp2(f64) f64;
-pub extern fn exp2l(c_longdouble) c_longdouble;
-pub extern fn expm1f(f32) f32;
-pub extern fn expm1(f64) f64;
-pub extern fn expm1l(c_longdouble) c_longdouble;
-pub extern fn logf(f32) f32;
-pub extern fn log(f64) f64;
-pub extern fn logl(c_longdouble) c_longdouble;
-pub extern fn log10f(f32) f32;
-pub extern fn log10(f64) f64;
-pub extern fn log10l(c_longdouble) c_longdouble;
-pub extern fn log2f(f32) f32;
-pub extern fn log2(f64) f64;
-pub extern fn log2l(c_longdouble) c_longdouble;
-pub extern fn log1pf(f32) f32;
-pub extern fn log1p(f64) f64;
-pub extern fn log1pl(c_longdouble) c_longdouble;
-pub extern fn logbf(f32) f32;
-pub extern fn logb(f64) f64;
-pub extern fn logbl(c_longdouble) c_longdouble;
-pub extern fn modff(f32, [*c]f32) f32;
-pub extern fn modf(f64, [*c]f64) f64;
-pub extern fn modfl(c_longdouble, [*c]c_longdouble) c_longdouble;
-pub extern fn ldexpf(f32, c_int) f32;
-pub extern fn ldexp(f64, c_int) f64;
-pub extern fn ldexpl(c_longdouble, c_int) c_longdouble;
-pub extern fn frexpf(f32, [*c]c_int) f32;
-pub extern fn frexp(f64, [*c]c_int) f64;
-pub extern fn frexpl(c_longdouble, [*c]c_int) c_longdouble;
-pub extern fn ilogbf(f32) c_int;
-pub extern fn ilogb(f64) c_int;
-pub extern fn ilogbl(c_longdouble) c_int;
-pub extern fn scalbnf(f32, c_int) f32;
-pub extern fn scalbn(f64, c_int) f64;
-pub extern fn scalbnl(c_longdouble, c_int) c_longdouble;
-pub extern fn scalblnf(f32, c_long) f32;
-pub extern fn scalbln(f64, c_long) f64;
-pub extern fn scalblnl(c_longdouble, c_long) c_longdouble;
-pub extern fn fabsf(f32) f32;
-pub extern fn fabs(f64) f64;
-pub extern fn fabsl(c_longdouble) c_longdouble;
-pub extern fn cbrtf(f32) f32;
 pub extern fn cbrt(f64) f64;
+pub extern fn cbrtf(f32) f32;
 pub extern fn cbrtl(c_longdouble) c_longdouble;
-pub extern fn hypotf(f32, f32) f32;
-pub extern fn hypot(f64, f64) f64;
-pub extern fn hypotl(c_longdouble, c_longdouble) c_longdouble;
-pub extern fn powf(f32, f32) f32;
-pub extern fn pow(f64, f64) f64;
-pub extern fn powl(c_longdouble, c_longdouble) c_longdouble;
-pub extern fn sqrtf(f32) f32;
-pub extern fn sqrt(f64) f64;
-pub extern fn sqrtl(c_longdouble) c_longdouble;
-pub extern fn erff(f32) f32;
-pub extern fn erf(f64) f64;
-pub extern fn erfl(c_longdouble) c_longdouble;
-pub extern fn erfcf(f32) f32;
-pub extern fn erfc(f64) f64;
-pub extern fn erfcl(c_longdouble) c_longdouble;
-pub extern fn lgammaf(f32) f32;
-pub extern fn lgamma(f64) f64;
-pub extern fn lgammal(c_longdouble) c_longdouble;
-pub extern fn tgammaf(f32) f32;
-pub extern fn tgamma(f64) f64;
-pub extern fn tgammal(c_longdouble) c_longdouble;
-pub extern fn ceilf(f32) f32;
 pub extern fn ceil(f64) f64;
+pub extern fn ceilf(f32) f32;
 pub extern fn ceill(c_longdouble) c_longdouble;
-pub extern fn floorf(f32) f32;
-pub extern fn floor(f64) f64;
-pub extern fn floorl(c_longdouble) c_longdouble;
-pub extern fn nearbyintf(f32) f32;
-pub extern fn nearbyint(f64) f64;
-pub extern fn nearbyintl(c_longdouble) c_longdouble;
-pub extern fn rintf(f32) f32;
-pub extern fn rint(f64) f64;
-pub extern fn rintl(c_longdouble) c_longdouble;
-pub extern fn lrintf(f32) c_long;
-pub extern fn lrint(f64) c_long;
-pub extern fn lrintl(c_longdouble) c_long;
-pub extern fn roundf(f32) f32;
-pub extern fn round(f64) f64;
-pub extern fn roundl(c_longdouble) c_longdouble;
-pub extern fn lroundf(f32) c_long;
-pub extern fn lround(f64) c_long;
-pub extern fn lroundl(c_longdouble) c_long;
-pub extern fn llrintf(f32) c_longlong;
-pub extern fn llrint(f64) c_longlong;
-pub extern fn llrintl(c_longdouble) c_longlong;
-pub extern fn llroundf(f32) c_longlong;
-pub extern fn llround(f64) c_longlong;
-pub extern fn llroundl(c_longdouble) c_longlong;
-pub extern fn truncf(f32) f32;
-pub extern fn trunc(f64) f64;
-pub extern fn truncl(c_longdouble) c_longdouble;
-pub extern fn fmodf(f32, f32) f32;
-pub extern fn fmod(f64, f64) f64;
-pub extern fn fmodl(c_longdouble, c_longdouble) c_longdouble;
-pub extern fn remainderf(f32, f32) f32;
-pub extern fn remainder(f64, f64) f64;
-pub extern fn remainderl(c_longdouble, c_longdouble) c_longdouble;
-pub extern fn remquof(f32, f32, [*c]c_int) f32;
-pub extern fn remquo(f64, f64, [*c]c_int) f64;
-pub extern fn remquol(c_longdouble, c_longdouble, [*c]c_int) c_longdouble;
-pub extern fn copysignf(f32, f32) f32;
 pub extern fn copysign(f64, f64) f64;
+pub extern fn copysignf(f32, f32) f32;
 pub extern fn copysignl(c_longdouble, c_longdouble) c_longdouble;
-pub extern fn nanf([*c]const u8) f32;
+pub extern fn cos(f64) f64;
+pub extern fn cosf(f32) f32;
+pub extern fn cosl(c_longdouble) c_longdouble;
+pub extern fn cosh(f64) f64;
+pub extern fn coshf(f32) f32;
+pub extern fn coshl(c_longdouble) c_longdouble;
+pub extern fn erf(f64) f64;
+pub extern fn erff(f32) f32;
+pub extern fn erfl(c_longdouble) c_longdouble;
+pub extern fn erfc(f64) f64;
+pub extern fn erfcf(f32) f32;
+pub extern fn erfcl(c_longdouble) c_longdouble;
+pub extern fn exp(f64) f64;
+pub extern fn expf(f32) f32;
+pub extern fn expl(c_longdouble) c_longdouble;
+pub extern fn exp2(f64) f64;
+pub extern fn exp2f(f32) f32;
+pub extern fn exp2l(c_longdouble) c_longdouble;
+pub extern fn expm1(f64) f64;
+pub extern fn expm1f(f32) f32;
+pub extern fn expm1l(c_longdouble) c_longdouble;
+pub extern fn fabs(f64) f64;
+pub extern fn fabsf(f32) f32;
+pub extern fn fabsl(c_longdouble) c_longdouble;
+pub extern fn fdim(f64, f64) f64;
+pub extern fn fdimf(f32, f32) f32;
+pub extern fn fdiml(c_longdouble, c_longdouble) c_longdouble;
+pub extern fn floor(f64) f64;
+pub extern fn floorf(f32) f32;
+pub extern fn floorl(c_longdouble) c_longdouble;
+pub extern fn fma(f64, f64, f64) f64;
+pub extern fn fmaf(f32, f32, f32) f32;
+pub extern fn fmal(c_longdouble, c_longdouble, c_longdouble) c_longdouble;
+pub extern fn fmax(f64, f64) f64;
+pub extern fn fmaxf(f32, f32) f32;
+pub extern fn fmaxl(c_longdouble, c_longdouble) c_longdouble;
+pub extern fn fmin(f64, f64) f64;
+pub extern fn fminf(f32, f32) f32;
+pub extern fn fminl(c_longdouble, c_longdouble) c_longdouble;
+pub extern fn fmod(f64, f64) f64;
+pub extern fn fmodf(f32, f32) f32;
+pub extern fn fmodl(c_longdouble, c_longdouble) c_longdouble;
+pub extern fn frexp(f64, [*c]c_int) f64;
+pub extern fn frexpf(f32, [*c]c_int) f32;
+pub extern fn frexpl(c_longdouble, [*c]c_int) c_longdouble;
+pub extern fn hypot(f64, f64) f64;
+pub extern fn hypotf(f32, f32) f32;
+pub extern fn hypotl(c_longdouble, c_longdouble) c_longdouble;
+pub extern fn ilogb(f64) c_int;
+pub extern fn ilogbf(f32) c_int;
+pub extern fn ilogbl(c_longdouble) c_int;
+pub extern fn ldexp(f64, c_int) f64;
+pub extern fn ldexpf(f32, c_int) f32;
+pub extern fn ldexpl(c_longdouble, c_int) c_longdouble;
+pub extern fn lgamma(f64) f64;
+pub extern fn lgammaf(f32) f32;
+pub extern fn lgammal(c_longdouble) c_longdouble;
+pub extern fn llrint(f64) c_longlong;
+pub extern fn llrintf(f32) c_longlong;
+pub extern fn llrintl(c_longdouble) c_longlong;
+pub extern fn llround(f64) c_longlong;
+pub extern fn llroundf(f32) c_longlong;
+pub extern fn llroundl(c_longdouble) c_longlong;
+pub extern fn log(f64) f64;
+pub extern fn logf(f32) f32;
+pub extern fn logl(c_longdouble) c_longdouble;
+pub extern fn log10(f64) f64;
+pub extern fn log10f(f32) f32;
+pub extern fn log10l(c_longdouble) c_longdouble;
+pub extern fn log1p(f64) f64;
+pub extern fn log1pf(f32) f32;
+pub extern fn log1pl(c_longdouble) c_longdouble;
+pub extern fn log2(f64) f64;
+pub extern fn log2f(f32) f32;
+pub extern fn log2l(c_longdouble) c_longdouble;
+pub extern fn logb(f64) f64;
+pub extern fn logbf(f32) f32;
+pub extern fn logbl(c_longdouble) c_longdouble;
+pub extern fn lrint(f64) c_long;
+pub extern fn lrintf(f32) c_long;
+pub extern fn lrintl(c_longdouble) c_long;
+pub extern fn lround(f64) c_long;
+pub extern fn lroundf(f32) c_long;
+pub extern fn lroundl(c_longdouble) c_long;
+pub extern fn modf(f64, [*c]f64) f64;
+pub extern fn modff(f32, [*c]f32) f32;
+pub extern fn modfl(c_longdouble, [*c]c_longdouble) c_longdouble;
 pub extern fn nan([*c]const u8) f64;
+pub extern fn nanf([*c]const u8) f32;
 pub extern fn nanl([*c]const u8) c_longdouble;
-pub extern fn nextafterf(f32, f32) f32;
+pub extern fn nearbyint(f64) f64;
+pub extern fn nearbyintf(f32) f32;
+pub extern fn nearbyintl(c_longdouble) c_longdouble;
 pub extern fn nextafter(f64, f64) f64;
+pub extern fn nextafterf(f32, f32) f32;
 pub extern fn nextafterl(c_longdouble, c_longdouble) c_longdouble;
 pub extern fn nexttoward(f64, c_longdouble) f64;
 pub extern fn nexttowardf(f32, c_longdouble) f32;
 pub extern fn nexttowardl(c_longdouble, c_longdouble) c_longdouble;
-pub extern fn fdimf(f32, f32) f32;
-pub extern fn fdim(f64, f64) f64;
-pub extern fn fdiml(c_longdouble, c_longdouble) c_longdouble;
-pub extern fn fmaxf(f32, f32) f32;
-pub extern fn fmax(f64, f64) f64;
-pub extern fn fmaxl(c_longdouble, c_longdouble) c_longdouble;
-pub extern fn fminf(f32, f32) f32;
-pub extern fn fmin(f64, f64) f64;
-pub extern fn fminl(c_longdouble, c_longdouble) c_longdouble;
-pub extern fn fmaf(f32, f32, f32) f32;
-pub extern fn fma(f64, f64, f64) f64;
-pub extern fn fmal(c_longdouble, c_longdouble, c_longdouble) c_longdouble;
-pub extern fn __inff() f32;
-pub extern fn __inf() f64;
-pub extern fn __infl() c_longdouble;
-pub extern fn __nan() f32;
-pub extern fn __exp10f(f32) f32;
-pub extern fn __exp10(f64) f64;
-pub const struct___float2 = extern struct {
-    __sinval: f32,
-    __cosval: f32,
-};
-pub fn __sincosf(arg___x: f32, arg___sinp: [*c]f32, arg___cosp: [*c]f32) callconv(.C) void {
-    var __x = arg___x;
-    var __sinp = arg___sinp;
-    var __cosp = arg___cosp;
-    const __stret: struct___float2 = __sincosf_stret(__x);
-    __sinp.?.* = __stret.__sinval;
-    __cosp.?.* = __stret.__cosval;
-}
-pub const struct___double2 = extern struct {
-    __sinval: f64,
-    __cosval: f64,
-};
-pub fn __sincos(arg___x: f64, arg___sinp: [*c]f64, arg___cosp: [*c]f64) callconv(.C) void {
-    var __x = arg___x;
-    var __sinp = arg___sinp;
-    var __cosp = arg___cosp;
-    const __stret: struct___double2 = __sincos_stret(__x);
-    __sinp.?.* = __stret.__sinval;
-    __cosp.?.* = __stret.__cosval;
-}
-pub extern fn __cospif(f32) f32;
-pub extern fn __cospi(f64) f64;
-pub extern fn __sinpif(f32) f32;
-pub extern fn __sinpi(f64) f64;
-pub extern fn __tanpif(f32) f32;
-pub extern fn __tanpi(f64) f64;
-pub fn __sincospif(arg___x: f32, arg___sinp: [*c]f32, arg___cosp: [*c]f32) callconv(.C) void {
-    var __x = arg___x;
-    var __sinp = arg___sinp;
-    var __cosp = arg___cosp;
-    const __stret: struct___float2 = __sincospif_stret(__x);
-    __sinp.?.* = __stret.__sinval;
-    __cosp.?.* = __stret.__cosval;
-}
-pub fn __sincospi(arg___x: f64, arg___sinp: [*c]f64, arg___cosp: [*c]f64) callconv(.C) void {
-    var __x = arg___x;
-    var __sinp = arg___sinp;
-    var __cosp = arg___cosp;
-    const __stret: struct___double2 = __sincospi_stret(__x);
-    __sinp.?.* = __stret.__sinval;
-    __cosp.?.* = __stret.__cosval;
-}
-pub extern fn __sincosf_stret(f32) struct___float2;
-pub extern fn __sincos_stret(f64) struct___double2;
-pub extern fn __sincospif_stret(f32) struct___float2;
-pub extern fn __sincospi_stret(f64) struct___double2;
+pub extern fn pow(f64, f64) f64;
+pub extern fn powf(f32, f32) f32;
+pub extern fn powl(c_longdouble, c_longdouble) c_longdouble;
+pub extern fn remainder(f64, f64) f64;
+pub extern fn remainderf(f32, f32) f32;
+pub extern fn remainderl(c_longdouble, c_longdouble) c_longdouble;
+pub extern fn remquo(f64, f64, [*c]c_int) f64;
+pub extern fn remquof(f32, f32, [*c]c_int) f32;
+pub extern fn remquol(c_longdouble, c_longdouble, [*c]c_int) c_longdouble;
+pub extern fn rint(f64) f64;
+pub extern fn rintf(f32) f32;
+pub extern fn rintl(c_longdouble) c_longdouble;
+pub extern fn round(f64) f64;
+pub extern fn roundf(f32) f32;
+pub extern fn roundl(c_longdouble) c_longdouble;
+pub extern fn scalbln(f64, c_long) f64;
+pub extern fn scalblnf(f32, c_long) f32;
+pub extern fn scalblnl(c_longdouble, c_long) c_longdouble;
+pub extern fn scalbn(f64, c_int) f64;
+pub extern fn scalbnf(f32, c_int) f32;
+pub extern fn scalbnl(c_longdouble, c_int) c_longdouble;
+pub extern fn sin(f64) f64;
+pub extern fn sinf(f32) f32;
+pub extern fn sinl(c_longdouble) c_longdouble;
+pub extern fn sinh(f64) f64;
+pub extern fn sinhf(f32) f32;
+pub extern fn sinhl(c_longdouble) c_longdouble;
+pub extern fn sqrt(f64) f64;
+pub extern fn sqrtf(f32) f32;
+pub extern fn sqrtl(c_longdouble) c_longdouble;
+pub extern fn tan(f64) f64;
+pub extern fn tanf(f32) f32;
+pub extern fn tanl(c_longdouble) c_longdouble;
+pub extern fn tanh(f64) f64;
+pub extern fn tanhf(f32) f32;
+pub extern fn tanhl(c_longdouble) c_longdouble;
+pub extern fn tgamma(f64) f64;
+pub extern fn tgammaf(f32) f32;
+pub extern fn tgammal(c_longdouble) c_longdouble;
+pub extern fn trunc(f64) f64;
+pub extern fn truncf(f32) f32;
+pub extern fn truncl(c_longdouble) c_longdouble;
+pub extern var signgam: c_int;
 pub extern fn j0(f64) f64;
 pub extern fn j1(f64) f64;
 pub extern fn jn(c_int, f64) f64;
 pub extern fn y0(f64) f64;
 pub extern fn y1(f64) f64;
 pub extern fn yn(c_int, f64) f64;
-pub extern fn scalb(f64, f64) f64;
-pub extern var signgam: c_int;
-pub extern fn rinttol(f64) c_long;
-pub extern fn roundtol(f64) c_long;
 pub extern fn drem(f64, f64) f64;
+pub extern fn dremf(f32, f32) f32;
 pub extern fn finite(f64) c_int;
-pub extern fn gamma(f64) f64;
+pub extern fn finitef(f32) c_int;
+pub extern fn scalb(f64, f64) f64;
+pub extern fn scalbf(f32, f32) f32;
 pub extern fn significand(f64) f64;
-pub const struct_exception = extern struct {
-    type: c_int,
-    name: [*c]u8,
-    arg1: f64,
-    arg2: f64,
-    retval: f64,
+pub extern fn significandf(f32) f32;
+pub extern fn lgamma_r(f64, [*c]c_int) f64;
+pub extern fn lgammaf_r(f32, [*c]c_int) f32;
+pub extern fn j0f(f32) f32;
+pub extern fn j1f(f32) f32;
+pub extern fn jnf(c_int, f32) f32;
+pub extern fn y0f(f32) f32;
+pub extern fn y1f(f32) f32;
+pub extern fn ynf(c_int, f32) f32;
+pub const off_t = c_longlong;
+pub const struct__IO_FILE = opaque {};
+pub const FILE = struct__IO_FILE;
+pub const __builtin_va_list = ?*c_void;
+pub const va_list = __builtin_va_list;
+pub const __isoc_va_list = __builtin_va_list;
+pub const union__G_fpos64_t = extern union {
+    __opaque: [16]u8,
+    __lldata: c_longlong,
+    __align: f64,
 };
-pub const va_list = __darwin_va_list;
-pub extern fn renameat(c_int, [*c]const u8, c_int, [*c]const u8) c_int;
-pub extern fn renamex_np([*c]const u8, [*c]const u8, c_uint) c_int;
-pub extern fn renameatx_np(c_int, [*c]const u8, c_int, [*c]const u8, c_uint) c_int;
-pub const fpos_t = __darwin_off_t;
-pub const struct___sbuf = extern struct {
-    _base: [*c]u8,
-    _size: c_int,
-};
-pub const struct___sFILEX = opaque {};
-pub const struct___sFILE = extern struct {
-    _p: [*c]u8,
-    _r: c_int,
-    _w: c_int,
-    _flags: c_short,
-    _file: c_short,
-    _bf: struct___sbuf,
-    _lbfsize: c_int,
-    _cookie: ?*c_void,
-    _close: ?fn (?*c_void) callconv(.C) c_int,
-    _read: ?fn (?*c_void, [*c]u8, c_int) callconv(.C) c_int,
-    _seek: ?fn (?*c_void, fpos_t, c_int) callconv(.C) fpos_t,
-    _write: ?fn (?*c_void, [*c]const u8, c_int) callconv(.C) c_int,
-    _ub: struct___sbuf,
-    _extra: ?*struct___sFILEX,
-    _ur: c_int,
-    _ubuf: [3]u8,
-    _nbuf: [1]u8,
-    _lb: struct___sbuf,
-    _blksize: c_int,
-    _offset: fpos_t,
-};
-pub const FILE = struct___sFILE;
-pub extern var __stdinp: [*c]FILE;
-pub extern var __stdoutp: [*c]FILE;
-pub extern var __stderrp: [*c]FILE;
-pub extern fn clearerr([*c]FILE) void;
-pub extern fn fclose([*c]FILE) c_int;
-pub extern fn feof([*c]FILE) c_int;
-pub extern fn ferror([*c]FILE) c_int;
-pub extern fn fflush([*c]FILE) c_int;
-pub extern fn fgetc([*c]FILE) c_int;
-pub extern fn fgetpos(noalias [*c]FILE, [*c]fpos_t) c_int;
-pub extern fn fgets(noalias [*c]u8, c_int, [*c]FILE) [*c]u8;
-pub extern fn fopen(__filename: [*c]const u8, __mode: [*c]const u8) [*c]FILE;
-pub extern fn fprintf([*c]FILE, [*c]const u8, ...) c_int;
-pub extern fn fputc(c_int, [*c]FILE) c_int;
-pub extern fn fputs(noalias [*c]const u8, noalias [*c]FILE) c_int;
-pub extern fn fread(__ptr: ?*c_void, __size: c_ulong, __nitems: c_ulong, __stream: [*c]FILE) c_ulong;
-pub extern fn freopen(noalias [*c]const u8, noalias [*c]const u8, noalias [*c]FILE) [*c]FILE;
-pub extern fn fscanf(noalias [*c]FILE, noalias [*c]const u8, ...) c_int;
-pub extern fn fseek([*c]FILE, c_long, c_int) c_int;
-pub extern fn fsetpos([*c]FILE, [*c]const fpos_t) c_int;
-pub extern fn ftell([*c]FILE) c_long;
-pub extern fn fwrite(__ptr: ?*const c_void, __size: c_ulong, __nitems: c_ulong, __stream: [*c]FILE) c_ulong;
-pub extern fn getc([*c]FILE) c_int;
-pub extern fn getchar() c_int;
-pub extern fn gets([*c]u8) [*c]u8;
-pub extern fn perror([*c]const u8) void;
-pub extern fn printf([*c]const u8, ...) c_int;
-pub extern fn putc(c_int, [*c]FILE) c_int;
-pub extern fn putchar(c_int) c_int;
-pub extern fn puts([*c]const u8) c_int;
+pub const fpos_t = union__G_fpos64_t;
+pub extern const stdin: ?*FILE;
+pub extern const stdout: ?*FILE;
+pub extern const stderr: ?*FILE;
+pub extern fn fopen([*c]const u8, [*c]const u8) ?*FILE;
+pub extern fn freopen(noalias [*c]const u8, noalias [*c]const u8, noalias ?*FILE) ?*FILE;
+pub extern fn fclose(?*FILE) c_int;
 pub extern fn remove([*c]const u8) c_int;
-pub extern fn rename(__old: [*c]const u8, __new: [*c]const u8) c_int;
-pub extern fn rewind([*c]FILE) void;
-pub extern fn scanf(noalias [*c]const u8, ...) c_int;
-pub extern fn setbuf(noalias [*c]FILE, noalias [*c]u8) void;
-pub extern fn setvbuf(noalias [*c]FILE, noalias [*c]u8, c_int, usize) c_int;
+pub extern fn rename([*c]const u8, [*c]const u8) c_int;
+pub extern fn feof(?*FILE) c_int;
+pub extern fn ferror(?*FILE) c_int;
+pub extern fn fflush(?*FILE) c_int;
+pub extern fn clearerr(?*FILE) void;
+pub extern fn fseek(?*FILE, c_long, c_int) c_int;
+pub extern fn ftell(?*FILE) c_long;
+pub extern fn rewind(?*FILE) void;
+pub extern fn fgetpos(noalias ?*FILE, noalias [*c]fpos_t) c_int;
+pub extern fn fsetpos(?*FILE, [*c]const fpos_t) c_int;
+pub extern fn fread(?*c_void, c_ulong, c_ulong, ?*FILE) c_ulong;
+pub extern fn fwrite(?*const c_void, c_ulong, c_ulong, ?*FILE) c_ulong;
+pub extern fn fgetc(?*FILE) c_int;
+pub extern fn getc(?*FILE) c_int;
+pub extern fn getchar() c_int;
+pub extern fn ungetc(c_int, ?*FILE) c_int;
+pub extern fn fputc(c_int, ?*FILE) c_int;
+pub extern fn putc(c_int, ?*FILE) c_int;
+pub extern fn putchar(c_int) c_int;
+pub extern fn fgets(noalias [*c]u8, c_int, noalias ?*FILE) [*c]u8;
+pub extern fn fputs(noalias [*c]const u8, noalias ?*FILE) c_int;
+pub extern fn puts([*c]const u8) c_int;
+pub extern fn printf([*c]const u8, ...) c_int;
+pub extern fn fprintf(?*FILE, [*c]const u8, ...) c_int;
 pub extern fn sprintf([*c]u8, [*c]const u8, ...) c_int;
+pub extern fn snprintf([*c]u8, c_ulong, [*c]const u8, ...) c_int;
+pub extern fn vprintf([*c]const u8, __builtin_va_list) c_int;
+pub extern fn vfprintf(?*FILE, [*c]const u8, __builtin_va_list) c_int;
+pub extern fn vsprintf([*c]u8, [*c]const u8, __builtin_va_list) c_int;
+pub extern fn vsnprintf([*c]u8, c_ulong, [*c]const u8, __builtin_va_list) c_int;
+pub extern fn scanf(noalias [*c]const u8, ...) c_int;
+pub extern fn fscanf(noalias ?*FILE, noalias [*c]const u8, ...) c_int;
 pub extern fn sscanf(noalias [*c]const u8, noalias [*c]const u8, ...) c_int;
-pub extern fn tmpfile() [*c]FILE;
+pub extern fn vscanf(noalias [*c]const u8, __builtin_va_list) c_int;
+pub extern fn vfscanf(noalias ?*FILE, noalias [*c]const u8, __builtin_va_list) c_int;
+pub extern fn vsscanf(noalias [*c]const u8, noalias [*c]const u8, __builtin_va_list) c_int;
+pub extern fn perror([*c]const u8) void;
+pub extern fn setvbuf(noalias ?*FILE, noalias [*c]u8, c_int, usize) c_int;
+pub extern fn setbuf(noalias ?*FILE, noalias [*c]u8) void;
 pub extern fn tmpnam([*c]u8) [*c]u8;
-pub extern fn ungetc(c_int, [*c]FILE) c_int;
-pub extern fn vfprintf([*c]FILE, [*c]const u8, [*c]struct___va_list_tag) c_int;
-pub extern fn vprintf([*c]const u8, [*c]struct___va_list_tag) c_int;
-pub extern fn vsprintf([*c]u8, [*c]const u8, [*c]struct___va_list_tag) c_int;
-pub extern fn ctermid([*c]u8) [*c]u8;
-pub extern fn fdopen(c_int, [*c]const u8) [*c]FILE;
-pub extern fn fileno([*c]FILE) c_int;
-pub extern fn pclose([*c]FILE) c_int;
-pub extern fn popen([*c]const u8, [*c]const u8) [*c]FILE;
-pub extern fn __srget([*c]FILE) c_int;
-pub extern fn __svfscanf([*c]FILE, [*c]const u8, [*c]struct___va_list_tag) c_int;
-pub extern fn __swbuf(c_int, [*c]FILE) c_int;
-pub fn __sputc(arg__c: c_int, arg__p: [*c]FILE) callconv(.C) c_int {
-    var _c = arg__c;
-    var _p = arg__p;
-    if (((blk: {
-        const ref = &_p.*._w;
-        ref.* -= 1;
-        break :blk ref.*;
-    }) >= @as(c_int, 0)) or ((_p.*._w >= _p.*._lbfsize) and (@bitCast(c_int, @as(c_uint, @bitCast(u8, @truncate(i8, _c)))) != @as(c_int, '\n')))) return @bitCast(c_int, @as(c_uint, blk: {
-        const tmp = @bitCast(u8, @truncate(i8, _c));
-        (blk_1: {
-            const ref = &_p.*._p;
-            const tmp_2 = ref.*;
-            ref.* += 1;
-            break :blk_1 tmp_2;
-        }).?.* = tmp;
-        break :blk tmp;
-    })) else return __swbuf(_c, _p);
-    return 0;
-}
-pub extern fn flockfile([*c]FILE) void;
-pub extern fn ftrylockfile([*c]FILE) c_int;
-pub extern fn funlockfile([*c]FILE) void;
-pub extern fn getc_unlocked([*c]FILE) c_int;
-pub extern fn getchar_unlocked() c_int;
-pub extern fn putc_unlocked(c_int, [*c]FILE) c_int;
-pub extern fn putchar_unlocked(c_int) c_int;
-pub extern fn getw([*c]FILE) c_int;
-pub extern fn putw(c_int, [*c]FILE) c_int;
-pub extern fn tempnam(__dir: [*c]const u8, __prefix: [*c]const u8) [*c]u8;
-pub const off_t = __darwin_off_t;
-pub extern fn fseeko(__stream: [*c]FILE, __offset: off_t, __whence: c_int) c_int;
-pub extern fn ftello(__stream: [*c]FILE) off_t;
-pub extern fn snprintf(__str: [*c]u8, __size: c_ulong, __format: [*c]const u8, ...) c_int;
-pub extern fn vfscanf(noalias __stream: [*c]FILE, noalias __format: [*c]const u8, [*c]struct___va_list_tag) c_int;
-pub extern fn vscanf(noalias __format: [*c]const u8, [*c]struct___va_list_tag) c_int;
-pub extern fn vsnprintf(__str: [*c]u8, __size: c_ulong, __format: [*c]const u8, [*c]struct___va_list_tag) c_int;
-pub extern fn vsscanf(noalias __str: [*c]const u8, noalias __format: [*c]const u8, [*c]struct___va_list_tag) c_int;
+pub extern fn tmpfile() ?*FILE;
+pub extern fn fmemopen(noalias ?*c_void, usize, noalias [*c]const u8) ?*FILE;
+pub extern fn open_memstream([*c][*c]u8, [*c]usize) ?*FILE;
+pub extern fn fdopen(c_int, [*c]const u8) ?*FILE;
+pub extern fn fileno(?*FILE) c_int;
+pub extern fn fseeko(?*FILE, off_t, c_int) c_int;
+pub extern fn ftello(?*FILE) off_t;
 pub extern fn dprintf(c_int, noalias [*c]const u8, ...) c_int;
-pub extern fn vdprintf(c_int, noalias [*c]const u8, [*c]struct___va_list_tag) c_int;
-pub extern fn getdelim(noalias __linep: [*c][*c]u8, noalias __linecapp: [*c]usize, __delimiter: c_int, noalias __stream: [*c]FILE) isize;
-pub extern fn getline(noalias __linep: [*c][*c]u8, noalias __linecapp: [*c]usize, noalias __stream: [*c]FILE) isize;
-pub extern fn fmemopen(noalias __buf: ?*c_void, __size: usize, noalias __mode: [*c]const u8) [*c]FILE;
-pub extern fn open_memstream(__bufp: [*c][*c]u8, __sizep: [*c]usize) [*c]FILE;
-pub extern const sys_nerr: c_int;
-pub extern const sys_errlist: [*c]const [*c]const u8;
-pub extern fn asprintf(noalias [*c][*c]u8, noalias [*c]const u8, ...) c_int;
-pub extern fn ctermid_r([*c]u8) [*c]u8;
-pub extern fn fgetln([*c]FILE, [*c]usize) [*c]u8;
-pub extern fn fmtcheck([*c]const u8, [*c]const u8) [*c]const u8;
-pub extern fn fpurge([*c]FILE) c_int;
-pub extern fn setbuffer([*c]FILE, [*c]u8, c_int) void;
-pub extern fn setlinebuf([*c]FILE) c_int;
-pub extern fn vasprintf(noalias [*c][*c]u8, noalias [*c]const u8, [*c]struct___va_list_tag) c_int;
-pub extern fn zopen([*c]const u8, [*c]const u8, c_int) [*c]FILE;
-pub extern fn funopen(?*const c_void, ?fn (?*c_void, [*c]u8, c_int) callconv(.C) c_int, ?fn (?*c_void, [*c]const u8, c_int) callconv(.C) c_int, ?fn (?*c_void, fpos_t, c_int) callconv(.C) fpos_t, ?fn (?*c_void) callconv(.C) c_int) [*c]FILE;
-pub extern fn __sprintf_chk(noalias [*c]u8, c_int, usize, noalias [*c]const u8, ...) c_int;
-pub extern fn __snprintf_chk(noalias [*c]u8, usize, c_int, usize, noalias [*c]const u8, ...) c_int;
-pub extern fn __vsprintf_chk(noalias [*c]u8, c_int, usize, noalias [*c]const u8, [*c]struct___va_list_tag) c_int;
-pub extern fn __vsnprintf_chk(noalias [*c]u8, usize, c_int, usize, noalias [*c]const u8, [*c]struct___va_list_tag) c_int;
-const enum_unnamed_7 = extern enum(c_int) {
-    P_ALL,
-    P_PID,
-    P_PGID,
-    _,
-};
-pub const P_ALL = @enumToInt(enum_unnamed_7.P_ALL);
-pub const P_PID = @enumToInt(enum_unnamed_7.P_PID);
-pub const P_PGID = @enumToInt(enum_unnamed_7.P_PGID);
-pub const idtype_t = enum_unnamed_7;
-pub const pid_t = __darwin_pid_t;
-pub const id_t = __darwin_id_t;
-pub const sig_atomic_t = c_int;
-pub const struct___darwin_i386_thread_state = extern struct {
-    __eax: c_uint,
-    __ebx: c_uint,
-    __ecx: c_uint,
-    __edx: c_uint,
-    __edi: c_uint,
-    __esi: c_uint,
-    __ebp: c_uint,
-    __esp: c_uint,
-    __ss: c_uint,
-    __eflags: c_uint,
-    __eip: c_uint,
-    __cs: c_uint,
-    __ds: c_uint,
-    __es: c_uint,
-    __fs: c_uint,
-    __gs: c_uint,
-}; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/mach/i386/_structs.h:94:21: warning: struct demoted to opaque type - has bitfield
-pub const struct___darwin_fp_control = opaque {};
-pub const __darwin_fp_control_t = struct___darwin_fp_control; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/mach/i386/_structs.h:152:21: warning: struct demoted to opaque type - has bitfield
-pub const struct___darwin_fp_status = opaque {};
-pub const __darwin_fp_status_t = struct___darwin_fp_status;
-pub const struct___darwin_mmst_reg = extern struct {
-    __mmst_reg: [10]u8,
-    __mmst_rsrv: [6]u8,
-};
-pub const struct___darwin_xmm_reg = extern struct {
-    __xmm_reg: [16]u8,
-};
-pub const struct___darwin_ymm_reg = extern struct {
-    __ymm_reg: [32]u8,
-};
-pub const struct___darwin_zmm_reg = extern struct {
-    __zmm_reg: [64]u8,
-};
-pub const struct___darwin_opmask_reg = extern struct {
-    __opmask_reg: [8]u8,
-};
-pub const struct___darwin_i386_float_state = extern struct {
-    __fpu_reserved: [2]c_int,
-    __fpu_fcw: struct___darwin_fp_control,
-    __fpu_fsw: struct___darwin_fp_status,
-    __fpu_ftw: __uint8_t,
-    __fpu_rsrv1: __uint8_t,
-    __fpu_fop: __uint16_t,
-    __fpu_ip: __uint32_t,
-    __fpu_cs: __uint16_t,
-    __fpu_rsrv2: __uint16_t,
-    __fpu_dp: __uint32_t,
-    __fpu_ds: __uint16_t,
-    __fpu_rsrv3: __uint16_t,
-    __fpu_mxcsr: __uint32_t,
-    __fpu_mxcsrmask: __uint32_t,
-    __fpu_stmm0: struct___darwin_mmst_reg,
-    __fpu_stmm1: struct___darwin_mmst_reg,
-    __fpu_stmm2: struct___darwin_mmst_reg,
-    __fpu_stmm3: struct___darwin_mmst_reg,
-    __fpu_stmm4: struct___darwin_mmst_reg,
-    __fpu_stmm5: struct___darwin_mmst_reg,
-    __fpu_stmm6: struct___darwin_mmst_reg,
-    __fpu_stmm7: struct___darwin_mmst_reg,
-    __fpu_xmm0: struct___darwin_xmm_reg,
-    __fpu_xmm1: struct___darwin_xmm_reg,
-    __fpu_xmm2: struct___darwin_xmm_reg,
-    __fpu_xmm3: struct___darwin_xmm_reg,
-    __fpu_xmm4: struct___darwin_xmm_reg,
-    __fpu_xmm5: struct___darwin_xmm_reg,
-    __fpu_xmm6: struct___darwin_xmm_reg,
-    __fpu_xmm7: struct___darwin_xmm_reg,
-    __fpu_rsrv4: [224]u8,
-    __fpu_reserved1: c_int,
-};
-pub const struct___darwin_i386_avx_state = extern struct {
-    __fpu_reserved: [2]c_int,
-    __fpu_fcw: struct___darwin_fp_control,
-    __fpu_fsw: struct___darwin_fp_status,
-    __fpu_ftw: __uint8_t,
-    __fpu_rsrv1: __uint8_t,
-    __fpu_fop: __uint16_t,
-    __fpu_ip: __uint32_t,
-    __fpu_cs: __uint16_t,
-    __fpu_rsrv2: __uint16_t,
-    __fpu_dp: __uint32_t,
-    __fpu_ds: __uint16_t,
-    __fpu_rsrv3: __uint16_t,
-    __fpu_mxcsr: __uint32_t,
-    __fpu_mxcsrmask: __uint32_t,
-    __fpu_stmm0: struct___darwin_mmst_reg,
-    __fpu_stmm1: struct___darwin_mmst_reg,
-    __fpu_stmm2: struct___darwin_mmst_reg,
-    __fpu_stmm3: struct___darwin_mmst_reg,
-    __fpu_stmm4: struct___darwin_mmst_reg,
-    __fpu_stmm5: struct___darwin_mmst_reg,
-    __fpu_stmm6: struct___darwin_mmst_reg,
-    __fpu_stmm7: struct___darwin_mmst_reg,
-    __fpu_xmm0: struct___darwin_xmm_reg,
-    __fpu_xmm1: struct___darwin_xmm_reg,
-    __fpu_xmm2: struct___darwin_xmm_reg,
-    __fpu_xmm3: struct___darwin_xmm_reg,
-    __fpu_xmm4: struct___darwin_xmm_reg,
-    __fpu_xmm5: struct___darwin_xmm_reg,
-    __fpu_xmm6: struct___darwin_xmm_reg,
-    __fpu_xmm7: struct___darwin_xmm_reg,
-    __fpu_rsrv4: [224]u8,
-    __fpu_reserved1: c_int,
-    __avx_reserved1: [64]u8,
-    __fpu_ymmh0: struct___darwin_xmm_reg,
-    __fpu_ymmh1: struct___darwin_xmm_reg,
-    __fpu_ymmh2: struct___darwin_xmm_reg,
-    __fpu_ymmh3: struct___darwin_xmm_reg,
-    __fpu_ymmh4: struct___darwin_xmm_reg,
-    __fpu_ymmh5: struct___darwin_xmm_reg,
-    __fpu_ymmh6: struct___darwin_xmm_reg,
-    __fpu_ymmh7: struct___darwin_xmm_reg,
-};
-pub const struct___darwin_i386_avx512_state = extern struct {
-    __fpu_reserved: [2]c_int,
-    __fpu_fcw: struct___darwin_fp_control,
-    __fpu_fsw: struct___darwin_fp_status,
-    __fpu_ftw: __uint8_t,
-    __fpu_rsrv1: __uint8_t,
-    __fpu_fop: __uint16_t,
-    __fpu_ip: __uint32_t,
-    __fpu_cs: __uint16_t,
-    __fpu_rsrv2: __uint16_t,
-    __fpu_dp: __uint32_t,
-    __fpu_ds: __uint16_t,
-    __fpu_rsrv3: __uint16_t,
-    __fpu_mxcsr: __uint32_t,
-    __fpu_mxcsrmask: __uint32_t,
-    __fpu_stmm0: struct___darwin_mmst_reg,
-    __fpu_stmm1: struct___darwin_mmst_reg,
-    __fpu_stmm2: struct___darwin_mmst_reg,
-    __fpu_stmm3: struct___darwin_mmst_reg,
-    __fpu_stmm4: struct___darwin_mmst_reg,
-    __fpu_stmm5: struct___darwin_mmst_reg,
-    __fpu_stmm6: struct___darwin_mmst_reg,
-    __fpu_stmm7: struct___darwin_mmst_reg,
-    __fpu_xmm0: struct___darwin_xmm_reg,
-    __fpu_xmm1: struct___darwin_xmm_reg,
-    __fpu_xmm2: struct___darwin_xmm_reg,
-    __fpu_xmm3: struct___darwin_xmm_reg,
-    __fpu_xmm4: struct___darwin_xmm_reg,
-    __fpu_xmm5: struct___darwin_xmm_reg,
-    __fpu_xmm6: struct___darwin_xmm_reg,
-    __fpu_xmm7: struct___darwin_xmm_reg,
-    __fpu_rsrv4: [224]u8,
-    __fpu_reserved1: c_int,
-    __avx_reserved1: [64]u8,
-    __fpu_ymmh0: struct___darwin_xmm_reg,
-    __fpu_ymmh1: struct___darwin_xmm_reg,
-    __fpu_ymmh2: struct___darwin_xmm_reg,
-    __fpu_ymmh3: struct___darwin_xmm_reg,
-    __fpu_ymmh4: struct___darwin_xmm_reg,
-    __fpu_ymmh5: struct___darwin_xmm_reg,
-    __fpu_ymmh6: struct___darwin_xmm_reg,
-    __fpu_ymmh7: struct___darwin_xmm_reg,
-    __fpu_k0: struct___darwin_opmask_reg,
-    __fpu_k1: struct___darwin_opmask_reg,
-    __fpu_k2: struct___darwin_opmask_reg,
-    __fpu_k3: struct___darwin_opmask_reg,
-    __fpu_k4: struct___darwin_opmask_reg,
-    __fpu_k5: struct___darwin_opmask_reg,
-    __fpu_k6: struct___darwin_opmask_reg,
-    __fpu_k7: struct___darwin_opmask_reg,
-    __fpu_zmmh0: struct___darwin_ymm_reg,
-    __fpu_zmmh1: struct___darwin_ymm_reg,
-    __fpu_zmmh2: struct___darwin_ymm_reg,
-    __fpu_zmmh3: struct___darwin_ymm_reg,
-    __fpu_zmmh4: struct___darwin_ymm_reg,
-    __fpu_zmmh5: struct___darwin_ymm_reg,
-    __fpu_zmmh6: struct___darwin_ymm_reg,
-    __fpu_zmmh7: struct___darwin_ymm_reg,
-};
-pub const struct___darwin_i386_exception_state = extern struct {
-    __trapno: __uint16_t,
-    __cpu: __uint16_t,
-    __err: __uint32_t,
-    __faultvaddr: __uint32_t,
-};
-pub const struct___darwin_x86_debug_state32 = extern struct {
-    __dr0: c_uint,
-    __dr1: c_uint,
-    __dr2: c_uint,
-    __dr3: c_uint,
-    __dr4: c_uint,
-    __dr5: c_uint,
-    __dr6: c_uint,
-    __dr7: c_uint,
-};
-pub const struct___x86_pagein_state = extern struct {
-    __pagein_error: c_int,
-};
-pub const struct___darwin_x86_thread_state64 = extern struct {
-    __rax: __uint64_t,
-    __rbx: __uint64_t,
-    __rcx: __uint64_t,
-    __rdx: __uint64_t,
-    __rdi: __uint64_t,
-    __rsi: __uint64_t,
-    __rbp: __uint64_t,
-    __rsp: __uint64_t,
-    __r8: __uint64_t,
-    __r9: __uint64_t,
-    __r10: __uint64_t,
-    __r11: __uint64_t,
-    __r12: __uint64_t,
-    __r13: __uint64_t,
-    __r14: __uint64_t,
-    __r15: __uint64_t,
-    __rip: __uint64_t,
-    __rflags: __uint64_t,
-    __cs: __uint64_t,
-    __fs: __uint64_t,
-    __gs: __uint64_t,
-};
-pub const struct___darwin_x86_thread_full_state64 = extern struct {
-    __ss64: struct___darwin_x86_thread_state64,
-    __ds: __uint64_t,
-    __es: __uint64_t,
-    __ss: __uint64_t,
-    __gsbase: __uint64_t,
-};
-pub const struct___darwin_x86_float_state64 = extern struct {
-    __fpu_reserved: [2]c_int,
-    __fpu_fcw: struct___darwin_fp_control,
-    __fpu_fsw: struct___darwin_fp_status,
-    __fpu_ftw: __uint8_t,
-    __fpu_rsrv1: __uint8_t,
-    __fpu_fop: __uint16_t,
-    __fpu_ip: __uint32_t,
-    __fpu_cs: __uint16_t,
-    __fpu_rsrv2: __uint16_t,
-    __fpu_dp: __uint32_t,
-    __fpu_ds: __uint16_t,
-    __fpu_rsrv3: __uint16_t,
-    __fpu_mxcsr: __uint32_t,
-    __fpu_mxcsrmask: __uint32_t,
-    __fpu_stmm0: struct___darwin_mmst_reg,
-    __fpu_stmm1: struct___darwin_mmst_reg,
-    __fpu_stmm2: struct___darwin_mmst_reg,
-    __fpu_stmm3: struct___darwin_mmst_reg,
-    __fpu_stmm4: struct___darwin_mmst_reg,
-    __fpu_stmm5: struct___darwin_mmst_reg,
-    __fpu_stmm6: struct___darwin_mmst_reg,
-    __fpu_stmm7: struct___darwin_mmst_reg,
-    __fpu_xmm0: struct___darwin_xmm_reg,
-    __fpu_xmm1: struct___darwin_xmm_reg,
-    __fpu_xmm2: struct___darwin_xmm_reg,
-    __fpu_xmm3: struct___darwin_xmm_reg,
-    __fpu_xmm4: struct___darwin_xmm_reg,
-    __fpu_xmm5: struct___darwin_xmm_reg,
-    __fpu_xmm6: struct___darwin_xmm_reg,
-    __fpu_xmm7: struct___darwin_xmm_reg,
-    __fpu_xmm8: struct___darwin_xmm_reg,
-    __fpu_xmm9: struct___darwin_xmm_reg,
-    __fpu_xmm10: struct___darwin_xmm_reg,
-    __fpu_xmm11: struct___darwin_xmm_reg,
-    __fpu_xmm12: struct___darwin_xmm_reg,
-    __fpu_xmm13: struct___darwin_xmm_reg,
-    __fpu_xmm14: struct___darwin_xmm_reg,
-    __fpu_xmm15: struct___darwin_xmm_reg,
-    __fpu_rsrv4: [96]u8,
-    __fpu_reserved1: c_int,
-};
-pub const struct___darwin_x86_avx_state64 = extern struct {
-    __fpu_reserved: [2]c_int,
-    __fpu_fcw: struct___darwin_fp_control,
-    __fpu_fsw: struct___darwin_fp_status,
-    __fpu_ftw: __uint8_t,
-    __fpu_rsrv1: __uint8_t,
-    __fpu_fop: __uint16_t,
-    __fpu_ip: __uint32_t,
-    __fpu_cs: __uint16_t,
-    __fpu_rsrv2: __uint16_t,
-    __fpu_dp: __uint32_t,
-    __fpu_ds: __uint16_t,
-    __fpu_rsrv3: __uint16_t,
-    __fpu_mxcsr: __uint32_t,
-    __fpu_mxcsrmask: __uint32_t,
-    __fpu_stmm0: struct___darwin_mmst_reg,
-    __fpu_stmm1: struct___darwin_mmst_reg,
-    __fpu_stmm2: struct___darwin_mmst_reg,
-    __fpu_stmm3: struct___darwin_mmst_reg,
-    __fpu_stmm4: struct___darwin_mmst_reg,
-    __fpu_stmm5: struct___darwin_mmst_reg,
-    __fpu_stmm6: struct___darwin_mmst_reg,
-    __fpu_stmm7: struct___darwin_mmst_reg,
-    __fpu_xmm0: struct___darwin_xmm_reg,
-    __fpu_xmm1: struct___darwin_xmm_reg,
-    __fpu_xmm2: struct___darwin_xmm_reg,
-    __fpu_xmm3: struct___darwin_xmm_reg,
-    __fpu_xmm4: struct___darwin_xmm_reg,
-    __fpu_xmm5: struct___darwin_xmm_reg,
-    __fpu_xmm6: struct___darwin_xmm_reg,
-    __fpu_xmm7: struct___darwin_xmm_reg,
-    __fpu_xmm8: struct___darwin_xmm_reg,
-    __fpu_xmm9: struct___darwin_xmm_reg,
-    __fpu_xmm10: struct___darwin_xmm_reg,
-    __fpu_xmm11: struct___darwin_xmm_reg,
-    __fpu_xmm12: struct___darwin_xmm_reg,
-    __fpu_xmm13: struct___darwin_xmm_reg,
-    __fpu_xmm14: struct___darwin_xmm_reg,
-    __fpu_xmm15: struct___darwin_xmm_reg,
-    __fpu_rsrv4: [96]u8,
-    __fpu_reserved1: c_int,
-    __avx_reserved1: [64]u8,
-    __fpu_ymmh0: struct___darwin_xmm_reg,
-    __fpu_ymmh1: struct___darwin_xmm_reg,
-    __fpu_ymmh2: struct___darwin_xmm_reg,
-    __fpu_ymmh3: struct___darwin_xmm_reg,
-    __fpu_ymmh4: struct___darwin_xmm_reg,
-    __fpu_ymmh5: struct___darwin_xmm_reg,
-    __fpu_ymmh6: struct___darwin_xmm_reg,
-    __fpu_ymmh7: struct___darwin_xmm_reg,
-    __fpu_ymmh8: struct___darwin_xmm_reg,
-    __fpu_ymmh9: struct___darwin_xmm_reg,
-    __fpu_ymmh10: struct___darwin_xmm_reg,
-    __fpu_ymmh11: struct___darwin_xmm_reg,
-    __fpu_ymmh12: struct___darwin_xmm_reg,
-    __fpu_ymmh13: struct___darwin_xmm_reg,
-    __fpu_ymmh14: struct___darwin_xmm_reg,
-    __fpu_ymmh15: struct___darwin_xmm_reg,
-};
-pub const struct___darwin_x86_avx512_state64 = extern struct {
-    __fpu_reserved: [2]c_int,
-    __fpu_fcw: struct___darwin_fp_control,
-    __fpu_fsw: struct___darwin_fp_status,
-    __fpu_ftw: __uint8_t,
-    __fpu_rsrv1: __uint8_t,
-    __fpu_fop: __uint16_t,
-    __fpu_ip: __uint32_t,
-    __fpu_cs: __uint16_t,
-    __fpu_rsrv2: __uint16_t,
-    __fpu_dp: __uint32_t,
-    __fpu_ds: __uint16_t,
-    __fpu_rsrv3: __uint16_t,
-    __fpu_mxcsr: __uint32_t,
-    __fpu_mxcsrmask: __uint32_t,
-    __fpu_stmm0: struct___darwin_mmst_reg,
-    __fpu_stmm1: struct___darwin_mmst_reg,
-    __fpu_stmm2: struct___darwin_mmst_reg,
-    __fpu_stmm3: struct___darwin_mmst_reg,
-    __fpu_stmm4: struct___darwin_mmst_reg,
-    __fpu_stmm5: struct___darwin_mmst_reg,
-    __fpu_stmm6: struct___darwin_mmst_reg,
-    __fpu_stmm7: struct___darwin_mmst_reg,
-    __fpu_xmm0: struct___darwin_xmm_reg,
-    __fpu_xmm1: struct___darwin_xmm_reg,
-    __fpu_xmm2: struct___darwin_xmm_reg,
-    __fpu_xmm3: struct___darwin_xmm_reg,
-    __fpu_xmm4: struct___darwin_xmm_reg,
-    __fpu_xmm5: struct___darwin_xmm_reg,
-    __fpu_xmm6: struct___darwin_xmm_reg,
-    __fpu_xmm7: struct___darwin_xmm_reg,
-    __fpu_xmm8: struct___darwin_xmm_reg,
-    __fpu_xmm9: struct___darwin_xmm_reg,
-    __fpu_xmm10: struct___darwin_xmm_reg,
-    __fpu_xmm11: struct___darwin_xmm_reg,
-    __fpu_xmm12: struct___darwin_xmm_reg,
-    __fpu_xmm13: struct___darwin_xmm_reg,
-    __fpu_xmm14: struct___darwin_xmm_reg,
-    __fpu_xmm15: struct___darwin_xmm_reg,
-    __fpu_rsrv4: [96]u8,
-    __fpu_reserved1: c_int,
-    __avx_reserved1: [64]u8,
-    __fpu_ymmh0: struct___darwin_xmm_reg,
-    __fpu_ymmh1: struct___darwin_xmm_reg,
-    __fpu_ymmh2: struct___darwin_xmm_reg,
-    __fpu_ymmh3: struct___darwin_xmm_reg,
-    __fpu_ymmh4: struct___darwin_xmm_reg,
-    __fpu_ymmh5: struct___darwin_xmm_reg,
-    __fpu_ymmh6: struct___darwin_xmm_reg,
-    __fpu_ymmh7: struct___darwin_xmm_reg,
-    __fpu_ymmh8: struct___darwin_xmm_reg,
-    __fpu_ymmh9: struct___darwin_xmm_reg,
-    __fpu_ymmh10: struct___darwin_xmm_reg,
-    __fpu_ymmh11: struct___darwin_xmm_reg,
-    __fpu_ymmh12: struct___darwin_xmm_reg,
-    __fpu_ymmh13: struct___darwin_xmm_reg,
-    __fpu_ymmh14: struct___darwin_xmm_reg,
-    __fpu_ymmh15: struct___darwin_xmm_reg,
-    __fpu_k0: struct___darwin_opmask_reg,
-    __fpu_k1: struct___darwin_opmask_reg,
-    __fpu_k2: struct___darwin_opmask_reg,
-    __fpu_k3: struct___darwin_opmask_reg,
-    __fpu_k4: struct___darwin_opmask_reg,
-    __fpu_k5: struct___darwin_opmask_reg,
-    __fpu_k6: struct___darwin_opmask_reg,
-    __fpu_k7: struct___darwin_opmask_reg,
-    __fpu_zmmh0: struct___darwin_ymm_reg,
-    __fpu_zmmh1: struct___darwin_ymm_reg,
-    __fpu_zmmh2: struct___darwin_ymm_reg,
-    __fpu_zmmh3: struct___darwin_ymm_reg,
-    __fpu_zmmh4: struct___darwin_ymm_reg,
-    __fpu_zmmh5: struct___darwin_ymm_reg,
-    __fpu_zmmh6: struct___darwin_ymm_reg,
-    __fpu_zmmh7: struct___darwin_ymm_reg,
-    __fpu_zmmh8: struct___darwin_ymm_reg,
-    __fpu_zmmh9: struct___darwin_ymm_reg,
-    __fpu_zmmh10: struct___darwin_ymm_reg,
-    __fpu_zmmh11: struct___darwin_ymm_reg,
-    __fpu_zmmh12: struct___darwin_ymm_reg,
-    __fpu_zmmh13: struct___darwin_ymm_reg,
-    __fpu_zmmh14: struct___darwin_ymm_reg,
-    __fpu_zmmh15: struct___darwin_ymm_reg,
-    __fpu_zmm16: struct___darwin_zmm_reg,
-    __fpu_zmm17: struct___darwin_zmm_reg,
-    __fpu_zmm18: struct___darwin_zmm_reg,
-    __fpu_zmm19: struct___darwin_zmm_reg,
-    __fpu_zmm20: struct___darwin_zmm_reg,
-    __fpu_zmm21: struct___darwin_zmm_reg,
-    __fpu_zmm22: struct___darwin_zmm_reg,
-    __fpu_zmm23: struct___darwin_zmm_reg,
-    __fpu_zmm24: struct___darwin_zmm_reg,
-    __fpu_zmm25: struct___darwin_zmm_reg,
-    __fpu_zmm26: struct___darwin_zmm_reg,
-    __fpu_zmm27: struct___darwin_zmm_reg,
-    __fpu_zmm28: struct___darwin_zmm_reg,
-    __fpu_zmm29: struct___darwin_zmm_reg,
-    __fpu_zmm30: struct___darwin_zmm_reg,
-    __fpu_zmm31: struct___darwin_zmm_reg,
-};
-pub const struct___darwin_x86_exception_state64 = extern struct {
-    __trapno: __uint16_t,
-    __cpu: __uint16_t,
-    __err: __uint32_t,
-    __faultvaddr: __uint64_t,
-};
-pub const struct___darwin_x86_debug_state64 = extern struct {
-    __dr0: __uint64_t,
-    __dr1: __uint64_t,
-    __dr2: __uint64_t,
-    __dr3: __uint64_t,
-    __dr4: __uint64_t,
-    __dr5: __uint64_t,
-    __dr6: __uint64_t,
-    __dr7: __uint64_t,
-};
-pub const struct___darwin_x86_cpmu_state64 = extern struct {
-    __ctrs: [16]__uint64_t,
-};
-pub const struct___darwin_mcontext32 = extern struct {
-    __es: struct___darwin_i386_exception_state,
-    __ss: struct___darwin_i386_thread_state,
-    __fs: struct___darwin_i386_float_state,
-};
-pub const struct___darwin_mcontext_avx32 = extern struct {
-    __es: struct___darwin_i386_exception_state,
-    __ss: struct___darwin_i386_thread_state,
-    __fs: struct___darwin_i386_avx_state,
-};
-pub const struct___darwin_mcontext_avx512_32 = extern struct {
-    __es: struct___darwin_i386_exception_state,
-    __ss: struct___darwin_i386_thread_state,
-    __fs: struct___darwin_i386_avx512_state,
-};
-pub const struct___darwin_mcontext64 = extern struct {
-    __es: struct___darwin_x86_exception_state64,
-    __ss: struct___darwin_x86_thread_state64,
-    __fs: struct___darwin_x86_float_state64,
-};
-pub const struct___darwin_mcontext64_full = extern struct {
-    __es: struct___darwin_x86_exception_state64,
-    __ss: struct___darwin_x86_thread_full_state64,
-    __fs: struct___darwin_x86_float_state64,
-};
-pub const struct___darwin_mcontext_avx64 = extern struct {
-    __es: struct___darwin_x86_exception_state64,
-    __ss: struct___darwin_x86_thread_state64,
-    __fs: struct___darwin_x86_avx_state64,
-};
-pub const struct___darwin_mcontext_avx64_full = extern struct {
-    __es: struct___darwin_x86_exception_state64,
-    __ss: struct___darwin_x86_thread_full_state64,
-    __fs: struct___darwin_x86_avx_state64,
-};
-pub const struct___darwin_mcontext_avx512_64 = extern struct {
-    __es: struct___darwin_x86_exception_state64,
-    __ss: struct___darwin_x86_thread_state64,
-    __fs: struct___darwin_x86_avx512_state64,
-};
-pub const struct___darwin_mcontext_avx512_64_full = extern struct {
-    __es: struct___darwin_x86_exception_state64,
-    __ss: struct___darwin_x86_thread_full_state64,
-    __fs: struct___darwin_x86_avx512_state64,
-};
-pub const mcontext_t = [*c]struct___darwin_mcontext64;
-pub const pthread_attr_t = __darwin_pthread_attr_t;
-pub const struct___darwin_sigaltstack = extern struct {
-    ss_sp: ?*c_void,
-    ss_size: __darwin_size_t,
-    ss_flags: c_int,
-};
-pub const stack_t = struct___darwin_sigaltstack;
-pub const struct___darwin_ucontext = extern struct {
-    uc_onstack: c_int,
-    uc_sigmask: __darwin_sigset_t,
-    uc_stack: struct___darwin_sigaltstack,
-    uc_link: [*c]struct___darwin_ucontext,
-    uc_mcsize: __darwin_size_t,
-    uc_mcontext: [*c]struct___darwin_mcontext64,
-};
-pub const ucontext_t = struct___darwin_ucontext;
-pub const sigset_t = __darwin_sigset_t;
-pub const uid_t = __darwin_uid_t;
-pub const union_sigval = extern union {
-    sival_int: c_int,
-    sival_ptr: ?*c_void,
-};
-pub const struct_sigevent = extern struct {
-    sigev_notify: c_int,
-    sigev_signo: c_int,
-    sigev_value: union_sigval,
-    sigev_notify_function: ?fn (union_sigval) callconv(.C) void,
-    sigev_notify_attributes: [*c]pthread_attr_t,
-};
-pub const struct___siginfo = extern struct {
-    si_signo: c_int,
-    si_errno: c_int,
-    si_code: c_int,
-    si_pid: pid_t,
-    si_uid: uid_t,
-    si_status: c_int,
-    si_addr: ?*c_void,
-    si_value: union_sigval,
-    si_band: c_long,
-    __pad: [7]c_ulong,
-};
-pub const siginfo_t = struct___siginfo;
-pub const union___sigaction_u = extern union {
-    __sa_handler: ?fn (c_int) callconv(.C) void,
-    __sa_sigaction: ?fn (c_int, [*c]struct___siginfo, ?*c_void) callconv(.C) void,
-};
-pub const struct___sigaction = extern struct {
-    __sigaction_u: union___sigaction_u,
-    sa_tramp: ?fn (?*c_void, c_int, c_int, [*c]siginfo_t, ?*c_void) callconv(.C) void,
-    sa_mask: sigset_t,
-    sa_flags: c_int,
-};
-pub const struct_sigaction = extern struct {
-    __sigaction_u: union___sigaction_u,
-    sa_mask: sigset_t,
-    sa_flags: c_int,
-};
-pub const sig_t = ?fn (c_int) callconv(.C) void;
-pub const struct_sigvec = extern struct {
-    sv_handler: ?fn (c_int) callconv(.C) void,
-    sv_mask: c_int,
-    sv_flags: c_int,
-};
-pub const struct_sigstack = extern struct {
-    ss_sp: [*c]u8,
-    ss_onstack: c_int,
-};
-pub extern fn signal(c_int, ?fn (c_int) callconv(.C) void) ?fn (c_int) callconv(.C) void;
-pub const struct_timeval = extern struct {
-    tv_sec: __darwin_time_t,
-    tv_usec: __darwin_suseconds_t,
-};
-pub const rlim_t = __uint64_t;
-pub const struct_rusage = extern struct {
-    ru_utime: struct_timeval,
-    ru_stime: struct_timeval,
-    ru_maxrss: c_long,
-    ru_ixrss: c_long,
-    ru_idrss: c_long,
-    ru_isrss: c_long,
-    ru_minflt: c_long,
-    ru_majflt: c_long,
-    ru_nswap: c_long,
-    ru_inblock: c_long,
-    ru_oublock: c_long,
-    ru_msgsnd: c_long,
-    ru_msgrcv: c_long,
-    ru_nsignals: c_long,
-    ru_nvcsw: c_long,
-    ru_nivcsw: c_long,
-};
-pub const rusage_info_t = ?*c_void;
-pub const struct_rusage_info_v0 = extern struct {
-    ri_uuid: [16]u8,
-    ri_user_time: u64,
-    ri_system_time: u64,
-    ri_pkg_idle_wkups: u64,
-    ri_interrupt_wkups: u64,
-    ri_pageins: u64,
-    ri_wired_size: u64,
-    ri_resident_size: u64,
-    ri_phys_footprint: u64,
-    ri_proc_start_abstime: u64,
-    ri_proc_exit_abstime: u64,
-};
-pub const struct_rusage_info_v1 = extern struct {
-    ri_uuid: [16]u8,
-    ri_user_time: u64,
-    ri_system_time: u64,
-    ri_pkg_idle_wkups: u64,
-    ri_interrupt_wkups: u64,
-    ri_pageins: u64,
-    ri_wired_size: u64,
-    ri_resident_size: u64,
-    ri_phys_footprint: u64,
-    ri_proc_start_abstime: u64,
-    ri_proc_exit_abstime: u64,
-    ri_child_user_time: u64,
-    ri_child_system_time: u64,
-    ri_child_pkg_idle_wkups: u64,
-    ri_child_interrupt_wkups: u64,
-    ri_child_pageins: u64,
-    ri_child_elapsed_abstime: u64,
-};
-pub const struct_rusage_info_v2 = extern struct {
-    ri_uuid: [16]u8,
-    ri_user_time: u64,
-    ri_system_time: u64,
-    ri_pkg_idle_wkups: u64,
-    ri_interrupt_wkups: u64,
-    ri_pageins: u64,
-    ri_wired_size: u64,
-    ri_resident_size: u64,
-    ri_phys_footprint: u64,
-    ri_proc_start_abstime: u64,
-    ri_proc_exit_abstime: u64,
-    ri_child_user_time: u64,
-    ri_child_system_time: u64,
-    ri_child_pkg_idle_wkups: u64,
-    ri_child_interrupt_wkups: u64,
-    ri_child_pageins: u64,
-    ri_child_elapsed_abstime: u64,
-    ri_diskio_bytesread: u64,
-    ri_diskio_byteswritten: u64,
-};
-pub const struct_rusage_info_v3 = extern struct {
-    ri_uuid: [16]u8,
-    ri_user_time: u64,
-    ri_system_time: u64,
-    ri_pkg_idle_wkups: u64,
-    ri_interrupt_wkups: u64,
-    ri_pageins: u64,
-    ri_wired_size: u64,
-    ri_resident_size: u64,
-    ri_phys_footprint: u64,
-    ri_proc_start_abstime: u64,
-    ri_proc_exit_abstime: u64,
-    ri_child_user_time: u64,
-    ri_child_system_time: u64,
-    ri_child_pkg_idle_wkups: u64,
-    ri_child_interrupt_wkups: u64,
-    ri_child_pageins: u64,
-    ri_child_elapsed_abstime: u64,
-    ri_diskio_bytesread: u64,
-    ri_diskio_byteswritten: u64,
-    ri_cpu_time_qos_default: u64,
-    ri_cpu_time_qos_maintenance: u64,
-    ri_cpu_time_qos_background: u64,
-    ri_cpu_time_qos_utility: u64,
-    ri_cpu_time_qos_legacy: u64,
-    ri_cpu_time_qos_user_initiated: u64,
-    ri_cpu_time_qos_user_interactive: u64,
-    ri_billed_system_time: u64,
-    ri_serviced_system_time: u64,
-};
-pub const struct_rusage_info_v4 = extern struct {
-    ri_uuid: [16]u8,
-    ri_user_time: u64,
-    ri_system_time: u64,
-    ri_pkg_idle_wkups: u64,
-    ri_interrupt_wkups: u64,
-    ri_pageins: u64,
-    ri_wired_size: u64,
-    ri_resident_size: u64,
-    ri_phys_footprint: u64,
-    ri_proc_start_abstime: u64,
-    ri_proc_exit_abstime: u64,
-    ri_child_user_time: u64,
-    ri_child_system_time: u64,
-    ri_child_pkg_idle_wkups: u64,
-    ri_child_interrupt_wkups: u64,
-    ri_child_pageins: u64,
-    ri_child_elapsed_abstime: u64,
-    ri_diskio_bytesread: u64,
-    ri_diskio_byteswritten: u64,
-    ri_cpu_time_qos_default: u64,
-    ri_cpu_time_qos_maintenance: u64,
-    ri_cpu_time_qos_background: u64,
-    ri_cpu_time_qos_utility: u64,
-    ri_cpu_time_qos_legacy: u64,
-    ri_cpu_time_qos_user_initiated: u64,
-    ri_cpu_time_qos_user_interactive: u64,
-    ri_billed_system_time: u64,
-    ri_serviced_system_time: u64,
-    ri_logical_writes: u64,
-    ri_lifetime_max_phys_footprint: u64,
-    ri_instructions: u64,
-    ri_cycles: u64,
-    ri_billed_energy: u64,
-    ri_serviced_energy: u64,
-    ri_interval_max_phys_footprint: u64,
-    ri_runnable_time: u64,
-};
-pub const rusage_info_current = struct_rusage_info_v4;
-pub const struct_rlimit = extern struct {
-    rlim_cur: rlim_t,
-    rlim_max: rlim_t,
-};
-pub const struct_proc_rlimit_control_wakeupmon = extern struct {
-    wm_flags: u32,
-    wm_rate: i32,
-};
-pub extern fn getpriority(c_int, id_t) c_int;
-pub extern fn getiopolicy_np(c_int, c_int) c_int;
-pub extern fn getrlimit(c_int, [*c]struct_rlimit) c_int;
-pub extern fn getrusage(c_int, [*c]struct_rusage) c_int;
-pub extern fn setpriority(c_int, id_t, c_int) c_int;
-pub extern fn setiopolicy_np(c_int, c_int, c_int) c_int;
-pub extern fn setrlimit(c_int, [*c]const struct_rlimit) c_int;
-pub fn _OSSwapInt16(arg__data: __uint16_t) callconv(.C) __uint16_t {
-    var _data = arg__data;
-    return @bitCast(__uint16_t, @truncate(c_short, (@bitCast(c_int, @as(c_uint, _data)) << @intCast(@import("std").math.Log2Int(c_int), 8)) | (@bitCast(c_int, @as(c_uint, _data)) >> @intCast(@import("std").math.Log2Int(c_int), 8))));
-}
-pub fn _OSSwapInt32(arg__data: __uint32_t) callconv(.C) __uint32_t {
-    var _data = arg__data;
-    return __builtin_bswap32(_data);
-}
-pub fn _OSSwapInt64(arg__data: __uint64_t) callconv(.C) __uint64_t {
-    var _data = arg__data;
-    return __builtin_bswap64(_data);
-} // /opt/zig/lib/zig/libc/include/any-macos-any/sys/wait.h:201:19: warning: struct demoted to opaque type - has bitfield
-const struct_unnamed_8 = opaque {}; // /opt/zig/lib/zig/libc/include/any-macos-any/sys/wait.h:220:19: warning: struct demoted to opaque type - has bitfield
-const struct_unnamed_9 = opaque {};
-pub const union_wait = extern union {
-    w_status: c_int,
-    w_T: struct_unnamed_8,
-    w_S: struct_unnamed_9,
-};
-pub extern fn wait([*c]c_int) pid_t;
-pub extern fn waitpid(pid_t, [*c]c_int, c_int) pid_t;
-pub extern fn waitid(idtype_t, id_t, [*c]siginfo_t, c_int) c_int;
-pub extern fn wait3([*c]c_int, c_int, [*c]struct_rusage) pid_t;
-pub extern fn wait4(pid_t, [*c]c_int, c_int, [*c]struct_rusage) pid_t;
-pub extern fn alloca(c_ulong) ?*c_void;
-pub const ct_rune_t = __darwin_ct_rune_t;
-pub const rune_t = __darwin_rune_t;
-const struct_unnamed_10 = extern struct {
-    quot: c_int,
-    rem: c_int,
-};
-pub const div_t = struct_unnamed_10;
-const struct_unnamed_11 = extern struct {
-    quot: c_long,
-    rem: c_long,
-};
-pub const ldiv_t = struct_unnamed_11;
-const struct_unnamed_12 = extern struct {
-    quot: c_longlong,
-    rem: c_longlong,
-};
-pub const lldiv_t = struct_unnamed_12;
-pub extern var __mb_cur_max: c_int;
+pub extern fn vdprintf(c_int, noalias [*c]const u8, __isoc_va_list) c_int;
+pub extern fn getc_unlocked(?*FILE) c_int;
+pub extern fn getchar_unlocked() c_int;
+pub extern fn putc_unlocked(c_int, ?*FILE) c_int;
+pub extern fn putchar_unlocked(c_int) c_int;
+pub extern fn getdelim(noalias [*c][*c]u8, noalias [*c]usize, c_int, noalias ?*FILE) isize;
+pub extern fn getline(noalias [*c][*c]u8, noalias [*c]usize, noalias ?*FILE) isize;
+pub extern fn renameat(c_int, [*c]const u8, c_int, [*c]const u8) c_int;
+pub extern fn ctermid([*c]u8) [*c]u8;
+pub extern fn cuserid([*c]u8) [*c]u8;
+pub extern fn setlinebuf(?*FILE) void;
+pub extern fn setbuffer(?*FILE, [*c]u8, usize) void;
+pub extern fn fgetc_unlocked(?*FILE) c_int;
+pub extern fn fputc_unlocked(c_int, ?*FILE) c_int;
+pub extern fn fflush_unlocked(?*FILE) c_int;
+pub extern fn fread_unlocked(?*c_void, usize, usize, ?*FILE) usize;
+pub extern fn fwrite_unlocked(?*const c_void, usize, usize, ?*FILE) usize;
+pub extern fn clearerr_unlocked(?*FILE) void;
+pub extern fn feof_unlocked(?*FILE) c_int;
+pub extern fn ferror_unlocked(?*FILE) c_int;
+pub extern fn fileno_unlocked(?*FILE) c_int;
+pub extern fn getw(?*FILE) c_int;
+pub extern fn putw(c_int, ?*FILE) c_int;
+pub extern fn fgetln(?*FILE, [*c]usize) [*c]u8;
+pub extern fn asprintf([*c][*c]u8, [*c]const u8, ...) c_int;
+pub extern fn vasprintf([*c][*c]u8, [*c]const u8, __isoc_va_list) c_int;
 pub extern fn malloc(__size: c_ulong) ?*c_void;
-pub extern fn calloc(__count: c_ulong, __size: c_ulong) ?*c_void;
-pub extern fn free(?*c_void) void;
+pub extern fn free(__ptr: ?*c_void) void;
+pub extern fn calloc(__nmemb: c_ulong, __size: c_ulong) ?*c_void;
 pub extern fn realloc(__ptr: ?*c_void, __size: c_ulong) ?*c_void;
-pub extern fn valloc(usize) ?*c_void;
-pub extern fn aligned_alloc(__alignment: usize, __size: usize) ?*c_void;
-pub extern fn posix_memalign(__memptr: [*c]?*c_void, __alignment: usize, __size: usize) c_int;
+pub extern fn reallocarray(__ptr: ?*c_void, __nmemb: usize, __size: usize) ?*c_void;
 pub extern fn abort() noreturn;
-pub extern fn abs(c_int) c_int;
-pub extern fn atexit(?fn () callconv(.C) void) c_int;
-pub extern fn atof([*c]const u8) f64;
+pub extern fn qsort(?*c_void, usize, usize, ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) void;
+pub extern fn _Exit(c_int) noreturn;
 pub extern fn atoi([*c]const u8) c_int;
 pub extern fn atol([*c]const u8) c_long;
 pub extern fn atoll([*c]const u8) c_longlong;
-pub extern fn bsearch(__key: ?*const c_void, __base: ?*const c_void, __nel: usize, __width: usize, __compar: ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) ?*c_void;
-pub extern fn div(c_int, c_int) div_t;
-pub extern fn exit(c_int) noreturn;
-pub extern fn getenv([*c]const u8) [*c]u8;
-pub extern fn labs(c_long) c_long;
-pub extern fn ldiv(c_long, c_long) ldiv_t;
-pub extern fn llabs(c_longlong) c_longlong;
-pub extern fn lldiv(c_longlong, c_longlong) lldiv_t;
-pub extern fn mblen(__s: [*c]const u8, __n: usize) c_int;
-pub extern fn mbstowcs(noalias [*c]wchar_t, noalias [*c]const u8, usize) usize;
-pub extern fn mbtowc(noalias [*c]wchar_t, noalias [*c]const u8, usize) c_int;
-pub extern fn qsort(__base: ?*c_void, __nel: usize, __width: usize, __compar: ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) void;
+pub extern fn atof([*c]const u8) f64;
+pub extern fn strtof([*c]const u8, [*c][*c]u8) f32;
+pub extern fn strtod([*c]const u8, [*c][*c]u8) f64;
+pub extern fn strtold([*c]const u8, [*c][*c]u8) c_longdouble;
+pub extern fn strtol([*c]const u8, [*c][*c]u8, c_int) c_long;
+pub extern fn strtoul([*c]const u8, [*c][*c]u8, c_int) c_ulong;
+pub extern fn strtoll([*c]const u8, [*c][*c]u8, c_int) c_longlong;
+pub extern fn strtoull([*c]const u8, [*c][*c]u8, c_int) c_ulonglong;
 pub extern fn rand() c_int;
 pub extern fn srand(c_uint) void;
-pub extern fn strtod([*c]const u8, [*c][*c]u8) f64;
-pub extern fn strtof([*c]const u8, [*c][*c]u8) f32;
-pub extern fn strtol(__str: [*c]const u8, __endptr: [*c][*c]u8, __base: c_int) c_long;
-pub extern fn strtold([*c]const u8, [*c][*c]u8) c_longdouble;
-pub extern fn strtoll(__str: [*c]const u8, __endptr: [*c][*c]u8, __base: c_int) c_longlong;
-pub extern fn strtoul(__str: [*c]const u8, __endptr: [*c][*c]u8, __base: c_int) c_ulong;
-pub extern fn strtoull(__str: [*c]const u8, __endptr: [*c][*c]u8, __base: c_int) c_ulonglong;
+pub extern fn aligned_alloc(usize, usize) ?*c_void;
+pub extern fn atexit(?fn () callconv(.C) void) c_int;
+pub extern fn exit(c_int) noreturn;
+pub extern fn at_quick_exit(?fn () callconv(.C) void) c_int;
+pub extern fn quick_exit(c_int) void;
+pub extern fn getenv([*c]const u8) [*c]u8;
 pub extern fn system([*c]const u8) c_int;
-pub extern fn wcstombs(noalias [*c]u8, noalias [*c]const wchar_t, usize) usize;
+pub extern fn bsearch(?*const c_void, ?*const c_void, usize, usize, ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) ?*c_void;
+pub extern fn abs(c_int) c_int;
+pub extern fn labs(c_long) c_long;
+pub extern fn llabs(c_longlong) c_longlong;
+const struct_unnamed_3 = extern struct {
+    quot: c_int,
+    rem: c_int,
+};
+pub const div_t = struct_unnamed_3;
+const struct_unnamed_4 = extern struct {
+    quot: c_long,
+    rem: c_long,
+};
+pub const ldiv_t = struct_unnamed_4;
+const struct_unnamed_5 = extern struct {
+    quot: c_longlong,
+    rem: c_longlong,
+};
+pub const lldiv_t = struct_unnamed_5;
+pub extern fn div(c_int, c_int) div_t;
+pub extern fn ldiv(c_long, c_long) ldiv_t;
+pub extern fn lldiv(c_longlong, c_longlong) lldiv_t;
+pub extern fn mblen([*c]const u8, usize) c_int;
+pub extern fn mbtowc(noalias [*c]wchar_t, noalias [*c]const u8, usize) c_int;
 pub extern fn wctomb([*c]u8, wchar_t) c_int;
-pub extern fn _Exit(c_int) noreturn;
-pub extern fn a64l([*c]const u8) c_long;
-pub extern fn drand48() f64;
-pub extern fn ecvt(f64, c_int, noalias [*c]c_int, noalias [*c]c_int) [*c]u8;
-pub extern fn erand48([*c]c_ushort) f64;
-pub extern fn fcvt(f64, c_int, noalias [*c]c_int, noalias [*c]c_int) [*c]u8;
-pub extern fn gcvt(f64, c_int, [*c]u8) [*c]u8;
-pub extern fn getsubopt([*c][*c]u8, [*c]const [*c]u8, [*c][*c]u8) c_int;
-pub extern fn grantpt(c_int) c_int;
-pub extern fn initstate(c_uint, [*c]u8, usize) [*c]u8;
-pub extern fn jrand48([*c]c_ushort) c_long;
-pub extern fn l64a(c_long) [*c]u8;
-pub extern fn lcong48([*c]c_ushort) void;
-pub extern fn lrand48() c_long;
-pub extern fn mktemp([*c]u8) [*c]u8;
-pub extern fn mkstemp([*c]u8) c_int;
-pub extern fn mrand48() c_long;
-pub extern fn nrand48([*c]c_ushort) c_long;
-pub extern fn posix_openpt(c_int) c_int;
-pub extern fn ptsname(c_int) [*c]u8;
-pub extern fn ptsname_r(fildes: c_int, buffer: [*c]u8, buflen: usize) c_int;
-pub extern fn putenv([*c]u8) c_int;
-pub extern fn random() c_long;
-pub extern fn rand_r([*c]c_uint) c_int;
-pub extern fn realpath(noalias [*c]const u8, noalias [*c]u8) [*c]u8;
-pub extern fn seed48([*c]c_ushort) [*c]c_ushort;
-pub extern fn setenv(__name: [*c]const u8, __value: [*c]const u8, __overwrite: c_int) c_int;
-pub extern fn setkey([*c]const u8) void;
-pub extern fn setstate([*c]const u8) [*c]u8;
-pub extern fn srand48(c_long) void;
-pub extern fn srandom(c_uint) void;
-pub extern fn unlockpt(c_int) c_int;
+pub extern fn mbstowcs(noalias [*c]wchar_t, noalias [*c]const u8, usize) usize;
+pub extern fn wcstombs(noalias [*c]u8, noalias [*c]const wchar_t, usize) usize;
+pub extern fn __ctype_get_mb_cur_max() usize;
+pub extern fn posix_memalign([*c]?*c_void, usize, usize) c_int;
+pub extern fn setenv([*c]const u8, [*c]const u8, c_int) c_int;
 pub extern fn unsetenv([*c]const u8) c_int;
-pub const dev_t = __darwin_dev_t;
-pub const mode_t = __darwin_mode_t;
+pub extern fn getsubopt([*c][*c]u8, [*c]const [*c]u8, [*c][*c]u8) c_int;
+pub extern fn rand_r([*c]c_uint) c_int;
+pub extern fn random() c_long;
+pub extern fn srandom(c_uint) void;
+pub extern fn initstate(c_uint, [*c]u8, usize) [*c]u8;
+pub extern fn setstate([*c]u8) [*c]u8;
+pub extern fn putenv([*c]u8) c_int;
+pub extern fn l64a(c_long) [*c]u8;
+pub extern fn a64l([*c]const u8) c_long;
+pub extern fn setkey([*c]const u8) void;
+pub extern fn drand48() f64;
+pub extern fn erand48([*c]c_ushort) f64;
+pub extern fn lrand48() c_long;
+pub extern fn nrand48([*c]c_ushort) c_long;
+pub extern fn mrand48() c_long;
+pub extern fn jrand48([*c]c_ushort) c_long;
+pub extern fn srand48(c_long) void;
+pub extern fn seed48([*c]c_ushort) [*c]c_ushort;
+pub extern fn lcong48([*c]c_ushort) void;
+pub extern fn alloca(c_ulong) ?*c_void;
+pub extern fn clearenv() c_int;
 pub extern fn arc4random() u32;
-pub extern fn arc4random_addrandom([*c]u8, c_int) void;
-pub extern fn arc4random_buf(__buf: ?*c_void, __nbytes: usize) void;
-pub extern fn arc4random_stir() void;
-pub extern fn arc4random_uniform(__upper_bound: u32) u32; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:275:6: warning: unsupported type: 'BlockPointer'
-pub const atexit_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:275:6
-// /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:276:7: warning: unsupported type: 'BlockPointer'
-pub const bsearch_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:276:7
-pub extern fn cgetcap([*c]u8, [*c]const u8, c_int) [*c]u8;
-pub extern fn cgetclose() c_int;
-pub extern fn cgetent([*c][*c]u8, [*c][*c]u8, [*c]const u8) c_int;
-pub extern fn cgetfirst([*c][*c]u8, [*c][*c]u8) c_int;
-pub extern fn cgetmatch([*c]const u8, [*c]const u8) c_int;
-pub extern fn cgetnext([*c][*c]u8, [*c][*c]u8) c_int;
-pub extern fn cgetnum([*c]u8, [*c]const u8, [*c]c_long) c_int;
-pub extern fn cgetset([*c]const u8) c_int;
-pub extern fn cgetstr([*c]u8, [*c]const u8, [*c][*c]u8) c_int;
-pub extern fn cgetustr([*c]u8, [*c]const u8, [*c][*c]u8) c_int;
-pub extern fn daemon(c_int, c_int) c_int;
-pub extern fn devname(dev_t, mode_t) [*c]u8;
-pub extern fn devname_r(dev_t, mode_t, buf: [*c]u8, len: c_int) [*c]u8;
-pub extern fn getbsize([*c]c_int, [*c]c_long) [*c]u8;
-pub extern fn getloadavg([*c]f64, c_int) c_int;
-pub extern fn getprogname() [*c]const u8;
-pub extern fn setprogname([*c]const u8) void;
-pub extern fn heapsort(__base: ?*c_void, __nel: usize, __width: usize, __compar: ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) c_int; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:312:6: warning: unsupported type: 'BlockPointer'
-pub const heapsort_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:312:6
-pub extern fn mergesort(__base: ?*c_void, __nel: usize, __width: usize, __compar: ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) c_int; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:319:6: warning: unsupported type: 'BlockPointer'
-pub const mergesort_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:319:6
-pub extern fn psort(__base: ?*c_void, __nel: usize, __width: usize, __compar: ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) void; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:327:7: warning: unsupported type: 'BlockPointer'
-pub const psort_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:327:7
-pub extern fn psort_r(__base: ?*c_void, __nel: usize, __width: usize, ?*c_void, __compar: ?fn (?*c_void, ?*const c_void, ?*const c_void) callconv(.C) c_int) void; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:335:7: warning: unsupported type: 'BlockPointer'
-pub const qsort_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:335:7
-pub extern fn qsort_r(__base: ?*c_void, __nel: usize, __width: usize, ?*c_void, __compar: ?fn (?*c_void, ?*const c_void, ?*const c_void) callconv(.C) c_int) void;
-pub extern fn radixsort(__base: [*c][*c]const u8, __nel: c_int, __table: [*c]const u8, __endbyte: c_uint) c_int;
-pub extern fn rpmatch([*c]const u8) c_int;
-pub extern fn sradixsort(__base: [*c][*c]const u8, __nel: c_int, __table: [*c]const u8, __endbyte: c_uint) c_int;
-pub extern fn sranddev() void;
-pub extern fn srandomdev() void;
-pub extern fn reallocf(__ptr: ?*c_void, __size: usize) ?*c_void;
-pub extern fn strtoq(__str: [*c]const u8, __endptr: [*c][*c]u8, __base: c_int) c_longlong;
-pub extern fn strtouq(__str: [*c]const u8, __endptr: [*c][*c]u8, __base: c_int) c_ulonglong;
-pub extern var suboptarg: [*c]u8;
-pub extern fn memchr(__s: ?*const c_void, __c: c_int, __n: c_ulong) ?*c_void;
-pub extern fn memcmp(__s1: ?*const c_void, __s2: ?*const c_void, __n: c_ulong) c_int;
+pub extern fn arc4random_buf(?*c_void, usize) void;
+pub extern fn arc4random_uniform(u32) u32;
 pub extern fn memcpy(__dst: ?*c_void, __src: ?*const c_void, __n: c_ulong) ?*c_void;
-pub extern fn memmove(__dst: ?*c_void, __src: ?*const c_void, __len: c_ulong) ?*c_void;
-pub extern fn memset(__b: ?*c_void, __c: c_int, __len: c_ulong) ?*c_void;
-pub extern fn strcat(__s1: [*c]u8, __s2: [*c]const u8) [*c]u8;
-pub extern fn strchr(__s: [*c]const u8, __c: c_int) [*c]u8;
-pub extern fn strcmp(__s1: [*c]const u8, __s2: [*c]const u8) c_int;
-pub extern fn strcoll(__s1: [*c]const u8, __s2: [*c]const u8) c_int;
-pub extern fn strcpy(__dst: [*c]u8, __src: [*c]const u8) [*c]u8;
-pub extern fn strcspn(__s: [*c]const u8, __charset: [*c]const u8) c_ulong;
-pub extern fn strerror(__errnum: c_int) [*c]u8;
-pub extern fn strlen(__s: [*c]const u8) c_ulong;
-pub extern fn strncat(__s1: [*c]u8, __s2: [*c]const u8, __n: c_ulong) [*c]u8;
-pub extern fn strncmp(__s1: [*c]const u8, __s2: [*c]const u8, __n: c_ulong) c_int;
-pub extern fn strncpy(__dst: [*c]u8, __src: [*c]const u8, __n: c_ulong) [*c]u8;
-pub extern fn strpbrk(__s: [*c]const u8, __charset: [*c]const u8) [*c]u8;
-pub extern fn strrchr(__s: [*c]const u8, __c: c_int) [*c]u8;
-pub extern fn strspn(__s: [*c]const u8, __charset: [*c]const u8) c_ulong;
-pub extern fn strstr(__big: [*c]const u8, __little: [*c]const u8) [*c]u8;
-pub extern fn strtok(__str: [*c]u8, __sep: [*c]const u8) [*c]u8;
-pub extern fn strxfrm(__s1: [*c]u8, __s2: [*c]const u8, __n: c_ulong) c_ulong;
-pub extern fn strtok_r(__str: [*c]u8, __sep: [*c]const u8, __lasts: [*c][*c]u8) [*c]u8;
-pub extern fn strerror_r(__errnum: c_int, __strerrbuf: [*c]u8, __buflen: usize) c_int;
-pub extern fn strdup(__s1: [*c]const u8) [*c]u8;
-pub extern fn memccpy(__dst: ?*c_void, __src: ?*const c_void, __c: c_int, __n: c_ulong) ?*c_void;
-pub extern fn stpcpy(__dst: [*c]u8, __src: [*c]const u8) [*c]u8;
-pub extern fn stpncpy(__dst: [*c]u8, __src: [*c]const u8, __n: c_ulong) [*c]u8;
-pub extern fn strndup(__s1: [*c]const u8, __n: c_ulong) [*c]u8;
-pub extern fn strnlen(__s1: [*c]const u8, __n: usize) usize;
-pub extern fn strsignal(__sig: c_int) [*c]u8;
-pub const rsize_t = __darwin_size_t;
-pub extern fn memset_s(__s: ?*c_void, __smax: rsize_t, __c: c_int, __n: rsize_t) errno_t;
-pub extern fn memmem(__big: ?*const c_void, __big_len: usize, __little: ?*const c_void, __little_len: usize) ?*c_void;
-pub extern fn memset_pattern4(__b: ?*c_void, __pattern4: ?*const c_void, __len: usize) void;
-pub extern fn memset_pattern8(__b: ?*c_void, __pattern8: ?*const c_void, __len: usize) void;
-pub extern fn memset_pattern16(__b: ?*c_void, __pattern16: ?*const c_void, __len: usize) void;
-pub extern fn strcasestr(__big: [*c]const u8, __little: [*c]const u8) [*c]u8;
-pub extern fn strnstr(__big: [*c]const u8, __little: [*c]const u8, __len: usize) [*c]u8;
-pub extern fn strlcat(__dst: [*c]u8, __source: [*c]const u8, __size: c_ulong) c_ulong;
-pub extern fn strlcpy(__dst: [*c]u8, __source: [*c]const u8, __size: c_ulong) c_ulong;
-pub extern fn strmode(__mode: c_int, __bp: [*c]u8) void;
-pub extern fn strsep(__stringp: [*c][*c]u8, __delim: [*c]const u8) [*c]u8;
-pub extern fn swab(noalias ?*const c_void, noalias ?*c_void, isize) void;
-pub extern fn timingsafe_bcmp(__b1: ?*const c_void, __b2: ?*const c_void, __len: usize) c_int;
+pub extern fn memmove(__dst: ?*c_void, __src: ?*const c_void, __n: c_ulong) ?*c_void;
+pub extern fn memset(__dst: ?*c_void, __c: c_int, __n: c_ulong) ?*c_void;
+pub extern fn strlen([*c]const u8) c_ulong;
+pub extern fn strdup([*c]const u8) [*c]u8;
+pub extern fn strcmp([*c]const u8, [*c]const u8) c_int;
+pub extern fn memchr(?*const c_void, c_int, c_ulong) ?*c_void;
+pub const struct___locale_struct = opaque {};
+pub const locale_t = ?*struct___locale_struct;
+pub extern fn memcmp(?*const c_void, ?*const c_void, c_ulong) c_int;
+pub extern fn strcpy([*c]u8, [*c]const u8) [*c]u8;
+pub extern fn strncpy([*c]u8, [*c]const u8, c_ulong) [*c]u8;
+pub extern fn strcat([*c]u8, [*c]const u8) [*c]u8;
+pub extern fn strncat([*c]u8, [*c]const u8, c_ulong) [*c]u8;
+pub extern fn strncmp([*c]const u8, [*c]const u8, c_ulong) c_int;
+pub extern fn strcoll([*c]const u8, [*c]const u8) c_int;
+pub extern fn strxfrm([*c]u8, [*c]const u8, c_ulong) c_ulong;
+pub extern fn strchr([*c]const u8, c_int) [*c]u8;
+pub extern fn strrchr([*c]const u8, c_int) [*c]u8;
+pub extern fn strcspn([*c]const u8, [*c]const u8) c_ulong;
+pub extern fn strspn([*c]const u8, [*c]const u8) c_ulong;
+pub extern fn strpbrk([*c]const u8, [*c]const u8) [*c]u8;
+pub extern fn strstr([*c]const u8, [*c]const u8) [*c]u8;
+pub extern fn strtok([*c]u8, [*c]const u8) [*c]u8;
+pub extern fn strerror(c_int) [*c]u8;
 pub extern fn bcmp(?*const c_void, ?*const c_void, c_ulong) c_int;
 pub extern fn bcopy(?*const c_void, ?*c_void, usize) void;
 pub extern fn bzero(?*c_void, c_ulong) void;
 pub extern fn index([*c]const u8, c_int) [*c]u8;
 pub extern fn rindex([*c]const u8, c_int) [*c]u8;
 pub extern fn ffs(c_int) c_int;
-pub extern fn strcasecmp([*c]const u8, [*c]const u8) c_int;
-pub extern fn strncasecmp([*c]const u8, [*c]const u8, c_ulong) c_int;
 pub extern fn ffsl(c_long) c_int;
 pub extern fn ffsll(c_longlong) c_int;
-pub extern fn fls(c_int) c_int;
-pub extern fn flsl(c_long) c_int;
-pub extern fn flsll(c_longlong) c_int;
+pub extern fn strcasecmp([*c]const u8, [*c]const u8) c_int;
+pub extern fn strncasecmp([*c]const u8, [*c]const u8, c_ulong) c_int;
+pub extern fn strcasecmp_l([*c]const u8, [*c]const u8, locale_t) c_int;
+pub extern fn strncasecmp_l([*c]const u8, [*c]const u8, usize, locale_t) c_int;
+pub extern fn strtok_r(noalias [*c]u8, noalias [*c]const u8, noalias [*c][*c]u8) [*c]u8;
+pub extern fn strerror_r(c_int, [*c]u8, usize) c_int;
+pub extern fn stpcpy([*c]u8, [*c]const u8) [*c]u8;
+pub extern fn stpncpy([*c]u8, [*c]const u8, c_ulong) [*c]u8;
+pub extern fn strnlen([*c]const u8, usize) usize;
+pub extern fn strndup([*c]const u8, c_ulong) [*c]u8;
+pub extern fn strsignal(c_int) [*c]u8;
+pub extern fn strerror_l(c_int, locale_t) [*c]u8;
+pub extern fn strcoll_l([*c]const u8, [*c]const u8, locale_t) c_int;
+pub extern fn strxfrm_l(noalias [*c]u8, noalias [*c]const u8, usize, locale_t) usize;
+pub extern fn memccpy(?*c_void, ?*const c_void, c_int, c_ulong) ?*c_void;
+pub extern fn strsep([*c][*c]u8, [*c]const u8) [*c]u8;
+pub extern fn strlcat([*c]u8, [*c]const u8, c_ulong) c_ulong;
+pub extern fn strlcpy([*c]u8, [*c]const u8, c_ulong) c_ulong;
+pub extern fn explicit_bzero(?*c_void, usize) void;
 pub extern fn av_log2(v: c_uint) c_int;
 pub extern fn av_log2_16bit(v: c_uint) c_int;
 pub fn av_clip_c(arg_a: c_int, arg_amin: c_int, arg_amax: c_int) callconv(.C) c_int {
@@ -1704,13 +853,13 @@ pub fn av_sat_add64_c(arg_a: i64, arg_b: i64) callconv(.C) i64 {
     var a = arg_a;
     var b = arg_b;
     var tmp: i64 = undefined;
-    return if (!__builtin_add_overflow(a, b, &tmp)) tmp else if (tmp < @bitCast(c_longlong, @as(c_longlong, @as(c_int, 0)))) @as(c_longlong, 9223372036854775807) else -@as(c_longlong, 9223372036854775807) - @bitCast(c_longlong, @as(c_longlong, @as(c_int, 1)));
+    return if (!__builtin_add_overflow(a, b, &tmp)) tmp else if (tmp < @bitCast(c_longlong, @as(c_longlong, @as(c_int, 0)))) @as(c_longlong, 9223372036854775807) else @bitCast(c_longlong, @as(c_longlong, -@as(c_int, 1))) - @as(c_longlong, 9223372036854775807);
 }
 pub fn av_sat_sub64_c(arg_a: i64, arg_b: i64) callconv(.C) i64 {
     var a = arg_a;
     var b = arg_b;
     var tmp: i64 = undefined;
-    return if (!__builtin_sub_overflow(a, b, &tmp)) tmp else if (tmp < @bitCast(c_longlong, @as(c_longlong, @as(c_int, 0)))) @as(c_longlong, 9223372036854775807) else -@as(c_longlong, 9223372036854775807) - @bitCast(c_longlong, @as(c_longlong, @as(c_int, 1)));
+    return if (!__builtin_sub_overflow(a, b, &tmp)) tmp else if (tmp < @bitCast(c_longlong, @as(c_longlong, @as(c_int, 0)))) @as(c_longlong, 9223372036854775807) else @bitCast(c_longlong, @as(c_longlong, -@as(c_int, 1))) - @as(c_longlong, 9223372036854775807);
 }
 pub fn av_clipf_c(arg_a: f32, arg_amin: f32, arg_amax: f32) callconv(.C) f32 {
     var a = arg_a;
@@ -1746,8 +895,6 @@ pub fn av_parity_c(arg_v: u32) callconv(.C) c_int {
     var v = arg_v;
     return av_popcount_c(v) & @as(c_int, 1);
 }
-pub const ptrdiff_t = c_long;
-pub const max_align_t = c_longdouble;
 pub extern fn av_strerror(errnum: c_int, errbuf: [*c]u8, errbuf_size: usize) c_int;
 pub fn av_make_error_string(arg_errbuf: [*c]u8, arg_errbuf_size: usize, arg_errnum: c_int) callconv(.C) [*c]u8 {
     var errbuf = arg_errbuf;
@@ -1783,7 +930,7 @@ pub fn av_size_mult(arg_a: usize, arg_b: usize, arg_r: [*c]usize) callconv(.C) c
     var b = arg_b;
     var r = arg_r;
     var t: usize = a *% b;
-    if ((((a | b) >= (@bitCast(usize, @as(c_long, @as(c_int, 1))) << @intCast(@import("std").math.Log2Int(usize), @sizeOf(usize) *% @bitCast(c_ulong, @as(c_long, @as(c_int, 4)))))) and (a != 0)) and ((t / a) != b)) return -@as(c_int, 22);
+    if ((((a | b) >= (@bitCast(usize, @as(c_long, @as(c_int, 1))) << @intCast(@import("std").math.Log2Int(usize), @sizeOf(usize) *% @bitCast(c_ulong, @as(c_long, @as(c_int, 4)))))) and (a != 0)) and ((t / a) != b)) return -@as(c_int, 28);
     r.?.* = t;
     return 0;
 }
@@ -1806,7 +953,7 @@ pub fn av_cmp_q(arg_a: AVRational, arg_b: AVRational) callconv(.C) c_int {
     var a = arg_a;
     var b = arg_b;
     const tmp: i64 = (@bitCast(c_longlong, @as(c_longlong, a.num)) * @bitCast(i64, @as(c_longlong, b.den))) - (@bitCast(c_longlong, @as(c_longlong, b.num)) * @bitCast(i64, @as(c_longlong, a.den)));
-    if (tmp != 0) return @bitCast(c_int, @truncate(c_int, ((tmp ^ @bitCast(c_longlong, @as(c_longlong, a.den))) ^ @bitCast(c_longlong, @as(c_longlong, b.den))) >> @intCast(@import("std").math.Log2Int(c_longlong), 63))) | @as(c_int, 1) else if ((b.den != 0) and (a.den != 0)) return 0 else if ((a.num != 0) and (b.num != 0)) return (a.num >> @intCast(@import("std").math.Log2Int(c_int), 31)) - (b.num >> @intCast(@import("std").math.Log2Int(c_int), 31)) else return -@as(c_int, 2147483647) - @as(c_int, 1);
+    if (tmp != 0) return @bitCast(c_int, @truncate(c_int, ((tmp ^ @bitCast(c_longlong, @as(c_longlong, a.den))) ^ @bitCast(c_longlong, @as(c_longlong, b.den))) >> @intCast(@import("std").math.Log2Int(c_longlong), 63))) | @as(c_int, 1) else if ((b.den != 0) and (a.den != 0)) return 0 else if ((a.num != 0) and (b.num != 0)) return (a.num >> @intCast(@import("std").math.Log2Int(c_int), 31)) - (b.num >> @intCast(@import("std").math.Log2Int(c_int), 31)) else return -@as(c_int, 1) - @as(c_int, 2147483647);
     return 0;
 }
 pub fn av_q2d(arg_a: AVRational) callconv(.C) f64 {
@@ -1888,7 +1035,7 @@ pub extern fn av_compare_mod(a: u64, b: u64, mod: u64) i64;
 pub extern fn av_rescale_delta(in_tb: AVRational, in_ts: i64, fs_tb: AVRational, duration: c_int, last: [*c]i64, out_tb: AVRational) i64;
 pub extern fn av_add_stable(ts_tb: AVRational, ts: i64, inc_tb: AVRational, inc: i64) i64;
 pub const __gnuc_va_list = __builtin_va_list;
-const enum_unnamed_13 = extern enum(c_int) {
+const enum_unnamed_6 = extern enum(c_int) {
     AV_CLASS_CATEGORY_NA = 0,
     AV_CLASS_CATEGORY_INPUT = 1,
     AV_CLASS_CATEGORY_OUTPUT = 2,
@@ -1909,25 +1056,25 @@ const enum_unnamed_13 = extern enum(c_int) {
     AV_CLASS_CATEGORY_NB = 46,
     _,
 };
-pub const AV_CLASS_CATEGORY_NA = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_NA);
-pub const AV_CLASS_CATEGORY_INPUT = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_INPUT);
-pub const AV_CLASS_CATEGORY_OUTPUT = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_OUTPUT);
-pub const AV_CLASS_CATEGORY_MUXER = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_MUXER);
-pub const AV_CLASS_CATEGORY_DEMUXER = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_DEMUXER);
-pub const AV_CLASS_CATEGORY_ENCODER = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_ENCODER);
-pub const AV_CLASS_CATEGORY_DECODER = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_DECODER);
-pub const AV_CLASS_CATEGORY_FILTER = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_FILTER);
-pub const AV_CLASS_CATEGORY_BITSTREAM_FILTER = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_BITSTREAM_FILTER);
-pub const AV_CLASS_CATEGORY_SWSCALER = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_SWSCALER);
-pub const AV_CLASS_CATEGORY_SWRESAMPLER = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_SWRESAMPLER);
-pub const AV_CLASS_CATEGORY_DEVICE_VIDEO_OUTPUT = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_DEVICE_VIDEO_OUTPUT);
-pub const AV_CLASS_CATEGORY_DEVICE_VIDEO_INPUT = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_DEVICE_VIDEO_INPUT);
-pub const AV_CLASS_CATEGORY_DEVICE_AUDIO_OUTPUT = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_DEVICE_AUDIO_OUTPUT);
-pub const AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT);
-pub const AV_CLASS_CATEGORY_DEVICE_OUTPUT = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_DEVICE_OUTPUT);
-pub const AV_CLASS_CATEGORY_DEVICE_INPUT = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_DEVICE_INPUT);
-pub const AV_CLASS_CATEGORY_NB = @enumToInt(enum_unnamed_13.AV_CLASS_CATEGORY_NB);
-pub const AVClassCategory = enum_unnamed_13;
+pub const AV_CLASS_CATEGORY_NA = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_NA);
+pub const AV_CLASS_CATEGORY_INPUT = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_INPUT);
+pub const AV_CLASS_CATEGORY_OUTPUT = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_OUTPUT);
+pub const AV_CLASS_CATEGORY_MUXER = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_MUXER);
+pub const AV_CLASS_CATEGORY_DEMUXER = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_DEMUXER);
+pub const AV_CLASS_CATEGORY_ENCODER = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_ENCODER);
+pub const AV_CLASS_CATEGORY_DECODER = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_DECODER);
+pub const AV_CLASS_CATEGORY_FILTER = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_FILTER);
+pub const AV_CLASS_CATEGORY_BITSTREAM_FILTER = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_BITSTREAM_FILTER);
+pub const AV_CLASS_CATEGORY_SWSCALER = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_SWSCALER);
+pub const AV_CLASS_CATEGORY_SWRESAMPLER = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_SWRESAMPLER);
+pub const AV_CLASS_CATEGORY_DEVICE_VIDEO_OUTPUT = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_DEVICE_VIDEO_OUTPUT);
+pub const AV_CLASS_CATEGORY_DEVICE_VIDEO_INPUT = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_DEVICE_VIDEO_INPUT);
+pub const AV_CLASS_CATEGORY_DEVICE_AUDIO_OUTPUT = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_DEVICE_AUDIO_OUTPUT);
+pub const AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT);
+pub const AV_CLASS_CATEGORY_DEVICE_OUTPUT = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_DEVICE_OUTPUT);
+pub const AV_CLASS_CATEGORY_DEVICE_INPUT = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_DEVICE_INPUT);
+pub const AV_CLASS_CATEGORY_NB = @enumToInt(enum_unnamed_6.AV_CLASS_CATEGORY_NB);
+pub const AVClassCategory = enum_unnamed_6;
 pub const struct_AVOptionRanges = opaque {};
 pub const struct_AVOption = opaque {};
 pub const struct_AVClass = extern struct {
@@ -1947,15 +1094,15 @@ pub const struct_AVClass = extern struct {
 pub const AVClass = struct_AVClass;
 pub extern fn av_log(avcl: ?*c_void, level: c_int, fmt: [*c]const u8, ...) void;
 pub extern fn av_log_once(avcl: ?*c_void, initial_level: c_int, subsequent_level: c_int, state: [*c]c_int, fmt: [*c]const u8, ...) void;
-pub extern fn av_vlog(avcl: ?*c_void, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag) void;
+pub extern fn av_vlog(avcl: ?*c_void, level: c_int, fmt: [*c]const u8, vl: va_list) void;
 pub extern fn av_log_get_level() c_int;
 pub extern fn av_log_set_level(level: c_int) void;
-pub extern fn av_log_set_callback(callback: ?fn (?*c_void, c_int, [*c]const u8, [*c]struct___va_list_tag) callconv(.C) void) void;
-pub extern fn av_log_default_callback(avcl: ?*c_void, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag) void;
+pub extern fn av_log_set_callback(callback: ?fn (?*c_void, c_int, [*c]const u8, va_list) callconv(.C) void) void;
+pub extern fn av_log_default_callback(avcl: ?*c_void, level: c_int, fmt: [*c]const u8, vl: va_list) void;
 pub extern fn av_default_item_name(ctx: ?*c_void) [*c]const u8;
 pub extern fn av_default_get_category(ptr: ?*c_void) AVClassCategory;
-pub extern fn av_log_format_line(ptr: ?*c_void, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag, line: [*c]u8, line_size: c_int, print_prefix: [*c]c_int) void;
-pub extern fn av_log_format_line2(ptr: ?*c_void, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag, line: [*c]u8, line_size: c_int, print_prefix: [*c]c_int) c_int;
+pub extern fn av_log_format_line(ptr: ?*c_void, level: c_int, fmt: [*c]const u8, vl: va_list, line: [*c]u8, line_size: c_int, print_prefix: [*c]c_int) void;
+pub extern fn av_log_format_line2(ptr: ?*c_void, level: c_int, fmt: [*c]const u8, vl: va_list, line: [*c]u8, line_size: c_int, print_prefix: [*c]c_int) c_int;
 pub extern fn av_log_set_flags(arg: c_int) void;
 pub extern fn av_log_get_flags() c_int;
 pub const enum_AVPixelFormat = extern enum(c_int) {
@@ -2526,7 +1673,7 @@ pub fn av_x_if_null(arg_p: ?*const c_void, arg_x: ?*const c_void) callconv(.C) ?
     return @intToPtr(?*c_void, @intCast(isize, @ptrToInt(if (p != null) p else x)));
 }
 pub extern fn av_int_list_length_for_size(elsize: c_uint, list: ?*const c_void, term: u64) c_uint;
-pub extern fn av_fopen_utf8(path: [*c]const u8, mode: [*c]const u8) [*c]FILE;
+pub extern fn av_fopen_utf8(path: [*c]const u8, mode: [*c]const u8) ?*FILE;
 pub extern fn av_get_time_base_q() AVRational;
 pub extern fn av_fourcc_make_string(buf: [*c]u8, fourcc: u32) [*c]u8;
 pub const enum_AVSampleFormat = extern enum(c_int) {
@@ -2837,11 +1984,11 @@ pub extern fn av_frame_new_side_data(frame: [*c]AVFrame, type: enum_AVFrameSideD
 pub extern fn av_frame_new_side_data_from_buf(frame: [*c]AVFrame, type: enum_AVFrameSideDataType, buf: [*c]AVBufferRef) [*c]AVFrameSideData;
 pub extern fn av_frame_get_side_data(frame: [*c]const AVFrame, type: enum_AVFrameSideDataType) [*c]AVFrameSideData;
 pub extern fn av_frame_remove_side_data(frame: [*c]AVFrame, type: enum_AVFrameSideDataType) void;
-const enum_unnamed_14 = extern enum(c_int) {
+const enum_unnamed_7 = extern enum(c_int) {
     AV_FRAME_CROP_UNALIGNED = 1,
     _,
 };
-pub const AV_FRAME_CROP_UNALIGNED = @enumToInt(enum_unnamed_14.AV_FRAME_CROP_UNALIGNED);
+pub const AV_FRAME_CROP_UNALIGNED = @enumToInt(enum_unnamed_7.AV_FRAME_CROP_UNALIGNED);
 pub extern fn av_frame_apply_cropping(frame: [*c]AVFrame, flags: c_int) c_int;
 pub extern fn av_frame_side_data_name(type: enum_AVFrameSideDataType) [*c]const u8;
 pub const enum_AVHWDeviceType = extern enum(c_int) {
@@ -2932,17 +2079,17 @@ pub const AVHWFramesConstraints = struct_AVHWFramesConstraints;
 pub extern fn av_hwdevice_hwconfig_alloc(device_ctx: [*c]AVBufferRef) ?*c_void;
 pub extern fn av_hwdevice_get_hwframe_constraints(ref: [*c]AVBufferRef, hwconfig: ?*const c_void) [*c]AVHWFramesConstraints;
 pub extern fn av_hwframe_constraints_free(constraints: [*c][*c]AVHWFramesConstraints) void;
-const enum_unnamed_15 = extern enum(c_int) {
+const enum_unnamed_8 = extern enum(c_int) {
     AV_HWFRAME_MAP_READ = 1,
     AV_HWFRAME_MAP_WRITE = 2,
     AV_HWFRAME_MAP_OVERWRITE = 4,
     AV_HWFRAME_MAP_DIRECT = 8,
     _,
 };
-pub const AV_HWFRAME_MAP_READ = @enumToInt(enum_unnamed_15.AV_HWFRAME_MAP_READ);
-pub const AV_HWFRAME_MAP_WRITE = @enumToInt(enum_unnamed_15.AV_HWFRAME_MAP_WRITE);
-pub const AV_HWFRAME_MAP_OVERWRITE = @enumToInt(enum_unnamed_15.AV_HWFRAME_MAP_OVERWRITE);
-pub const AV_HWFRAME_MAP_DIRECT = @enumToInt(enum_unnamed_15.AV_HWFRAME_MAP_DIRECT);
+pub const AV_HWFRAME_MAP_READ = @enumToInt(enum_unnamed_8.AV_HWFRAME_MAP_READ);
+pub const AV_HWFRAME_MAP_WRITE = @enumToInt(enum_unnamed_8.AV_HWFRAME_MAP_WRITE);
+pub const AV_HWFRAME_MAP_OVERWRITE = @enumToInt(enum_unnamed_8.AV_HWFRAME_MAP_OVERWRITE);
+pub const AV_HWFRAME_MAP_DIRECT = @enumToInt(enum_unnamed_8.AV_HWFRAME_MAP_DIRECT);
 pub extern fn av_hwframe_map(dst: [*c]AVFrame, src: [*c]const AVFrame, flags: c_int) c_int;
 pub extern fn av_hwframe_ctx_create_derived(derived_frame_ctx: [*c][*c]AVBufferRef, format: enum_AVPixelFormat, derived_device_ctx: [*c]AVBufferRef, source_frame_ctx: [*c]AVBufferRef, flags: c_int) c_int;
 pub const enum_AVCodecID = extern enum(c_int) {
@@ -4527,17 +3674,17 @@ pub extern fn avcodec_find_encoder(id: enum_AVCodecID) [*c]AVCodec;
 pub extern fn avcodec_find_encoder_by_name(name: [*c]const u8) [*c]AVCodec;
 pub extern fn av_codec_is_encoder(codec: [*c]const AVCodec) c_int;
 pub extern fn av_codec_is_decoder(codec: [*c]const AVCodec) c_int;
-const enum_unnamed_16 = extern enum(c_int) {
+const enum_unnamed_9 = extern enum(c_int) {
     AV_CODEC_HW_CONFIG_METHOD_HW_DEVICE_CTX = 1,
     AV_CODEC_HW_CONFIG_METHOD_HW_FRAMES_CTX = 2,
     AV_CODEC_HW_CONFIG_METHOD_INTERNAL = 4,
     AV_CODEC_HW_CONFIG_METHOD_AD_HOC = 8,
     _,
 };
-pub const AV_CODEC_HW_CONFIG_METHOD_HW_DEVICE_CTX = @enumToInt(enum_unnamed_16.AV_CODEC_HW_CONFIG_METHOD_HW_DEVICE_CTX);
-pub const AV_CODEC_HW_CONFIG_METHOD_HW_FRAMES_CTX = @enumToInt(enum_unnamed_16.AV_CODEC_HW_CONFIG_METHOD_HW_FRAMES_CTX);
-pub const AV_CODEC_HW_CONFIG_METHOD_INTERNAL = @enumToInt(enum_unnamed_16.AV_CODEC_HW_CONFIG_METHOD_INTERNAL);
-pub const AV_CODEC_HW_CONFIG_METHOD_AD_HOC = @enumToInt(enum_unnamed_16.AV_CODEC_HW_CONFIG_METHOD_AD_HOC);
+pub const AV_CODEC_HW_CONFIG_METHOD_HW_DEVICE_CTX = @enumToInt(enum_unnamed_9.AV_CODEC_HW_CONFIG_METHOD_HW_DEVICE_CTX);
+pub const AV_CODEC_HW_CONFIG_METHOD_HW_FRAMES_CTX = @enumToInt(enum_unnamed_9.AV_CODEC_HW_CONFIG_METHOD_HW_FRAMES_CTX);
+pub const AV_CODEC_HW_CONFIG_METHOD_INTERNAL = @enumToInt(enum_unnamed_9.AV_CODEC_HW_CONFIG_METHOD_INTERNAL);
+pub const AV_CODEC_HW_CONFIG_METHOD_AD_HOC = @enumToInt(enum_unnamed_9.AV_CODEC_HW_CONFIG_METHOD_AD_HOC);
 pub const struct_AVCodecHWConfig = extern struct {
     pix_fmt: enum_AVPixelFormat,
     methods: c_int,
@@ -4744,12 +3891,11 @@ pub const AV_LOCK_DESTROY = @enumToInt(enum_AVLockOp.AV_LOCK_DESTROY);
 pub extern fn av_lockmgr_register(cb: ?fn ([*c]?*c_void, enum_AVLockOp) callconv(.C) c_int) c_int;
 pub extern fn avcodec_is_open(s: [*c]AVCodecContext) c_int;
 pub extern fn av_cpb_properties_alloc(size: [*c]usize) [*c]AVCPBProperties;
-pub const clock_t = __darwin_clock_t;
-pub const time_t = __darwin_time_t;
-pub const struct_timespec = extern struct {
-    tv_sec: __darwin_time_t,
-    tv_nsec: c_long,
-};
+pub const struct___clockid = opaque {};
+pub const clockid_t = ?*const struct___clockid;
+pub const clock_t = c_longlong;
+pub const timer_t = ?*c_void;
+pub const pid_t = c_int;
 pub const struct_tm = extern struct {
     tm_sec: c_int,
     tm_min: c_int,
@@ -4760,60 +3906,41 @@ pub const struct_tm = extern struct {
     tm_wday: c_int,
     tm_yday: c_int,
     tm_isdst: c_int,
-    tm_gmtoff: c_long,
-    tm_zone: [*c]u8,
+    tm_gmtoff: c_int,
+    tm_zone: [*c]const u8,
+    __tm_nsec: c_int,
 };
-pub extern var tzname: [*c][*c]u8;
-pub extern var getdate_err: c_int;
-pub extern var timezone: c_long;
-pub extern var daylight: c_int;
-pub extern fn asctime([*c]const struct_tm) [*c]u8;
+pub extern const _CLOCK_MONOTONIC: struct___clockid;
+pub extern const _CLOCK_PROCESS_CPUTIME_ID: struct___clockid;
+pub extern const _CLOCK_REALTIME: struct___clockid;
+pub extern const _CLOCK_THREAD_CPUTIME_ID: struct___clockid;
 pub extern fn clock() clock_t;
-pub extern fn ctime([*c]const time_t) [*c]u8;
+pub extern fn time([*c]time_t) time_t;
 pub extern fn difftime(time_t, time_t) f64;
-pub extern fn getdate([*c]const u8) [*c]struct_tm;
-pub extern fn gmtime([*c]const time_t) [*c]struct_tm;
-pub extern fn localtime([*c]const time_t) [*c]struct_tm;
 pub extern fn mktime([*c]struct_tm) time_t;
 pub extern fn strftime(noalias [*c]u8, usize, noalias [*c]const u8, noalias [*c]const struct_tm) usize;
-pub extern fn strptime(noalias [*c]const u8, noalias [*c]const u8, noalias [*c]struct_tm) [*c]u8;
-pub extern fn time([*c]time_t) time_t;
-pub extern fn tzset() void;
-pub extern fn asctime_r(noalias [*c]const struct_tm, noalias [*c]u8) [*c]u8;
-pub extern fn ctime_r([*c]const time_t, [*c]u8) [*c]u8;
+pub extern fn gmtime([*c]const time_t) [*c]struct_tm;
+pub extern fn localtime([*c]const time_t) [*c]struct_tm;
+pub extern fn asctime([*c]const struct_tm) [*c]u8;
+pub extern fn ctime([*c]const time_t) [*c]u8;
+pub extern fn timespec_get([*c]struct_timespec, c_int) c_int;
+pub extern fn strftime_l(noalias [*c]u8, usize, noalias [*c]const u8, noalias [*c]const struct_tm, locale_t) usize;
 pub extern fn gmtime_r(noalias [*c]const time_t, noalias [*c]struct_tm) [*c]struct_tm;
 pub extern fn localtime_r(noalias [*c]const time_t, noalias [*c]struct_tm) [*c]struct_tm;
-pub extern fn posix2time(time_t) time_t;
-pub extern fn tzsetwall() void;
-pub extern fn time2posix(time_t) time_t;
-pub extern fn timelocal([*c]struct_tm) time_t;
-pub extern fn timegm([*c]struct_tm) time_t;
-pub extern fn nanosleep(__rqtp: [*c]const struct_timespec, __rmtp: [*c]struct_timespec) c_int;
-const enum_unnamed_17 = extern enum(c_int) {
-    _CLOCK_REALTIME = 0,
-    _CLOCK_MONOTONIC = 6,
-    _CLOCK_MONOTONIC_RAW = 4,
-    _CLOCK_MONOTONIC_RAW_APPROX = 5,
-    _CLOCK_UPTIME_RAW = 8,
-    _CLOCK_UPTIME_RAW_APPROX = 9,
-    _CLOCK_PROCESS_CPUTIME_ID = 12,
-    _CLOCK_THREAD_CPUTIME_ID = 16,
-    _,
+pub extern fn asctime_r(noalias [*c]const struct_tm, noalias [*c]u8) [*c]u8;
+pub extern fn ctime_r([*c]const time_t, [*c]u8) [*c]u8;
+pub const struct_itimerspec = extern struct {
+    it_interval: struct_timespec,
+    it_value: struct_timespec,
 };
-pub const _CLOCK_REALTIME = @enumToInt(enum_unnamed_17._CLOCK_REALTIME);
-pub const _CLOCK_MONOTONIC = @enumToInt(enum_unnamed_17._CLOCK_MONOTONIC);
-pub const _CLOCK_MONOTONIC_RAW = @enumToInt(enum_unnamed_17._CLOCK_MONOTONIC_RAW);
-pub const _CLOCK_MONOTONIC_RAW_APPROX = @enumToInt(enum_unnamed_17._CLOCK_MONOTONIC_RAW_APPROX);
-pub const _CLOCK_UPTIME_RAW = @enumToInt(enum_unnamed_17._CLOCK_UPTIME_RAW);
-pub const _CLOCK_UPTIME_RAW_APPROX = @enumToInt(enum_unnamed_17._CLOCK_UPTIME_RAW_APPROX);
-pub const _CLOCK_PROCESS_CPUTIME_ID = @enumToInt(enum_unnamed_17._CLOCK_PROCESS_CPUTIME_ID);
-pub const _CLOCK_THREAD_CPUTIME_ID = @enumToInt(enum_unnamed_17._CLOCK_THREAD_CPUTIME_ID);
-pub const clockid_t = enum_unnamed_17;
-pub extern fn clock_getres(__clock_id: clockid_t, __res: [*c]struct_timespec) c_int;
-pub extern fn clock_gettime(__clock_id: clockid_t, __tp: [*c]struct_timespec) c_int;
-pub extern fn clock_gettime_nsec_np(__clock_id: clockid_t) __uint64_t;
-pub extern fn clock_settime(__clock_id: clockid_t, __tp: [*c]const struct_timespec) c_int;
-pub extern fn timespec_get(ts: [*c]struct_timespec, base: c_int) c_int;
+pub extern fn nanosleep([*c]const struct_timespec, [*c]struct_timespec) c_int;
+pub extern fn clock_getres(clockid_t, [*c]struct_timespec) c_int;
+pub extern fn clock_gettime(clockid_t, [*c]struct_timespec) c_int;
+pub extern fn clock_nanosleep(clockid_t, c_int, [*c]const struct_timespec, [*c]struct_timespec) c_int;
+pub extern fn strptime(noalias [*c]const u8, noalias [*c]const u8, noalias [*c]struct_tm) [*c]u8;
+pub extern var getdate_err: c_int;
+pub extern fn getdate([*c]const u8) [*c]struct_tm;
+pub extern fn timegm([*c]struct_tm) time_t;
 pub const struct_AVIOInterruptCB = extern struct {
     callback: ?fn (?*c_void) callconv(.C) c_int,
     @"opaque": ?*c_void,
@@ -5221,7 +4348,7 @@ pub const struct_AVFormatContext = extern struct {
 pub extern fn av_get_packet(s: [*c]AVIOContext, pkt: [*c]AVPacket, size: c_int) c_int;
 pub extern fn av_append_packet(s: [*c]AVIOContext, pkt: [*c]AVPacket, size: c_int) c_int;
 pub const AVOutputFormat = struct_AVOutputFormat;
-pub const AVInputFormat = struct_AVInputFormat; // /Users/j/src/ffmpeg/libavformat/avformat.h:815:9: warning: struct demoted to opaque type - has bitfield
+pub const AVInputFormat = struct_AVInputFormat; // /Users/j/src/ffmpeg/out/include/libavformat/avformat.h:815:9: warning: struct demoted to opaque type - has bitfield
 pub const struct_AVIndexEntry = opaque {};
 pub const AVIndexEntry = struct_AVIndexEntry;
 pub extern fn av_stream_get_r_frame_rate(s: [*c]const AVStream) AVRational;
@@ -5302,9 +4429,9 @@ pub extern fn av_write_trailer(s: [*c]AVFormatContext) c_int;
 pub extern fn av_guess_format(short_name: [*c]const u8, filename: [*c]const u8, mime_type: [*c]const u8) [*c]AVOutputFormat;
 pub extern fn av_guess_codec(fmt: [*c]AVOutputFormat, short_name: [*c]const u8, filename: [*c]const u8, mime_type: [*c]const u8, type: enum_AVMediaType) enum_AVCodecID;
 pub extern fn av_get_output_timestamp(s: [*c]struct_AVFormatContext, stream: c_int, dts: [*c]i64, wall: [*c]i64) c_int;
-pub extern fn av_hex_dump(f: [*c]FILE, buf: [*c]const u8, size: c_int) void;
+pub extern fn av_hex_dump(f: ?*FILE, buf: [*c]const u8, size: c_int) void;
 pub extern fn av_hex_dump_log(avcl: ?*c_void, level: c_int, buf: [*c]const u8, size: c_int) void;
-pub extern fn av_pkt_dump2(f: [*c]FILE, pkt: [*c]const AVPacket, dump_payload: c_int, st: [*c]const AVStream) void;
+pub extern fn av_pkt_dump2(f: ?*FILE, pkt: [*c]const AVPacket, dump_payload: c_int, st: [*c]const AVStream) void;
 pub extern fn av_pkt_dump_log2(avcl: ?*c_void, level: c_int, pkt: [*c]const AVPacket, dump_payload: c_int, st: [*c]const AVStream) void;
 pub extern fn av_codec_get_id(tags: [*c]const ?*const struct_AVCodecTag, tag: c_uint) enum_AVCodecID;
 pub extern fn av_codec_get_tag(tags: [*c]const ?*const struct_AVCodecTag, id: enum_AVCodecID) c_uint;
@@ -5342,813 +4469,51 @@ pub const AVFMT_TBCF_DEMUXER = @enumToInt(enum_AVTimebaseSource.AVFMT_TBCF_DEMUX
 pub const AVFMT_TBCF_R_FRAMERATE = @enumToInt(enum_AVTimebaseSource.AVFMT_TBCF_R_FRAMERATE);
 pub extern fn avformat_transfer_internal_stream_timing_info(ofmt: [*c]const AVOutputFormat, ost: [*c]AVStream, ist: [*c]const AVStream, copy_tb: enum_AVTimebaseSource) c_int;
 pub extern fn av_stream_get_codec_timebase(st: [*c]const AVStream) AVRational;
-pub const __INTMAX_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_int"); // (no file):64:9
-pub const __UINTMAX_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_unsigned"); // (no file):68:9
-pub const __PTRDIFF_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_int"); // (no file):75:9
-pub const __INTPTR_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_int"); // (no file):79:9
-pub const __SIZE_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_unsigned"); // (no file):83:9
-pub const __UINTPTR_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_unsigned"); // (no file):98:9
-pub const __INT64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):160:9
-pub const __UINT64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):188:9
-pub const __INT_LEAST64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):226:9
-pub const __UINT_LEAST64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):230:9
-pub const __INT_FAST64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):266:9
-pub const __UINT_FAST64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):270:9
-pub const __CONCAT = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:113:9
-pub const __STRING = @compileError("unable to translate C expr: unexpected token .Hash"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:114:9
-pub const __const = @compileError("unable to translate C expr: unexpected token .Keyword_const"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:116:9
-pub const __volatile = @compileError("unable to translate C expr: unexpected token .Keyword_volatile"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:118:9
-pub const __kpi_deprecated = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:202:9
-pub const __restrict = @compileError("unable to translate C expr: unexpected token .Keyword_restrict"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:222:9
-pub const __swift_unavailable = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:288:9
-pub const __header_inline = @compileError("unable to translate C expr: unexpected token .Keyword_inline"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:322:10
-pub const __unreachable_ok_push = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:348:10
-pub const __IDSTRING = @compileError("unable to translate C expr: unexpected token .Keyword_static"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:379:9
-pub const __FBSDID = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:399:9
-pub const __DECONST = @compileError("unable to translate C expr: unexpected token .Keyword_const"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:403:9
-pub const __DEVOLATILE = @compileError("unable to translate C expr: unexpected token .Keyword_volatile"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:407:9
-pub const __DEQUALIFY = @compileError("unable to translate C expr: unexpected token .Keyword_const"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:411:9
-pub const __alloc_size = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:429:9
-pub const __DARWIN_ALIAS = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:612:9
-pub const __DARWIN_ALIAS_C = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:613:9
-pub const __DARWIN_ALIAS_I = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:614:9
-pub const __DARWIN_NOCANCEL = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:615:9
-pub const __DARWIN_INODE64 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:616:9
-pub const __DARWIN_1050 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:618:9
-pub const __DARWIN_1050ALIAS = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:619:9
-pub const __DARWIN_1050ALIAS_C = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:620:9
-pub const __DARWIN_1050ALIAS_I = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:621:9
-pub const __DARWIN_1050INODE64 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:622:9
-pub const __DARWIN_EXTSN = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:624:9
-pub const __DARWIN_EXTSN_C = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:625:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_2_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:35:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_2_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:41:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_2_2 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:47:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_3_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:53:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_3_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:59:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_3_2 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:65:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_4_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:71:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_4_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:77:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_4_2 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:83:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_4_3 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:89:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_5_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:95:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_5_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:101:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_6_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:107:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_6_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:113:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_7_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:119:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_7_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:125:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_8_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:131:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_8_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:137:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_8_2 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:143:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_8_3 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:149:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_8_4 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:155:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_9_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:161:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_9_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:167:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_9_2 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:173:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_9_3 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:179:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_10_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:185:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_10_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:191:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_10_2 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:197:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_10_3 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:203:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_11_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:209:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_11_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:215:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_11_2 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:221:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_11_3 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:227:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_11_4 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:233:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_12_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:239:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_12_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:245:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_12_2 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:251:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_12_3 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:257:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_12_4 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:263:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_0 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:269:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_1 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:275:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_2 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:281:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_3 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:287:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_4 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:293:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_5 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:299:9
-pub const __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_6 = @compileError("unable to translate C expr: unexpected token .Nl"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/_symbol_aliasing.h:305:9
-pub const __DARWIN_ALIAS_STARTING = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:635:9
-pub const __POSIX_C_DEPRECATED = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:698:9
-pub const __compiler_barrier = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:812:9
-pub const __enum_decl = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:836:9
-pub const __enum_closed_decl = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:838:9
-pub const __options_decl = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:840:9
-pub const __options_closed_decl = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/sys/cdefs.h:842:9
-pub const errno = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/errno.h:81:9
-pub const INT64_C = @compileError("unable to translate C expr: expected ')' instead got: HashHash"); // /opt/zig/lib/zig/libc/include/any-macos-any/stdint.h:65:9
-pub const UINT32_C = @compileError("unable to translate C expr: expected ')' instead got: HashHash"); // /opt/zig/lib/zig/libc/include/any-macos-any/stdint.h:69:9
-pub const UINT64_C = @compileError("unable to translate C expr: expected ')' instead got: HashHash"); // /opt/zig/lib/zig/libc/include/any-macos-any/stdint.h:70:9
-pub const INTMAX_C = @compileError("unable to translate C expr: expected ')' instead got: HashHash"); // /opt/zig/lib/zig/libc/include/any-macos-any/stdint.h:73:9
-pub const UINTMAX_C = @compileError("unable to translate C expr: expected ')' instead got: HashHash"); // /opt/zig/lib/zig/libc/include/any-macos-any/stdint.h:74:9
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2919:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2920:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2921:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2923:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2927:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2929:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2934:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2938:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2939:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2941:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2945:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2947:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2951:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2953:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2958:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2962:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2963:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2965:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2969:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2971:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2975:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2977:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2982:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2987:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2991:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2993:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2997:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:2999:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3003:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3005:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_5 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3009:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_5_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3011:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_6 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3015:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_6_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3017:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_7 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3021:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_7_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3023:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_8 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3027:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_8_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3029:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3033:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_9_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3035:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3039:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3040:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3041:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3042:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3043:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3044:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3046:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3050:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3052:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3057:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3061:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3062:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3064:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3068:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3070:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3074:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3076:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3081:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3085:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3086:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3088:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3092:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3094:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3098:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3100:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3105:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_13 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3109:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3110:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3112:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3116:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3118:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3122:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3124:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_5 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3128:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_5_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3130:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_6 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3134:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_6_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3136:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_7 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3140:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_7_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3142:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_8 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3146:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_8_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3148:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3152:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_9_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3154:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3158:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3159:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3160:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3161:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3162:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3163:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3165:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3169:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3171:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3176:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3180:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3181:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3183:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3187:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3189:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3193:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3195:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3200:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3204:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3205:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3207:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3211:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3213:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3217:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3219:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3224:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_13 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3228:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3229:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3231:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3235:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3237:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_5 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3241:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_5_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3243:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_6 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3247:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_6_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3249:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_7 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3253:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_7_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3255:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_8 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3259:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_8_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3261:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3265:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_9_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3267:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3271:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3272:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3273:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3274:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3275:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3276:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3278:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3282:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3284:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3289:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3293:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3294:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3296:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3300:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3302:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3306:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3308:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3313:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3317:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3318:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3320:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3324:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3326:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3330:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3332:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3337:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_13 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3341:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3342:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3344:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_5 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3348:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_5_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3350:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_6 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3354:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_6_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3356:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_7 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3360:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_7_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3362:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_8 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3366:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_8_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3368:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3372:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_9_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3374:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3378:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3379:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3380:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEPRECATED__MAC_10_7 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3381:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3382:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3383:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3384:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3386:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3390:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3392:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3397:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3401:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3402:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3404:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3408:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3410:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3414:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3416:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3421:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3425:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3426:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3428:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3432:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3434:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3438:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3440:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3445:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_5 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3449:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_5_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3451:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_6 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3455:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_6_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3457:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_7 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3461:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_7_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3463:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_8 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3467:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_8_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3469:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3473:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_9_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3475:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3479:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3480:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3481:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3482:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3483:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3484:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3486:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3490:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3492:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3497:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3501:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3502:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3504:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3508:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3510:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3514:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3516:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3521:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3525:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3526:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3528:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3532:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3534:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3538:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3540:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3545:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_13 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3549:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_6 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3550:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_6_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3552:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_7 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3556:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_7_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3558:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_8 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3562:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_8_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3564:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3568:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_9_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3570:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3574:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3575:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3576:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3577:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3578:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3579:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3581:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3585:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3587:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3592:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3596:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3597:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3599:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3603:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3605:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3609:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3611:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3616:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3620:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3621:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3623:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3627:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3629:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3633:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3635:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3640:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_13_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3644:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_7 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3645:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_7_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3647:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_8 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3651:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_8_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3653:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3657:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_9_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3659:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3663:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3664:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3665:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3666:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3667:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3668:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3670:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3674:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3676:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3681:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3685:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3686:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3688:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3692:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3694:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3698:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3700:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3705:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3709:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3710:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3712:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3716:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3718:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3722:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3724:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3729:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_13 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3733:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_8 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3734:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_8_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3736:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3740:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_9_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3742:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3746:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3747:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3748:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3749:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3750:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3751:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3753:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3757:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3759:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3764:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3768:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3769:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3771:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3775:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3777:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3781:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3783:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3788:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3792:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3793:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3795:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3799:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3801:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3805:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3807:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3812:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_13 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3816:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_14 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3817:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3818:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_10_9_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3820:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3824:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_9_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3825:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3826:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_0 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3827:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_0_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3829:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3833:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3834:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3835:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3837:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3841:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3843:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3848:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3852:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3853:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3855:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3859:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3861:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3865:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3867:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3872:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3876:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3877:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3879:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3883:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3885:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3889:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3891:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3896:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_13 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3900:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3902:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3906:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3908:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3912:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3914:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3918:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3920:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_5 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3924:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_5_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3926:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_6 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3930:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_6_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3932:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_7 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3936:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_7_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3938:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_8 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3942:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_8_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3944:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_9 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3948:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_9_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3950:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_13_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3955:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3959:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3960:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3961:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3962:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3963:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3964:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3966:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3970:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3972:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3976:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3977:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3979:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3983:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3985:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3989:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3991:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:3996:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4000:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4001:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4003:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4007:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4009:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4013:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4015:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4020:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4024:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_2_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4025:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4026:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4027:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4029:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4033:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4034:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4036:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4040:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4042:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4046:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4048:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4053:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4057:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4058:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4060:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4064:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4066:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4070:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4072:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4077:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4081:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_3_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4082:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4083:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_10 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4084:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_10_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4085:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_10_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4087:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_10_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4091:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_10_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4093:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_10_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4098:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4102:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4103:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4105:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4109:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4111:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4115:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4117:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4122:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4126:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4127:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4129:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4133:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4135:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4139:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4141:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4146:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_13 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4150:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_13_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4152:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_10_13_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4156:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4157:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_10_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4158:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4159:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4160:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4161:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4163:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4167:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4169:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4173:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4175:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4179:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4180:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4182:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4186:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4188:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4192:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4194:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4199:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4203:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_2_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4204:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4205:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4206:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4208:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4212:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4214:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4218:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4219:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4221:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4225:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4227:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4231:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4233:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4238:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4242:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_3_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4243:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4244:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4245:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4247:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4251:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4252:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4254:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4258:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4260:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4264:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4266:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4271:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4275:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_4_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4276:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4277:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_11 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4278:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_11_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4279:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_11_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4281:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_11_3 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4285:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_11_3_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4287:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_11_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4291:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_11_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4293:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_11_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4298:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4302:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4303:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4305:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4309:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4311:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4315:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4317:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4322:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4326:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_11_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4327:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4328:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4329:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_1_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4330:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_1_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4332:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_1_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4336:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_1_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4338:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_1_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4342:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_1_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4344:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_1_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4348:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_1_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4349:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4350:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_2_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4351:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_2_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4353:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_2_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4357:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_2_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4359:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_2_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4363:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_2_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4364:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4365:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_4_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4366:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_4_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4368:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_4_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4372:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_4_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4373:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_12 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4374:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_12_1 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4375:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_12_1_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4377:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_12_2 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4381:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_12_2_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4383:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_12_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4387:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_12_4_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4389:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_12_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4394:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_13 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4398:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_13_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4400:25
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_13_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4404:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_10_14 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4405:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_NA = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4406:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_12_DEP__MAC_NA_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4407:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_13 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4408:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_13_4 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4409:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_14 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4410:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_14_DEP__MAC_10_14 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4411:21
-pub const __AVAILABILITY_INTERNAL__MAC_10_15 = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4412:21
-pub const __API_AVAILABLE_PLATFORM_macos = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4442:13
-pub const __API_AVAILABLE_PLATFORM_macosx = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4443:13
-pub const __API_AVAILABLE_PLATFORM_ios = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4444:13
-pub const __API_AVAILABLE_PLATFORM_watchos = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4445:13
-pub const __API_AVAILABLE_PLATFORM_tvos = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4446:13
-pub const __API_AVAILABLE_PLATFORM_macCatalyst = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4448:13
-pub const __API_AVAILABLE_PLATFORM_uikitformac = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4451:14
-pub const __API_AVAILABLE_PLATFORM_driverkit = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4453:13
-pub const __API_A = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4457:17
-pub const __API_AVAILABLE2 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4466:13
-pub const __API_AVAILABLE3 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4467:13
-pub const __API_AVAILABLE4 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4468:13
-pub const __API_AVAILABLE5 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4469:13
-pub const __API_AVAILABLE6 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4470:13
-pub const __API_AVAILABLE7 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4471:13
-pub const __API_AVAILABLE_GET_MACRO = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4472:13
-pub const __API_APPLY_TO = @compileError("unable to translate C expr: expected Identifier instead got: Comma"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4474:13
-pub const __API_RANGE_STRINGIFY2 = @compileError("unable to translate C expr: unexpected token .Hash"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4476:13
-pub const __API_A_BEGIN = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4478:13
-pub const __API_AVAILABLE_BEGIN2 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4481:13
-pub const __API_AVAILABLE_BEGIN3 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4482:13
-pub const __API_AVAILABLE_BEGIN4 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4483:13
-pub const __API_AVAILABLE_BEGIN5 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4484:13
-pub const __API_AVAILABLE_BEGIN6 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4485:13
-pub const __API_AVAILABLE_BEGIN7 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4486:13
-pub const __API_AVAILABLE_BEGIN_GET_MACRO = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4487:13
-pub const __API_DEPRECATED_PLATFORM_macos = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4490:13
-pub const __API_DEPRECATED_PLATFORM_macosx = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4491:13
-pub const __API_DEPRECATED_PLATFORM_ios = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4492:13
-pub const __API_DEPRECATED_PLATFORM_watchos = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4493:13
-pub const __API_DEPRECATED_PLATFORM_tvos = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4494:13
-pub const __API_DEPRECATED_PLATFORM_macCatalyst = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4496:13
-pub const __API_DEPRECATED_PLATFORM_uikitformac = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4499:14
-pub const __API_DEPRECATED_PLATFORM_driverkit = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4501:13
-pub const __API_D = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4505:17
-pub const __API_DEPRECATED_MSG3 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4514:13
-pub const __API_DEPRECATED_MSG4 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4515:13
-pub const __API_DEPRECATED_MSG5 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4516:13
-pub const __API_DEPRECATED_MSG6 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4517:13
-pub const __API_DEPRECATED_MSG7 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4518:13
-pub const __API_DEPRECATED_MSG8 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4519:13
-pub const __API_DEPRECATED_MSG_GET_MACRO = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4520:13
-pub const __API_D_BEGIN = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4522:13
-pub const __API_DEPRECATED_BEGIN_MSG3 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4525:13
-pub const __API_DEPRECATED_BEGIN_MSG4 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4526:13
-pub const __API_DEPRECATED_BEGIN_MSG5 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4527:13
-pub const __API_DEPRECATED_BEGIN_MSG6 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4528:13
-pub const __API_DEPRECATED_BEGIN_MSG7 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4529:13
-pub const __API_DEPRECATED_BEGIN_MSG8 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4530:13
-pub const __API_DEPRECATED_BEGIN_MSG_GET_MACRO = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4531:13
-pub const __API_R = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4534:17
-pub const __API_DEPRECATED_REP3 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4540:13
-pub const __API_DEPRECATED_REP4 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4541:13
-pub const __API_DEPRECATED_REP5 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4542:13
-pub const __API_DEPRECATED_REP6 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4543:13
-pub const __API_DEPRECATED_REP7 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4544:13
-pub const __API_DEPRECATED_REP8 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4545:13
-pub const __API_DEPRECATED_REP_GET_MACRO = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4546:13
-pub const __API_R_BEGIN = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4549:17
-pub const __API_DEPRECATED_BEGIN_REP3 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4555:13
-pub const __API_DEPRECATED_BEGIN_REP4 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4556:13
-pub const __API_DEPRECATED_BEGIN_REP5 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4557:13
-pub const __API_DEPRECATED_BEGIN_REP6 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4558:13
-pub const __API_DEPRECATED_BEGIN_REP7 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4559:13
-pub const __API_DEPRECATED_BEGIN_REP8 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4560:13
-pub const __API_DEPRECATED_BEGIN_REP_GET_MACRO = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4561:13
-pub const __API_U = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4586:17
-pub const __API_UNAVAILABLE2 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4595:13
-pub const __API_UNAVAILABLE3 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4596:13
-pub const __API_UNAVAILABLE4 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4597:13
-pub const __API_UNAVAILABLE5 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4598:13
-pub const __API_UNAVAILABLE6 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4599:13
-pub const __API_UNAVAILABLE7 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4600:13
-pub const __API_UNAVAILABLE_GET_MACRO = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4601:13
-pub const __API_U_BEGIN = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4603:13
-pub const __API_UNAVAILABLE_BEGIN2 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4606:13
-pub const __API_UNAVAILABLE_BEGIN3 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4607:13
-pub const __API_UNAVAILABLE_BEGIN4 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4608:13
-pub const __API_UNAVAILABLE_BEGIN5 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4609:13
-pub const __API_UNAVAILABLE_BEGIN6 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4610:13
-pub const __API_UNAVAILABLE_BEGIN7 = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4611:13
-pub const __API_UNAVAILABLE_BEGIN_GET_MACRO = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4612:13
-pub const __swift_compiler_version_at_least = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4661:13
-pub const __SPI_AVAILABLE = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/AvailabilityInternal.h:4669:11
-pub const __OSX_AVAILABLE_STARTING = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:295:17
-pub const __OSX_AVAILABLE_BUT_DEPRECATED = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:296:17
-pub const __OSX_AVAILABLE_BUT_DEPRECATED_MSG = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:298:17
-pub const __OS_AVAILABILITY_MSG = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:322:13
-pub const __OS_EXTENSION_UNAVAILABLE = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:350:9
-pub const __OSX_AVAILABLE = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:358:13
-pub const __OSX_DEPRECATED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:359:13
-pub const __IOS_AVAILABLE = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:381:13
-pub const __IOS_DEPRECATED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:382:13
-pub const __TVOS_AVAILABLE = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:408:13
-pub const __TVOS_DEPRECATED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:409:13
-pub const __WATCHOS_AVAILABLE = @compileError("unable to translate C expr: expected ',' or ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:435:13
-pub const __WATCHOS_DEPRECATED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:436:13
-pub const __API_AVAILABLE = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:504:13
-pub const __API_AVAILABLE_BEGIN = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:506:13
-pub const __API_DEPRECATED = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:525:13
-pub const __API_DEPRECATED_WITH_REPLACEMENT = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:526:13
-pub const __API_DEPRECATED_BEGIN = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:528:13
-pub const __API_DEPRECATED_WITH_REPLACEMENT_BEGIN = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:531:13
-pub const __API_UNAVAILABLE = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:542:13
-pub const __API_UNAVAILABLE_BEGIN = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:544:13
-pub const __SPI_DEPRECATED = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:598:11
-pub const __SPI_DEPRECATED_WITH_REPLACEMENT = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/Availability.h:602:11
-pub const HUGE_VAL = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/math.h:57:15
-pub const HUGE_VALF = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/math.h:58:15
-pub const HUGE_VALL = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/math.h:59:15
-pub const math_errhandling = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/math.h:110:9
-pub const fpclassify = @compileError("unable to translate C expr: expected ')' instead got: Keyword_double"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/math.h:126:9
-pub const isnormal = @compileError("unable to translate C expr: expected ')' instead got: Keyword_double"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/math.h:149:9
-pub const isfinite = @compileError("unable to translate C expr: expected ')' instead got: Keyword_double"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/math.h:154:9
-pub const isinf = @compileError("unable to translate C expr: expected ')' instead got: Keyword_double"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/math.h:159:9
-pub const isnan = @compileError("unable to translate C expr: expected ')' instead got: Keyword_double"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/math.h:164:9
-pub const signbit = @compileError("unable to translate C expr: expected ')' instead got: Keyword_double"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/math.h:169:9
-pub const __sgetc = @compileError("TODO unary inc/dec expr"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdio.h:258:9
-pub const __sclearerr = @compileError("unable to translate C expr: expected ')'"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdio.h:282:9
-pub const SIG_DFL = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/signal.h:131:9
-pub const SIG_IGN = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/signal.h:132:9
-pub const SIG_HOLD = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/signal.h:133:9
-pub const SIG_ERR = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/signal.h:134:9
-pub const __DARWIN_OS_INLINE = @compileError("unable to translate C expr: unexpected token .Keyword_static"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/libkern/i386/_OSByteOrder.h:34:17
-pub const NTOHL = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/_endian.h:143:9
-pub const NTOHS = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/_endian.h:144:9
-pub const NTOHLL = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/_endian.h:145:9
-pub const HTONL = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/_endian.h:146:9
-pub const HTONS = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/_endian.h:147:9
-pub const HTONLL = @compileError("unable to translate C expr: unexpected token .Equal"); // /opt/zig/lib/zig/libc/include/any-macos-any/sys/_endian.h:148:9
-pub const av_always_inline = @compileError("unable to translate C expr: unexpected token .Keyword_inline"); // /Users/j/src/ffmpeg/libavutil/attributes.h:45:13
-pub const av_extern_inline = @compileError("unable to translate C expr: unexpected token .Keyword_extern"); // /Users/j/src/ffmpeg/libavutil/attributes.h:55:13
-pub const av_const = @compileError("unable to translate C expr: unexpected token .Keyword_const"); // /Users/j/src/ffmpeg/libavutil/attributes.h:82:13
-pub const av_uninit = @compileError("unable to translate C expr: unexpected token .Equal"); // /Users/j/src/ffmpeg/libavutil/attributes.h:154:13
-pub const AV_TOSTRING = @compileError("unable to translate C expr: unexpected token .Hash"); // /Users/j/src/ffmpeg/libavutil/macros.h:37:9
-pub const AV_GLUE = @compileError("unable to translate C expr: unexpected token .HashHash"); // /Users/j/src/ffmpeg/libavutil/macros.h:39:9
-pub const AV_PRAGMA = @compileError("unable to translate C expr: unexpected token .Hash"); // /Users/j/src/ffmpeg/libavutil/macros.h:46:9
-pub const AV_VERSION_DOT = @compileError("unable to translate C expr: unexpected token .HashHash"); // /Users/j/src/ffmpeg/libavutil/version.h:57:9
-pub const FFSWAP = @compileError("unable to translate C expr: unexpected token .Keyword_do"); // /Users/j/src/ffmpeg/libavutil/common.h:108:9
-pub const GET_UTF8 = @compileError("unable to translate C expr: unexpected token .Equal"); // /Users/j/src/ffmpeg/libavutil/common.h:499:9
-pub const GET_UTF16 = @compileError("unable to translate C expr: unexpected token .Equal"); // /Users/j/src/ffmpeg/libavutil/common.h:524:9
-pub const PUT_UTF8 = @compileError("unable to translate C expr: unexpected token .LBrace"); // /Users/j/src/ffmpeg/libavutil/common.h:552:9
-pub const PUT_UTF16 = @compileError("unable to translate C expr: unexpected token .LBrace"); // /Users/j/src/ffmpeg/libavutil/common.h:586:9
-pub const DECLARE_ALIGNED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /Users/j/src/ffmpeg/libavutil/mem.h:117:13
-pub const DECLARE_ASM_ALIGNED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /Users/j/src/ffmpeg/libavutil/mem.h:118:13
-pub const DECLARE_ASM_CONST = @compileError("unable to translate C expr: unexpected token .Keyword_static"); // /Users/j/src/ffmpeg/libavutil/mem.h:119:13
-pub const av_alloc_size = @compileError("unable to translate C expr: expected ')'"); // /Users/j/src/ffmpeg/libavutil/mem.h:175:13
-pub const AV_PIX_FMT_NE = @compileError("unable to translate C expr: unexpected token .HashHash"); // /Users/j/src/ffmpeg/libavutil/pixfmt.h:369:12
-pub const AV_PIX_FMT_0BGR32 = @compileError("unable to translate C expr: unexpected token .Invalid"); // /Users/j/src/ffmpeg/libavutil/pixfmt.h:377:9
-pub const __CLOCK_AVAILABILITY = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/zig/lib/zig/libc/include/any-macos-any/time.h:148:9
-pub const avio_print = @compileError("unable to translate C expr: expected ')'"); // /Users/j/src/ffmpeg/libavformat/avio.h:594:9
+pub const __INTMAX_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):62:9
+pub const __UINTMAX_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):66:9
+pub const __PTRDIFF_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_int"); // (no file):73:9
+pub const __INTPTR_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_int"); // (no file):77:9
+pub const __SIZE_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_unsigned"); // (no file):81:9
+pub const __UINTPTR_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_unsigned"); // (no file):96:9
+pub const __INT64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):158:9
+pub const __UINT64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):186:9
+pub const __INT_LEAST64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):224:9
+pub const __UINT_LEAST64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):228:9
+pub const __INT_FAST64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):264:9
+pub const __UINT_FAST64_TYPE__ = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // (no file):268:9
+pub const __restrict = @compileError("unable to translate C expr: unexpected token .Keyword_restrict"); // /opt/wasi-sysroot/include/features.h:20:9
+pub const __inline = @compileError("unable to translate C expr: unexpected token .Keyword_inline"); // /opt/wasi-sysroot/include/features.h:26:9
+pub const __REDIR = @compileError("unable to translate C expr: unexpected token .Identifier"); // /opt/wasi-sysroot/include/features.h:38:9
+pub const _Int64 = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // /opt/wasi-sysroot/include/bits/alltypes.h:2:9
+pub const _Reg = @compileError("unable to translate C expr: unexpected token .Keyword_long"); // /opt/wasi-sysroot/include/bits/alltypes.h:3:9
+pub const UINT32_C = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/wasi-sysroot/include/stdint.h:103:9
+pub const INT64_C = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/wasi-sysroot/include/stdint.h:111:9
+pub const UINT64_C = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/wasi-sysroot/include/stdint.h:112:9
+pub const INTMAX_C = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/wasi-sysroot/include/stdint.h:113:9
+pub const UINTMAX_C = @compileError("unable to translate C expr: unexpected token .HashHash"); // /opt/wasi-sysroot/include/stdint.h:114:9
+pub const INFINITY = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/wasi-sysroot/include/math.h:16:9
+pub const HUGE_VALL = @compileError("unable to translate C expr: expected ')' instead got: Keyword_double"); // /opt/wasi-sysroot/include/math.h:24:9
+pub const MB_CUR_MAX = @compileError("unable to translate C expr: unexpected token .RParen"); // /opt/wasi-sysroot/include/stdlib.h:92:9
+pub const av_always_inline = @compileError("unable to translate C expr: unexpected token .Keyword_inline"); // /Users/j/src/ffmpeg/out/include/libavutil/attributes.h:45:13
+pub const av_extern_inline = @compileError("unable to translate C expr: unexpected token .Keyword_extern"); // /Users/j/src/ffmpeg/out/include/libavutil/attributes.h:55:13
+pub const av_const = @compileError("unable to translate C expr: unexpected token .Keyword_const"); // /Users/j/src/ffmpeg/out/include/libavutil/attributes.h:82:13
+pub const av_uninit = @compileError("unable to translate C expr: unexpected token .Equal"); // /Users/j/src/ffmpeg/out/include/libavutil/attributes.h:154:13
+pub const AV_TOSTRING = @compileError("unable to translate C expr: unexpected token .Hash"); // /Users/j/src/ffmpeg/out/include/libavutil/macros.h:37:9
+pub const AV_GLUE = @compileError("unable to translate C expr: unexpected token .HashHash"); // /Users/j/src/ffmpeg/out/include/libavutil/macros.h:39:9
+pub const AV_PRAGMA = @compileError("unable to translate C expr: unexpected token .Hash"); // /Users/j/src/ffmpeg/out/include/libavutil/macros.h:46:9
+pub const AV_VERSION_DOT = @compileError("unable to translate C expr: unexpected token .HashHash"); // /Users/j/src/ffmpeg/out/include/libavutil/version.h:57:9
+pub const FFSWAP = @compileError("unable to translate C expr: unexpected token .Keyword_do"); // /Users/j/src/ffmpeg/out/include/libavutil/common.h:108:9
+pub const GET_UTF8 = @compileError("unable to translate C expr: unexpected token .Equal"); // /Users/j/src/ffmpeg/out/include/libavutil/common.h:499:9
+pub const GET_UTF16 = @compileError("unable to translate C expr: unexpected token .Equal"); // /Users/j/src/ffmpeg/out/include/libavutil/common.h:524:9
+pub const PUT_UTF8 = @compileError("unable to translate C expr: unexpected token .LBrace"); // /Users/j/src/ffmpeg/out/include/libavutil/common.h:552:9
+pub const PUT_UTF16 = @compileError("unable to translate C expr: unexpected token .LBrace"); // /Users/j/src/ffmpeg/out/include/libavutil/common.h:586:9
+pub const DECLARE_ALIGNED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /Users/j/src/ffmpeg/out/include/libavutil/mem.h:117:13
+pub const DECLARE_ASM_ALIGNED = @compileError("unable to translate C expr: unexpected token .Identifier"); // /Users/j/src/ffmpeg/out/include/libavutil/mem.h:118:13
+pub const DECLARE_ASM_CONST = @compileError("unable to translate C expr: unexpected token .Keyword_static"); // /Users/j/src/ffmpeg/out/include/libavutil/mem.h:119:13
+pub const av_alloc_size = @compileError("unable to translate C expr: expected ')'"); // /Users/j/src/ffmpeg/out/include/libavutil/mem.h:175:13
+pub const AV_PIX_FMT_NE = @compileError("unable to translate C expr: unexpected token .HashHash"); // /Users/j/src/ffmpeg/out/include/libavutil/pixfmt.h:369:12
+pub const AV_PIX_FMT_0BGR32 = @compileError("unable to translate C expr: unexpected token .Invalid"); // /Users/j/src/ffmpeg/out/include/libavutil/pixfmt.h:377:9
+pub const avio_print = @compileError("unable to translate C expr: expected ')'"); // /Users/j/src/ffmpeg/out/include/libavformat/avio.h:594:9
 pub const __llvm__ = 1;
 pub const __clang__ = 1;
 pub const __clang_major__ = 11;
@@ -6174,69 +4539,67 @@ pub const __PRAGMA_REDEFINE_EXTNAME = 1;
 pub const __VERSION__ = "Clang 11.1.0";
 pub const __OBJC_BOOL_IS_BOOL = 0;
 pub const __CONSTANT_CFSTRINGS__ = 1;
-pub const __block = __attribute__(__blocks__(byref));
-pub const __BLOCKS__ = 1;
 pub const __OPTIMIZE__ = 1;
 pub const __ORDER_LITTLE_ENDIAN__ = 1234;
 pub const __ORDER_BIG_ENDIAN__ = 4321;
 pub const __ORDER_PDP_ENDIAN__ = 3412;
 pub const __BYTE_ORDER__ = __ORDER_LITTLE_ENDIAN__;
 pub const __LITTLE_ENDIAN__ = 1;
-pub const _LP64 = 1;
-pub const __LP64__ = 1;
+pub const _ILP32 = 1;
+pub const __ILP32__ = 1;
 pub const __CHAR_BIT__ = 8;
 pub const __SCHAR_MAX__ = 127;
 pub const __SHRT_MAX__ = 32767;
 pub const __INT_MAX__ = 2147483647;
-pub const __LONG_MAX__ = @as(c_long, 9223372036854775807);
+pub const __LONG_MAX__ = @as(c_long, 2147483647);
 pub const __LONG_LONG_MAX__ = @as(c_longlong, 9223372036854775807);
 pub const __WCHAR_MAX__ = 2147483647;
 pub const __WINT_MAX__ = 2147483647;
-pub const __INTMAX_MAX__ = @as(c_long, 9223372036854775807);
-pub const __SIZE_MAX__ = @as(c_ulong, 18446744073709551615);
-pub const __UINTMAX_MAX__ = @as(c_ulong, 18446744073709551615);
-pub const __PTRDIFF_MAX__ = @as(c_long, 9223372036854775807);
-pub const __INTPTR_MAX__ = @as(c_long, 9223372036854775807);
-pub const __UINTPTR_MAX__ = @as(c_ulong, 18446744073709551615);
+pub const __INTMAX_MAX__ = @as(c_longlong, 9223372036854775807);
+pub const __SIZE_MAX__ = @as(c_ulong, 4294967295);
+pub const __UINTMAX_MAX__ = @as(c_ulonglong, 18446744073709551615);
+pub const __PTRDIFF_MAX__ = @as(c_long, 2147483647);
+pub const __INTPTR_MAX__ = @as(c_long, 2147483647);
+pub const __UINTPTR_MAX__ = @as(c_ulong, 4294967295);
 pub const __SIZEOF_DOUBLE__ = 8;
 pub const __SIZEOF_FLOAT__ = 4;
 pub const __SIZEOF_INT__ = 4;
-pub const __SIZEOF_LONG__ = 8;
+pub const __SIZEOF_LONG__ = 4;
 pub const __SIZEOF_LONG_DOUBLE__ = 16;
 pub const __SIZEOF_LONG_LONG__ = 8;
-pub const __SIZEOF_POINTER__ = 8;
+pub const __SIZEOF_POINTER__ = 4;
 pub const __SIZEOF_SHORT__ = 2;
-pub const __SIZEOF_PTRDIFF_T__ = 8;
-pub const __SIZEOF_SIZE_T__ = 8;
+pub const __SIZEOF_PTRDIFF_T__ = 4;
+pub const __SIZEOF_SIZE_T__ = 4;
 pub const __SIZEOF_WCHAR_T__ = 4;
 pub const __SIZEOF_WINT_T__ = 4;
 pub const __SIZEOF_INT128__ = 16;
-pub const __INTMAX_FMTd__ = "ld";
-pub const __INTMAX_FMTi__ = "li";
-pub const __INTMAX_C_SUFFIX__ = L;
-pub const __UINTMAX_FMTo__ = "lo";
-pub const __UINTMAX_FMTu__ = "lu";
-pub const __UINTMAX_FMTx__ = "lx";
-pub const __UINTMAX_FMTX__ = "lX";
-pub const __UINTMAX_C_SUFFIX__ = UL;
+pub const __INTMAX_FMTd__ = "lld";
+pub const __INTMAX_FMTi__ = "lli";
+pub const __INTMAX_C_SUFFIX__ = LL;
+pub const __UINTMAX_FMTo__ = "llo";
+pub const __UINTMAX_FMTu__ = "llu";
+pub const __UINTMAX_FMTx__ = "llx";
+pub const __UINTMAX_FMTX__ = "llX";
+pub const __UINTMAX_C_SUFFIX__ = ULL;
 pub const __INTMAX_WIDTH__ = 64;
 pub const __PTRDIFF_FMTd__ = "ld";
 pub const __PTRDIFF_FMTi__ = "li";
-pub const __PTRDIFF_WIDTH__ = 64;
+pub const __PTRDIFF_WIDTH__ = 32;
 pub const __INTPTR_FMTd__ = "ld";
 pub const __INTPTR_FMTi__ = "li";
-pub const __INTPTR_WIDTH__ = 64;
+pub const __INTPTR_WIDTH__ = 32;
 pub const __SIZE_FMTo__ = "lo";
 pub const __SIZE_FMTu__ = "lu";
 pub const __SIZE_FMTx__ = "lx";
 pub const __SIZE_FMTX__ = "lX";
-pub const __SIZE_WIDTH__ = 64;
+pub const __SIZE_WIDTH__ = 32;
 pub const __WCHAR_TYPE__ = c_int;
 pub const __WCHAR_WIDTH__ = 32;
 pub const __WINT_TYPE__ = c_int;
 pub const __WINT_WIDTH__ = 32;
 pub const __SIG_ATOMIC_WIDTH__ = 32;
-pub const __SIG_ATOMIC_MAX__ = 2147483647;
+pub const __SIG_ATOMIC_MAX__ = @as(c_long, 2147483647);
 pub const __CHAR16_TYPE__ = c_ushort;
 pub const __CHAR32_TYPE__ = c_uint;
 pub const __UINTMAX_WIDTH__ = 64;
@@ -6244,7 +4607,7 @@ pub const __UINTPTR_FMTo__ = "lo";
 pub const __UINTPTR_FMTu__ = "lu";
 pub const __UINTPTR_FMTx__ = "lx";
 pub const __UINTPTR_FMTX__ = "lX";
-pub const __UINTPTR_WIDTH__ = 64;
+pub const __UINTPTR_WIDTH__ = 32;
 pub const __FLT_DENORM_MIN__ = @as(f32, 1.40129846e-45);
 pub const __FLT_HAS_DENORM__ = 1;
 pub const __FLT_DIG__ = 6;
@@ -6273,21 +4636,21 @@ pub const __DBL_MAX__ = 1.7976931348623157e+308;
 pub const __DBL_MIN_10_EXP__ = -307;
 pub const __DBL_MIN_EXP__ = -1021;
 pub const __DBL_MIN__ = 2.2250738585072014e-308;
-pub const __LDBL_DENORM_MIN__ = @as(c_longdouble, 3.64519953188247460253e-4951);
+pub const __LDBL_DENORM_MIN__ = @as(c_longdouble, 6.47517511943802511092443895822764655e-4966);
 pub const __LDBL_HAS_DENORM__ = 1;
-pub const __LDBL_DIG__ = 18;
-pub const __LDBL_DECIMAL_DIG__ = 21;
-pub const __LDBL_EPSILON__ = @as(c_longdouble, 1.08420217248550443401e-19);
+pub const __LDBL_DIG__ = 33;
+pub const __LDBL_DECIMAL_DIG__ = 36;
+pub const __LDBL_EPSILON__ = @as(c_longdouble, 1.92592994438723585305597794258492732e-34);
 pub const __LDBL_HAS_INFINITY__ = 1;
 pub const __LDBL_HAS_QUIET_NAN__ = 1;
-pub const __LDBL_MANT_DIG__ = 64;
+pub const __LDBL_MANT_DIG__ = 113;
 pub const __LDBL_MAX_10_EXP__ = 4932;
 pub const __LDBL_MAX_EXP__ = 16384;
-pub const __LDBL_MAX__ = @as(c_longdouble, 1.18973149535723176502e+4932);
+pub const __LDBL_MAX__ = @as(c_longdouble, 1.18973149535723176508575932662800702e+4932);
 pub const __LDBL_MIN_10_EXP__ = -4931;
 pub const __LDBL_MIN_EXP__ = -16381;
-pub const __LDBL_MIN__ = @as(c_longdouble, 3.36210314311209350626e-4932);
-pub const __POINTER_WIDTH__ = 64;
+pub const __LDBL_MIN__ = @as(c_longdouble, 3.36210314311209350626267781732175260e-4932);
+pub const __POINTER_WIDTH__ = 32;
 pub const __BIGGEST_ALIGNMENT__ = 16;
 pub const __INT8_TYPE__ = i8;
 pub const __INT8_FMTd__ = "hhd";
@@ -6406,7 +4769,6 @@ pub const __UINT_FAST64_FMTo__ = "llo";
 pub const __UINT_FAST64_FMTu__ = "llu";
 pub const __UINT_FAST64_FMTx__ = "llx";
 pub const __UINT_FAST64_FMTX__ = "llX";
-pub const __USER_LABEL_PREFIX__ = _;
 pub const __FINITE_MATH_ONLY__ = 0;
 pub const __GNUC_STDC_INLINE__ = 1;
 pub const __GCC_ATOMIC_TEST_AND_SET_TRUEVAL = 1;
@@ -6430,438 +4792,361 @@ pub const __GCC_ATOMIC_INT_LOCK_FREE = 2;
 pub const __GCC_ATOMIC_LONG_LOCK_FREE = 2;
 pub const __GCC_ATOMIC_LLONG_LOCK_FREE = 2;
 pub const __GCC_ATOMIC_POINTER_LOCK_FREE = 2;
-pub const __PIC__ = 2;
-pub const __pic__ = 2;
 pub const __FLT_EVAL_METHOD__ = 0;
 pub const __FLT_RADIX__ = 2;
 pub const __DECIMAL_DIG__ = __LDBL_DECIMAL_DIG__;
-pub const __SSP_STRONG__ = 2;
-pub const __nonnull = _Nonnull;
-pub const __null_unspecified = _Null_unspecified;
-pub const __nullable = _Nullable;
-pub const __GCC_ASM_FLAG_OUTPUTS__ = 1;
-pub const __code_model_small__ = 1;
-pub const __amd64__ = 1;
-pub const __amd64 = 1;
-pub const __x86_64 = 1;
-pub const __x86_64__ = 1;
-pub const __SEG_GS = 1;
-pub const __SEG_FS = 1;
-pub const __seg_gs = __attribute__(address_space(256));
-pub const __seg_fs = __attribute__(address_space(257));
-pub const __corei7 = 1;
-pub const __corei7__ = 1;
-pub const __tune_corei7__ = 1;
-pub const __NO_MATH_INLINES = 1;
-pub const __AES__ = 1;
-pub const __PCLMUL__ = 1;
-pub const __LZCNT__ = 1;
-pub const __RDRND__ = 1;
-pub const __FSGSBASE__ = 1;
-pub const __BMI__ = 1;
-pub const __BMI2__ = 1;
-pub const __POPCNT__ = 1;
-pub const __PRFCHW__ = 1;
-pub const __RDSEED__ = 1;
-pub const __ADX__ = 1;
-pub const __MOVBE__ = 1;
-pub const __FMA__ = 1;
-pub const __F16C__ = 1;
-pub const __FXSR__ = 1;
-pub const __XSAVE__ = 1;
-pub const __XSAVEOPT__ = 1;
-pub const __XSAVEC__ = 1;
-pub const __XSAVES__ = 1;
-pub const __CLFLUSHOPT__ = 1;
-pub const __SGX__ = 1;
-pub const __INVPCID__ = 1;
-pub const __AVX2__ = 1;
-pub const __AVX__ = 1;
-pub const __SSE4_2__ = 1;
-pub const __SSE4_1__ = 1;
-pub const __SSSE3__ = 1;
-pub const __SSE3__ = 1;
-pub const __SSE2__ = 1;
-pub const __SSE2_MATH__ = 1;
-pub const __SSE__ = 1;
-pub const __SSE_MATH__ = 1;
-pub const __MMX__ = 1;
-pub const __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1 = 1;
-pub const __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2 = 1;
-pub const __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4 = 1;
-pub const __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8 = 1;
-pub const __GCC_HAVE_SYNC_COMPARE_AND_SWAP_16 = 1;
-pub const __APPLE_CC__ = 6000;
-pub const __APPLE__ = 1;
-pub const __STDC_NO_THREADS__ = 1;
-pub const __weak = __attribute__(objc_gc(weak));
-pub const __DYNAMIC__ = 1;
-pub const __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ = 110300;
-pub const __MACH__ = 1;
+pub const __wasm = 1;
+pub const __wasm__ = 1;
+pub const __wasm32 = 1;
+pub const __wasm32__ = 1;
+pub const __FLOAT128__ = 1;
+pub const __wasi__ = 1;
 pub const __STDC__ = 1;
 pub const __STDC_HOSTED__ = 1;
 pub const __STDC_VERSION__ = @as(c_long, 201710);
 pub const __STDC_UTF_16__ = 1;
 pub const __STDC_UTF_32__ = 1;
 pub const _DEBUG = 1;
-pub fn __P(protos: anytype) callconv(.Inline) @TypeOf(protos) {
-    return protos;
+pub const _BSD_SOURCE = 1;
+pub const _XOPEN_SOURCE = 700;
+pub const NULL = @import("std").meta.cast(?*c_void, 0);
+pub fn offsetof(t: anytype, d: anytype) callconv(.Inline) @TypeOf(__builtin_offsetof(t, d)) {
+    return __builtin_offsetof(t, d);
 }
-pub const __signed = c_int;
-pub const __dead2 = __attribute__(__noreturn__);
-pub const __pure2 = __attribute__(__const__);
-pub const __unused = __attribute__(__unused__);
-pub const __used = __attribute__(__used__);
-pub const __cold = __attribute__(__cold__);
-pub const __deprecated = __attribute__(__deprecated__);
-pub fn __deprecated_msg(_msg: anytype) callconv(.Inline) @TypeOf(__attribute__(__deprecated__(_msg))) {
-    return __attribute__(__deprecated__(_msg));
-}
-pub fn __deprecated_enum_msg(_msg: anytype) callconv(.Inline) @TypeOf(__deprecated_msg(_msg)) {
-    return __deprecated_msg(_msg);
-}
-pub const __unavailable = __attribute__(__unavailable__);
-pub const __disable_tail_calls = __attribute__(__disable_tail_calls__);
-pub const __not_tail_called = __attribute__(__not_tail_called__);
-pub const __result_use_check = __attribute__(__warn_unused_result__);
-pub const __abortlike = __dead2 ++ __cold ++ __not_tail_called;
-pub const __header_always_inline = __header_inline ++ __attribute__(__always_inline__);
-pub const __unreachable_ok_pop = _Pragma("clang diagnostic pop");
-pub fn __printflike(fmtarg: anytype, firstvararg: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__printf__, fmtarg, firstvararg))) {
-    return __attribute__(__format__(__printf__, fmtarg, firstvararg));
-}
-pub fn __printf0like(fmtarg: anytype, firstvararg: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__printf0__, fmtarg, firstvararg))) {
-    return __attribute__(__format__(__printf0__, fmtarg, firstvararg));
-}
-pub fn __scanflike(fmtarg: anytype, firstvararg: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__scanf__, fmtarg, firstvararg))) {
-    return __attribute__(__format__(__scanf__, fmtarg, firstvararg));
-}
-pub fn __COPYRIGHT(s: anytype) callconv(.Inline) @TypeOf(__IDSTRING(copyright, s)) {
-    return __IDSTRING(copyright, s);
-}
-pub fn __RCSID(s: anytype) callconv(.Inline) @TypeOf(__IDSTRING(rcsid, s)) {
-    return __IDSTRING(rcsid, s);
-}
-pub fn __SCCSID(s: anytype) callconv(.Inline) @TypeOf(__IDSTRING(sccsid, s)) {
-    return __IDSTRING(sccsid, s);
-}
-pub fn __PROJECT_VERSION(s: anytype) callconv(.Inline) @TypeOf(__IDSTRING(project_version, s)) {
-    return __IDSTRING(project_version, s);
-}
-pub const __DARWIN_ONLY_64_BIT_INO_T = 0;
-pub const __DARWIN_ONLY_VERS_1050 = 0;
-pub const __DARWIN_ONLY_UNIX_CONFORMANCE = 1;
-pub const __DARWIN_UNIX03 = 1;
-pub const __DARWIN_64_BIT_INO_T = 1;
-pub const __DARWIN_VERS_1050 = 1;
-pub const __DARWIN_NON_CANCELABLE = 0;
-pub const __DARWIN_SUF_64_BIT_INO_T = "$INODE64";
-pub const __DARWIN_SUF_1050 = "$1050";
-pub const __DARWIN_SUF_EXTSN = "$DARWIN_EXTSN";
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_0(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_1(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_2(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_3(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_4(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_5(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_6(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_7(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_8(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_9(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_10(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_10_2(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_10_3(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_2(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_3(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_4(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_1(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_2(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_4(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_1(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_2(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_4(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_1(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_4(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_5(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_6(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_15(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_15_1(x: anytype) callconv(.Inline) @TypeOf(x) {
-    return x;
-}
-pub const __DARWIN_C_ANSI = @as(c_long, 0o010000);
-pub const __DARWIN_C_FULL = @as(c_long, 900000);
-pub const __DARWIN_C_LEVEL = __DARWIN_C_FULL;
-pub const __STDC_WANT_LIB_EXT1__ = 1;
-pub const __DARWIN_NO_LONG_LONG = 0;
-pub const _DARWIN_FEATURE_64_BIT_INODE = 1;
-pub const _DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE = 1;
-pub const _DARWIN_FEATURE_UNIX_CONFORMANCE = 3;
-pub fn __CAST_AWAY_QUALIFIER(variable: anytype, qualifier: anytype, type_1: anytype) callconv(.Inline) @TypeOf(@import("std").meta.cast(type_1, c_long)(variable)) {
-    return @import("std").meta.cast(type_1, c_long)(variable);
-}
-pub const __XNU_PRIVATE_EXTERN = __attribute__(visibility("hidden"));
-pub const __enum_open = __attribute__(__enum_extensibility__(open));
-pub const __enum_closed = __attribute__(__enum_extensibility__(closed));
-pub const __enum_options = __attribute__(__flag_enum__);
-pub const EPERM = 1;
-pub const ENOENT = 2;
-pub const ESRCH = 3;
-pub const EINTR = 4;
-pub const EIO = 5;
-pub const ENXIO = 6;
-pub const E2BIG = 7;
-pub const ENOEXEC = 8;
-pub const EBADF = 9;
-pub const ECHILD = 10;
-pub const EDEADLK = 11;
-pub const ENOMEM = 12;
-pub const EACCES = 13;
-pub const EFAULT = 14;
-pub const ENOTBLK = 15;
-pub const EBUSY = 16;
-pub const EEXIST = 17;
-pub const EXDEV = 18;
-pub const ENODEV = 19;
-pub const ENOTDIR = 20;
-pub const EISDIR = 21;
-pub const EINVAL = 22;
-pub const ENFILE = 23;
-pub const EMFILE = 24;
-pub const ENOTTY = 25;
-pub const ETXTBSY = 26;
-pub const EFBIG = 27;
-pub const ENOSPC = 28;
-pub const ESPIPE = 29;
-pub const EROFS = 30;
-pub const EMLINK = 31;
-pub const EPIPE = 32;
-pub const EDOM = 33;
-pub const ERANGE = 34;
-pub const EAGAIN = 35;
-pub const EWOULDBLOCK = EAGAIN;
-pub const EINPROGRESS = 36;
-pub const EALREADY = 37;
-pub const ENOTSOCK = 38;
-pub const EDESTADDRREQ = 39;
-pub const EMSGSIZE = 40;
-pub const EPROTOTYPE = 41;
-pub const ENOPROTOOPT = 42;
-pub const EPROTONOSUPPORT = 43;
-pub const ESOCKTNOSUPPORT = 44;
-pub const ENOTSUP = 45;
-pub const EPFNOSUPPORT = 46;
-pub const EAFNOSUPPORT = 47;
-pub const EADDRINUSE = 48;
-pub const EADDRNOTAVAIL = 49;
-pub const ENETDOWN = 50;
-pub const ENETUNREACH = 51;
-pub const ENETRESET = 52;
-pub const ECONNABORTED = 53;
-pub const ECONNRESET = 54;
-pub const ENOBUFS = 55;
-pub const EISCONN = 56;
-pub const ENOTCONN = 57;
-pub const ESHUTDOWN = 58;
-pub const ETOOMANYREFS = 59;
-pub const ETIMEDOUT = 60;
-pub const ECONNREFUSED = 61;
-pub const ELOOP = 62;
-pub const ENAMETOOLONG = 63;
-pub const EHOSTDOWN = 64;
-pub const EHOSTUNREACH = 65;
-pub const ENOTEMPTY = 66;
-pub const EPROCLIM = 67;
-pub const EUSERS = 68;
-pub const EDQUOT = 69;
-pub const ESTALE = 70;
-pub const EREMOTE = 71;
-pub const EBADRPC = 72;
-pub const ERPCMISMATCH = 73;
-pub const EPROGUNAVAIL = 74;
-pub const EPROGMISMATCH = 75;
-pub const EPROCUNAVAIL = 76;
-pub const ENOLCK = 77;
-pub const ENOSYS = 78;
-pub const EFTYPE = 79;
-pub const EAUTH = 80;
-pub const ENEEDAUTH = 81;
-pub const EPWROFF = 82;
-pub const EDEVERR = 83;
-pub const EOVERFLOW = 84;
-pub const EBADEXEC = 85;
-pub const EBADARCH = 86;
-pub const ESHLIBVERS = 87;
-pub const EBADMACHO = 88;
-pub const ECANCELED = 89;
-pub const EIDRM = 90;
-pub const ENOMSG = 91;
-pub const EILSEQ = 92;
-pub const ENOATTR = 93;
-pub const EBADMSG = 94;
-pub const EMULTIHOP = 95;
-pub const ENODATA = 96;
-pub const ENOLINK = 97;
-pub const ENOSR = 98;
-pub const ENOSTR = 99;
-pub const EPROTO = 100;
-pub const ETIME = 101;
-pub const EOPNOTSUPP = 102;
-pub const ENOPOLICY = 103;
-pub const ENOTRECOVERABLE = 104;
-pub const EOWNERDEAD = 105;
-pub const EQFULL = 106;
-pub const ELAST = 106;
-pub const __WORDSIZE = 64;
-pub const __DARWIN_NULL = @import("std").meta.cast(?*c_void, 0);
-pub const __PTHREAD_SIZE__ = 8176;
-pub const __PTHREAD_ATTR_SIZE__ = 56;
-pub const __PTHREAD_MUTEXATTR_SIZE__ = 8;
-pub const __PTHREAD_MUTEX_SIZE__ = 56;
-pub const __PTHREAD_CONDATTR_SIZE__ = 8;
-pub const __PTHREAD_COND_SIZE__ = 40;
-pub const __PTHREAD_ONCE_SIZE__ = 8;
-pub const __PTHREAD_RWLOCK_SIZE__ = 192;
-pub const __PTHREAD_RWLOCKATTR_SIZE__ = 16;
-pub fn __offsetof(type_1: anytype, field: anytype) callconv(.Inline) @TypeOf(__builtin_offsetof(type_1, field)) {
-    return __builtin_offsetof(type_1, field);
-}
-pub const USER_ADDR_NULL = @import("std").meta.cast(user_addr_t, 0);
-pub fn CAST_USER_ADDR_T(a_ptr: anytype) callconv(.Inline) user_addr_t {
-    return @import("std").meta.cast(user_addr_t, @import("std").meta.cast(usize, a_ptr));
-}
-pub fn INT8_C(v: anytype) callconv(.Inline) @TypeOf(v) {
-    return v;
-}
-pub fn INT16_C(v: anytype) callconv(.Inline) @TypeOf(v) {
-    return v;
-}
-pub fn INT32_C(v: anytype) callconv(.Inline) @TypeOf(v) {
-    return v;
-}
-pub fn UINT8_C(v: anytype) callconv(.Inline) @TypeOf(v) {
-    return v;
-}
-pub fn UINT16_C(v: anytype) callconv(.Inline) @TypeOf(v) {
-    return v;
-}
-pub const INT8_MAX = 127;
-pub const INT16_MAX = 32767;
-pub const INT32_MAX = 2147483647;
-pub const INT64_MAX = @as(c_longlong, 9223372036854775807);
-pub const INT8_MIN = -128;
-pub const INT16_MIN = -32768;
-pub const INT32_MIN = -INT32_MAX - 1;
-pub const INT64_MIN = -INT64_MAX - 1;
-pub const UINT8_MAX = 255;
-pub const UINT16_MAX = 65535;
-pub const UINT32_MAX = @as(c_uint, 4294967295);
-pub const UINT64_MAX = @as(c_ulonglong, 18446744073709551615);
+pub const _Addr = c_long;
+pub const __BYTE_ORDER = __BYTE_ORDER__;
+pub const __LONG_MAX = __LONG_MAX__;
+pub const __LITTLE_ENDIAN = 1234;
+pub const __BIG_ENDIAN = 4321;
+pub const __USE_TIME_BITS64 = 1;
+pub const INT8_MIN = -1 - 0x7f;
+pub const INT16_MIN = -1 - 0x7fff;
+pub const INT32_MIN = -1 - 0x7fffffff;
+pub const INT64_MIN = -1 - 0x7fffffffffffffff;
+pub const INT8_MAX = 0x7f;
+pub const INT16_MAX = 0x7fff;
+pub const INT32_MAX = 0x7fffffff;
+pub const INT64_MAX = 0x7fffffffffffffff;
+pub const UINT8_MAX = 0xff;
+pub const UINT16_MAX = 0xffff;
+pub const UINT32_MAX = @as(c_uint, 0xffffffff);
+pub const UINT64_MAX = @as(c_uint, 0xffffffffffffffff);
+pub const INT_FAST8_MIN = INT8_MIN;
+pub const INT_FAST64_MIN = INT64_MIN;
 pub const INT_LEAST8_MIN = INT8_MIN;
 pub const INT_LEAST16_MIN = INT16_MIN;
 pub const INT_LEAST32_MIN = INT32_MIN;
 pub const INT_LEAST64_MIN = INT64_MIN;
+pub const INT_FAST8_MAX = INT8_MAX;
+pub const INT_FAST64_MAX = INT64_MAX;
 pub const INT_LEAST8_MAX = INT8_MAX;
 pub const INT_LEAST16_MAX = INT16_MAX;
 pub const INT_LEAST32_MAX = INT32_MAX;
 pub const INT_LEAST64_MAX = INT64_MAX;
+pub const UINT_FAST8_MAX = UINT8_MAX;
+pub const UINT_FAST64_MAX = UINT64_MAX;
 pub const UINT_LEAST8_MAX = UINT8_MAX;
 pub const UINT_LEAST16_MAX = UINT16_MAX;
 pub const UINT_LEAST32_MAX = UINT32_MAX;
 pub const UINT_LEAST64_MAX = UINT64_MAX;
-pub const INT_FAST8_MIN = INT8_MIN;
-pub const INT_FAST16_MIN = INT16_MIN;
-pub const INT_FAST32_MIN = INT32_MIN;
-pub const INT_FAST64_MIN = INT64_MIN;
-pub const INT_FAST8_MAX = INT8_MAX;
-pub const INT_FAST16_MAX = INT16_MAX;
-pub const INT_FAST32_MAX = INT32_MAX;
-pub const INT_FAST64_MAX = INT64_MAX;
-pub const UINT_FAST8_MAX = UINT8_MAX;
-pub const UINT_FAST16_MAX = UINT16_MAX;
-pub const UINT_FAST32_MAX = UINT32_MAX;
-pub const UINT_FAST64_MAX = UINT64_MAX;
-pub const INTPTR_MAX = @as(c_long, 9223372036854775807);
-pub const INTPTR_MIN = -INTPTR_MAX - 1;
-pub const UINTPTR_MAX = @as(c_ulong, 18446744073709551615);
-pub const INTMAX_MAX = INTMAX_C(9223372036854775807);
-pub const UINTMAX_MAX = UINTMAX_C(18446744073709551615);
-pub const INTMAX_MIN = -INTMAX_MAX - 1;
-pub const PTRDIFF_MIN = INTMAX_MIN;
-pub const PTRDIFF_MAX = INTMAX_MAX;
-pub const SIZE_MAX = UINTPTR_MAX;
-pub const RSIZE_MAX = SIZE_MAX >> 1;
-pub const WCHAR_MAX = __WCHAR_MAX__;
-pub const WCHAR_MIN = -WCHAR_MAX - 1;
-pub const WINT_MIN = INT32_MIN;
-pub const WINT_MAX = INT32_MAX;
+pub const INTMAX_MIN = INT64_MIN;
+pub const INTMAX_MAX = INT64_MAX;
+pub const UINTMAX_MAX = UINT64_MAX;
+pub const WINT_MIN = @as(c_uint, 0);
+pub const WINT_MAX = UINT32_MAX;
+pub const WCHAR_MAX = 0x7fffffff + '\x00';
+pub const WCHAR_MIN = (-1 - 0x7fffffff) + '\x00';
 pub const SIG_ATOMIC_MIN = INT32_MIN;
 pub const SIG_ATOMIC_MAX = INT32_MAX;
+pub const INT_FAST16_MIN = INT16_MIN;
+pub const INT_FAST32_MIN = INT32_MIN;
+pub const INT_FAST16_MAX = INT16_MAX;
+pub const INT_FAST32_MAX = INT32_MAX;
+pub const UINT_FAST16_MAX = UINT16_MAX;
+pub const UINT_FAST32_MAX = UINT32_MAX;
+pub const INTPTR_MIN = INT32_MIN;
+pub const INTPTR_MAX = INT32_MAX;
+pub const UINTPTR_MAX = UINT32_MAX;
+pub const PTRDIFF_MIN = INT32_MIN;
+pub const PTRDIFF_MAX = INT32_MAX;
+pub const SIZE_MAX = UINT32_MAX;
+pub fn INT8_C(c: anytype) callconv(.Inline) @TypeOf(c) {
+    return c;
+}
+pub fn INT16_C(c: anytype) callconv(.Inline) @TypeOf(c) {
+    return c;
+}
+pub fn INT32_C(c: anytype) callconv(.Inline) @TypeOf(c) {
+    return c;
+}
+pub fn UINT8_C(c: anytype) callconv(.Inline) @TypeOf(c) {
+    return c;
+}
+pub fn UINT16_C(c: anytype) callconv(.Inline) @TypeOf(c) {
+    return c;
+}
+pub const __WASI_DIRCOOKIE_START = UINT64_C(0);
+pub const __WASI_CLOCKID_REALTIME = UINT32_C(0);
+pub const __WASI_CLOCKID_MONOTONIC = UINT32_C(1);
+pub const __WASI_CLOCKID_PROCESS_CPUTIME_ID = UINT32_C(2);
+pub const __WASI_CLOCKID_THREAD_CPUTIME_ID = UINT32_C(3);
+pub const __WASI_ERRNO_SUCCESS = UINT16_C(0);
+pub const __WASI_ERRNO_2BIG = UINT16_C(1);
+pub const __WASI_ERRNO_ACCES = UINT16_C(2);
+pub const __WASI_ERRNO_ADDRINUSE = UINT16_C(3);
+pub const __WASI_ERRNO_ADDRNOTAVAIL = UINT16_C(4);
+pub const __WASI_ERRNO_AFNOSUPPORT = UINT16_C(5);
+pub const __WASI_ERRNO_AGAIN = UINT16_C(6);
+pub const __WASI_ERRNO_ALREADY = UINT16_C(7);
+pub const __WASI_ERRNO_BADF = UINT16_C(8);
+pub const __WASI_ERRNO_BADMSG = UINT16_C(9);
+pub const __WASI_ERRNO_BUSY = UINT16_C(10);
+pub const __WASI_ERRNO_CANCELED = UINT16_C(11);
+pub const __WASI_ERRNO_CHILD = UINT16_C(12);
+pub const __WASI_ERRNO_CONNABORTED = UINT16_C(13);
+pub const __WASI_ERRNO_CONNREFUSED = UINT16_C(14);
+pub const __WASI_ERRNO_CONNRESET = UINT16_C(15);
+pub const __WASI_ERRNO_DEADLK = UINT16_C(16);
+pub const __WASI_ERRNO_DESTADDRREQ = UINT16_C(17);
+pub const __WASI_ERRNO_DOM = UINT16_C(18);
+pub const __WASI_ERRNO_DQUOT = UINT16_C(19);
+pub const __WASI_ERRNO_EXIST = UINT16_C(20);
+pub const __WASI_ERRNO_FAULT = UINT16_C(21);
+pub const __WASI_ERRNO_FBIG = UINT16_C(22);
+pub const __WASI_ERRNO_HOSTUNREACH = UINT16_C(23);
+pub const __WASI_ERRNO_IDRM = UINT16_C(24);
+pub const __WASI_ERRNO_ILSEQ = UINT16_C(25);
+pub const __WASI_ERRNO_INPROGRESS = UINT16_C(26);
+pub const __WASI_ERRNO_INTR = UINT16_C(27);
+pub const __WASI_ERRNO_INVAL = UINT16_C(28);
+pub const __WASI_ERRNO_IO = UINT16_C(29);
+pub const __WASI_ERRNO_ISCONN = UINT16_C(30);
+pub const __WASI_ERRNO_ISDIR = UINT16_C(31);
+pub const __WASI_ERRNO_LOOP = UINT16_C(32);
+pub const __WASI_ERRNO_MFILE = UINT16_C(33);
+pub const __WASI_ERRNO_MLINK = UINT16_C(34);
+pub const __WASI_ERRNO_MSGSIZE = UINT16_C(35);
+pub const __WASI_ERRNO_MULTIHOP = UINT16_C(36);
+pub const __WASI_ERRNO_NAMETOOLONG = UINT16_C(37);
+pub const __WASI_ERRNO_NETDOWN = UINT16_C(38);
+pub const __WASI_ERRNO_NETRESET = UINT16_C(39);
+pub const __WASI_ERRNO_NETUNREACH = UINT16_C(40);
+pub const __WASI_ERRNO_NFILE = UINT16_C(41);
+pub const __WASI_ERRNO_NOBUFS = UINT16_C(42);
+pub const __WASI_ERRNO_NODEV = UINT16_C(43);
+pub const __WASI_ERRNO_NOENT = UINT16_C(44);
+pub const __WASI_ERRNO_NOEXEC = UINT16_C(45);
+pub const __WASI_ERRNO_NOLCK = UINT16_C(46);
+pub const __WASI_ERRNO_NOLINK = UINT16_C(47);
+pub const __WASI_ERRNO_NOMEM = UINT16_C(48);
+pub const __WASI_ERRNO_NOMSG = UINT16_C(49);
+pub const __WASI_ERRNO_NOPROTOOPT = UINT16_C(50);
+pub const __WASI_ERRNO_NOSPC = UINT16_C(51);
+pub const __WASI_ERRNO_NOSYS = UINT16_C(52);
+pub const __WASI_ERRNO_NOTCONN = UINT16_C(53);
+pub const __WASI_ERRNO_NOTDIR = UINT16_C(54);
+pub const __WASI_ERRNO_NOTEMPTY = UINT16_C(55);
+pub const __WASI_ERRNO_NOTRECOVERABLE = UINT16_C(56);
+pub const __WASI_ERRNO_NOTSOCK = UINT16_C(57);
+pub const __WASI_ERRNO_NOTSUP = UINT16_C(58);
+pub const __WASI_ERRNO_NOTTY = UINT16_C(59);
+pub const __WASI_ERRNO_NXIO = UINT16_C(60);
+pub const __WASI_ERRNO_OVERFLOW = UINT16_C(61);
+pub const __WASI_ERRNO_OWNERDEAD = UINT16_C(62);
+pub const __WASI_ERRNO_PERM = UINT16_C(63);
+pub const __WASI_ERRNO_PIPE = UINT16_C(64);
+pub const __WASI_ERRNO_PROTO = UINT16_C(65);
+pub const __WASI_ERRNO_PROTONOSUPPORT = UINT16_C(66);
+pub const __WASI_ERRNO_PROTOTYPE = UINT16_C(67);
+pub const __WASI_ERRNO_RANGE = UINT16_C(68);
+pub const __WASI_ERRNO_ROFS = UINT16_C(69);
+pub const __WASI_ERRNO_SPIPE = UINT16_C(70);
+pub const __WASI_ERRNO_SRCH = UINT16_C(71);
+pub const __WASI_ERRNO_STALE = UINT16_C(72);
+pub const __WASI_ERRNO_TIMEDOUT = UINT16_C(73);
+pub const __WASI_ERRNO_TXTBSY = UINT16_C(74);
+pub const __WASI_ERRNO_XDEV = UINT16_C(75);
+pub const __WASI_ERRNO_NOTCAPABLE = UINT16_C(76);
+pub const __WASI_RIGHTS_FD_DATASYNC = UINT64_C(1);
+pub const __WASI_RIGHTS_FD_READ = UINT64_C(2);
+pub const __WASI_RIGHTS_FD_SEEK = UINT64_C(4);
+pub const __WASI_RIGHTS_FD_FDSTAT_SET_FLAGS = UINT64_C(8);
+pub const __WASI_RIGHTS_FD_SYNC = UINT64_C(16);
+pub const __WASI_RIGHTS_FD_TELL = UINT64_C(32);
+pub const __WASI_RIGHTS_FD_WRITE = UINT64_C(64);
+pub const __WASI_RIGHTS_FD_ADVISE = UINT64_C(128);
+pub const __WASI_RIGHTS_FD_ALLOCATE = UINT64_C(256);
+pub const __WASI_RIGHTS_PATH_CREATE_DIRECTORY = UINT64_C(512);
+pub const __WASI_RIGHTS_PATH_CREATE_FILE = UINT64_C(1024);
+pub const __WASI_RIGHTS_PATH_LINK_SOURCE = UINT64_C(2048);
+pub const __WASI_RIGHTS_PATH_LINK_TARGET = UINT64_C(4096);
+pub const __WASI_RIGHTS_PATH_OPEN = UINT64_C(8192);
+pub const __WASI_RIGHTS_FD_READDIR = UINT64_C(16384);
+pub const __WASI_RIGHTS_PATH_READLINK = UINT64_C(32768);
+pub const __WASI_RIGHTS_PATH_RENAME_SOURCE = UINT64_C(65536);
+pub const __WASI_RIGHTS_PATH_RENAME_TARGET = UINT64_C(131072);
+pub const __WASI_RIGHTS_PATH_FILESTAT_GET = UINT64_C(262144);
+pub const __WASI_RIGHTS_PATH_FILESTAT_SET_SIZE = UINT64_C(524288);
+pub const __WASI_RIGHTS_PATH_FILESTAT_SET_TIMES = UINT64_C(1048576);
+pub const __WASI_RIGHTS_FD_FILESTAT_GET = UINT64_C(2097152);
+pub const __WASI_RIGHTS_FD_FILESTAT_SET_SIZE = UINT64_C(4194304);
+pub const __WASI_RIGHTS_FD_FILESTAT_SET_TIMES = UINT64_C(8388608);
+pub const __WASI_RIGHTS_PATH_SYMLINK = UINT64_C(16777216);
+pub const __WASI_RIGHTS_PATH_REMOVE_DIRECTORY = UINT64_C(33554432);
+pub const __WASI_RIGHTS_PATH_UNLINK_FILE = UINT64_C(67108864);
+pub const __WASI_RIGHTS_POLL_FD_READWRITE = UINT64_C(134217728);
+pub const __WASI_RIGHTS_SOCK_SHUTDOWN = UINT64_C(268435456);
+pub const __WASI_WHENCE_SET = UINT8_C(0);
+pub const __WASI_WHENCE_CUR = UINT8_C(1);
+pub const __WASI_WHENCE_END = UINT8_C(2);
+pub const __WASI_FILETYPE_UNKNOWN = UINT8_C(0);
+pub const __WASI_FILETYPE_BLOCK_DEVICE = UINT8_C(1);
+pub const __WASI_FILETYPE_CHARACTER_DEVICE = UINT8_C(2);
+pub const __WASI_FILETYPE_DIRECTORY = UINT8_C(3);
+pub const __WASI_FILETYPE_REGULAR_FILE = UINT8_C(4);
+pub const __WASI_FILETYPE_SOCKET_DGRAM = UINT8_C(5);
+pub const __WASI_FILETYPE_SOCKET_STREAM = UINT8_C(6);
+pub const __WASI_FILETYPE_SYMBOLIC_LINK = UINT8_C(7);
+pub const __WASI_ADVICE_NORMAL = UINT8_C(0);
+pub const __WASI_ADVICE_SEQUENTIAL = UINT8_C(1);
+pub const __WASI_ADVICE_RANDOM = UINT8_C(2);
+pub const __WASI_ADVICE_WILLNEED = UINT8_C(3);
+pub const __WASI_ADVICE_DONTNEED = UINT8_C(4);
+pub const __WASI_ADVICE_NOREUSE = UINT8_C(5);
+pub const __WASI_FDFLAGS_APPEND = UINT16_C(1);
+pub const __WASI_FDFLAGS_DSYNC = UINT16_C(2);
+pub const __WASI_FDFLAGS_NONBLOCK = UINT16_C(4);
+pub const __WASI_FDFLAGS_RSYNC = UINT16_C(8);
+pub const __WASI_FDFLAGS_SYNC = UINT16_C(16);
+pub const __WASI_FSTFLAGS_ATIM = UINT16_C(1);
+pub const __WASI_FSTFLAGS_ATIM_NOW = UINT16_C(2);
+pub const __WASI_FSTFLAGS_MTIM = UINT16_C(4);
+pub const __WASI_FSTFLAGS_MTIM_NOW = UINT16_C(8);
+pub const __WASI_LOOKUPFLAGS_SYMLINK_FOLLOW = UINT32_C(1);
+pub const __WASI_OFLAGS_CREAT = UINT16_C(1);
+pub const __WASI_OFLAGS_DIRECTORY = UINT16_C(2);
+pub const __WASI_OFLAGS_EXCL = UINT16_C(4);
+pub const __WASI_OFLAGS_TRUNC = UINT16_C(8);
+pub const __WASI_EVENTTYPE_CLOCK = UINT8_C(0);
+pub const __WASI_EVENTTYPE_FD_READ = UINT8_C(1);
+pub const __WASI_EVENTTYPE_FD_WRITE = UINT8_C(2);
+pub const __WASI_EVENTRWFLAGS_FD_READWRITE_HANGUP = UINT16_C(1);
+pub const __WASI_SUBCLOCKFLAGS_SUBSCRIPTION_CLOCK_ABSTIME = UINT16_C(1);
+pub const __WASI_SIGNAL_NONE = UINT8_C(0);
+pub const __WASI_SIGNAL_HUP = UINT8_C(1);
+pub const __WASI_SIGNAL_INT = UINT8_C(2);
+pub const __WASI_SIGNAL_QUIT = UINT8_C(3);
+pub const __WASI_SIGNAL_ILL = UINT8_C(4);
+pub const __WASI_SIGNAL_TRAP = UINT8_C(5);
+pub const __WASI_SIGNAL_ABRT = UINT8_C(6);
+pub const __WASI_SIGNAL_BUS = UINT8_C(7);
+pub const __WASI_SIGNAL_FPE = UINT8_C(8);
+pub const __WASI_SIGNAL_KILL = UINT8_C(9);
+pub const __WASI_SIGNAL_USR1 = UINT8_C(10);
+pub const __WASI_SIGNAL_SEGV = UINT8_C(11);
+pub const __WASI_SIGNAL_USR2 = UINT8_C(12);
+pub const __WASI_SIGNAL_PIPE = UINT8_C(13);
+pub const __WASI_SIGNAL_ALRM = UINT8_C(14);
+pub const __WASI_SIGNAL_TERM = UINT8_C(15);
+pub const __WASI_SIGNAL_CHLD = UINT8_C(16);
+pub const __WASI_SIGNAL_CONT = UINT8_C(17);
+pub const __WASI_SIGNAL_STOP = UINT8_C(18);
+pub const __WASI_SIGNAL_TSTP = UINT8_C(19);
+pub const __WASI_SIGNAL_TTIN = UINT8_C(20);
+pub const __WASI_SIGNAL_TTOU = UINT8_C(21);
+pub const __WASI_SIGNAL_URG = UINT8_C(22);
+pub const __WASI_SIGNAL_XCPU = UINT8_C(23);
+pub const __WASI_SIGNAL_XFSZ = UINT8_C(24);
+pub const __WASI_SIGNAL_VTALRM = UINT8_C(25);
+pub const __WASI_SIGNAL_PROF = UINT8_C(26);
+pub const __WASI_SIGNAL_WINCH = UINT8_C(27);
+pub const __WASI_SIGNAL_POLL = UINT8_C(28);
+pub const __WASI_SIGNAL_PWR = UINT8_C(29);
+pub const __WASI_SIGNAL_SYS = UINT8_C(30);
+pub const __WASI_RIFLAGS_RECV_PEEK = UINT16_C(1);
+pub const __WASI_RIFLAGS_RECV_WAITALL = UINT16_C(2);
+pub const __WASI_ROFLAGS_RECV_DATA_TRUNCATED = UINT16_C(1);
+pub const __WASI_SDFLAGS_RD = UINT8_C(1);
+pub const __WASI_SDFLAGS_WR = UINT8_C(2);
+pub const __WASI_PREOPENTYPE_DIR = UINT8_C(0);
+pub const E2BIG = __WASI_ERRNO_2BIG;
+pub const EACCES = __WASI_ERRNO_ACCES;
+pub const EADDRINUSE = __WASI_ERRNO_ADDRINUSE;
+pub const EADDRNOTAVAIL = __WASI_ERRNO_ADDRNOTAVAIL;
+pub const EAFNOSUPPORT = __WASI_ERRNO_AFNOSUPPORT;
+pub const EAGAIN = __WASI_ERRNO_AGAIN;
+pub const EALREADY = __WASI_ERRNO_ALREADY;
+pub const EBADF = __WASI_ERRNO_BADF;
+pub const EBADMSG = __WASI_ERRNO_BADMSG;
+pub const EBUSY = __WASI_ERRNO_BUSY;
+pub const ECANCELED = __WASI_ERRNO_CANCELED;
+pub const ECHILD = __WASI_ERRNO_CHILD;
+pub const ECONNABORTED = __WASI_ERRNO_CONNABORTED;
+pub const ECONNREFUSED = __WASI_ERRNO_CONNREFUSED;
+pub const ECONNRESET = __WASI_ERRNO_CONNRESET;
+pub const EDEADLK = __WASI_ERRNO_DEADLK;
+pub const EDESTADDRREQ = __WASI_ERRNO_DESTADDRREQ;
+pub const EDOM = __WASI_ERRNO_DOM;
+pub const EDQUOT = __WASI_ERRNO_DQUOT;
+pub const EEXIST = __WASI_ERRNO_EXIST;
+pub const EFAULT = __WASI_ERRNO_FAULT;
+pub const EFBIG = __WASI_ERRNO_FBIG;
+pub const EHOSTUNREACH = __WASI_ERRNO_HOSTUNREACH;
+pub const EIDRM = __WASI_ERRNO_IDRM;
+pub const EILSEQ = __WASI_ERRNO_ILSEQ;
+pub const EINPROGRESS = __WASI_ERRNO_INPROGRESS;
+pub const EINTR = __WASI_ERRNO_INTR;
+pub const EINVAL = __WASI_ERRNO_INVAL;
+pub const EIO = __WASI_ERRNO_IO;
+pub const EISCONN = __WASI_ERRNO_ISCONN;
+pub const EISDIR = __WASI_ERRNO_ISDIR;
+pub const ELOOP = __WASI_ERRNO_LOOP;
+pub const EMFILE = __WASI_ERRNO_MFILE;
+pub const EMLINK = __WASI_ERRNO_MLINK;
+pub const EMSGSIZE = __WASI_ERRNO_MSGSIZE;
+pub const EMULTIHOP = __WASI_ERRNO_MULTIHOP;
+pub const ENAMETOOLONG = __WASI_ERRNO_NAMETOOLONG;
+pub const ENETDOWN = __WASI_ERRNO_NETDOWN;
+pub const ENETRESET = __WASI_ERRNO_NETRESET;
+pub const ENETUNREACH = __WASI_ERRNO_NETUNREACH;
+pub const ENFILE = __WASI_ERRNO_NFILE;
+pub const ENOBUFS = __WASI_ERRNO_NOBUFS;
+pub const ENODEV = __WASI_ERRNO_NODEV;
+pub const ENOENT = __WASI_ERRNO_NOENT;
+pub const ENOEXEC = __WASI_ERRNO_NOEXEC;
+pub const ENOLCK = __WASI_ERRNO_NOLCK;
+pub const ENOLINK = __WASI_ERRNO_NOLINK;
+pub const ENOMEM = __WASI_ERRNO_NOMEM;
+pub const ENOMSG = __WASI_ERRNO_NOMSG;
+pub const ENOPROTOOPT = __WASI_ERRNO_NOPROTOOPT;
+pub const ENOSPC = __WASI_ERRNO_NOSPC;
+pub const ENOSYS = __WASI_ERRNO_NOSYS;
+pub const ENOTCONN = __WASI_ERRNO_NOTCONN;
+pub const ENOTDIR = __WASI_ERRNO_NOTDIR;
+pub const ENOTEMPTY = __WASI_ERRNO_NOTEMPTY;
+pub const ENOTRECOVERABLE = __WASI_ERRNO_NOTRECOVERABLE;
+pub const ENOTSOCK = __WASI_ERRNO_NOTSOCK;
+pub const ENOTSUP = __WASI_ERRNO_NOTSUP;
+pub const ENOTTY = __WASI_ERRNO_NOTTY;
+pub const ENXIO = __WASI_ERRNO_NXIO;
+pub const EOVERFLOW = __WASI_ERRNO_OVERFLOW;
+pub const EOWNERDEAD = __WASI_ERRNO_OWNERDEAD;
+pub const EPERM = __WASI_ERRNO_PERM;
+pub const EPIPE = __WASI_ERRNO_PIPE;
+pub const EPROTO = __WASI_ERRNO_PROTO;
+pub const EPROTONOSUPPORT = __WASI_ERRNO_PROTONOSUPPORT;
+pub const EPROTOTYPE = __WASI_ERRNO_PROTOTYPE;
+pub const ERANGE = __WASI_ERRNO_RANGE;
+pub const EROFS = __WASI_ERRNO_ROFS;
+pub const ESPIPE = __WASI_ERRNO_SPIPE;
+pub const ESRCH = __WASI_ERRNO_SRCH;
+pub const ESTALE = __WASI_ERRNO_STALE;
+pub const ETIMEDOUT = __WASI_ERRNO_TIMEDOUT;
+pub const ETXTBSY = __WASI_ERRNO_TXTBSY;
+pub const EXDEV = __WASI_ERRNO_XDEV;
+pub const ENOTCAPABLE = __WASI_ERRNO_NOTCAPABLE;
+pub const EOPNOTSUPP = ENOTSUP;
+pub const EWOULDBLOCK = EAGAIN;
 pub const FF_LAMBDA_SHIFT = 7;
 pub const FF_LAMBDA_SCALE = 1 << FF_LAMBDA_SHIFT;
 pub const FF_QP2LAMBDA = 118;
@@ -6870,538 +5155,288 @@ pub const FF_QUALITY_SCALE = FF_LAMBDA_SCALE;
 pub const AV_NOPTS_VALUE = @import("std").meta.cast(i64, UINT64_C(0x8000000000000000));
 pub const AV_TIME_BASE = 1000000;
 pub const AV_TIME_BASE_Q = @import("std").mem.zeroInit(AVRational, .{ 1, AV_TIME_BASE });
-pub const __PRI_8_LENGTH_MODIFIER__ = "hh";
-pub const __PRI_64_LENGTH_MODIFIER__ = "ll";
-pub const __SCN_64_LENGTH_MODIFIER__ = "ll";
-pub const __PRI_MAX_LENGTH_MODIFIER__ = "j";
-pub const __SCN_MAX_LENGTH_MODIFIER__ = "j";
-pub const PRId8 = __PRI_8_LENGTH_MODIFIER__ ++ "d";
-pub const PRIi8 = __PRI_8_LENGTH_MODIFIER__ ++ "i";
-pub const PRIo8 = __PRI_8_LENGTH_MODIFIER__ ++ "o";
-pub const PRIu8 = __PRI_8_LENGTH_MODIFIER__ ++ "u";
-pub const PRIx8 = __PRI_8_LENGTH_MODIFIER__ ++ "x";
-pub const PRIX8 = __PRI_8_LENGTH_MODIFIER__ ++ "X";
-pub const PRId16 = "hd";
-pub const PRIi16 = "hi";
-pub const PRIo16 = "ho";
-pub const PRIu16 = "hu";
-pub const PRIx16 = "hx";
-pub const PRIX16 = "hX";
-pub const PRId32 = "d";
-pub const PRIi32 = "i";
-pub const PRIo32 = "o";
-pub const PRIu32 = "u";
-pub const PRIx32 = "x";
-pub const PRIX32 = "X";
-pub const PRId64 = __PRI_64_LENGTH_MODIFIER__ ++ "d";
-pub const PRIi64 = __PRI_64_LENGTH_MODIFIER__ ++ "i";
-pub const PRIo64 = __PRI_64_LENGTH_MODIFIER__ ++ "o";
-pub const PRIu64 = __PRI_64_LENGTH_MODIFIER__ ++ "u";
-pub const PRIx64 = __PRI_64_LENGTH_MODIFIER__ ++ "x";
-pub const PRIX64 = __PRI_64_LENGTH_MODIFIER__ ++ "X";
-pub const PRIdLEAST8 = PRId8;
-pub const PRIiLEAST8 = PRIi8;
-pub const PRIoLEAST8 = PRIo8;
-pub const PRIuLEAST8 = PRIu8;
-pub const PRIxLEAST8 = PRIx8;
-pub const PRIXLEAST8 = PRIX8;
-pub const PRIdLEAST16 = PRId16;
-pub const PRIiLEAST16 = PRIi16;
-pub const PRIoLEAST16 = PRIo16;
-pub const PRIuLEAST16 = PRIu16;
-pub const PRIxLEAST16 = PRIx16;
-pub const PRIXLEAST16 = PRIX16;
-pub const PRIdLEAST32 = PRId32;
-pub const PRIiLEAST32 = PRIi32;
-pub const PRIoLEAST32 = PRIo32;
-pub const PRIuLEAST32 = PRIu32;
-pub const PRIxLEAST32 = PRIx32;
-pub const PRIXLEAST32 = PRIX32;
-pub const PRIdLEAST64 = PRId64;
-pub const PRIiLEAST64 = PRIi64;
-pub const PRIoLEAST64 = PRIo64;
-pub const PRIuLEAST64 = PRIu64;
-pub const PRIxLEAST64 = PRIx64;
-pub const PRIXLEAST64 = PRIX64;
-pub const PRIdFAST8 = PRId8;
-pub const PRIiFAST8 = PRIi8;
-pub const PRIoFAST8 = PRIo8;
-pub const PRIuFAST8 = PRIu8;
-pub const PRIxFAST8 = PRIx8;
-pub const PRIXFAST8 = PRIX8;
-pub const PRIdFAST16 = PRId16;
-pub const PRIiFAST16 = PRIi16;
-pub const PRIoFAST16 = PRIo16;
-pub const PRIuFAST16 = PRIu16;
-pub const PRIxFAST16 = PRIx16;
-pub const PRIXFAST16 = PRIX16;
-pub const PRIdFAST32 = PRId32;
-pub const PRIiFAST32 = PRIi32;
-pub const PRIoFAST32 = PRIo32;
-pub const PRIuFAST32 = PRIu32;
-pub const PRIxFAST32 = PRIx32;
-pub const PRIXFAST32 = PRIX32;
-pub const PRIdFAST64 = PRId64;
-pub const PRIiFAST64 = PRIi64;
-pub const PRIoFAST64 = PRIo64;
-pub const PRIuFAST64 = PRIu64;
-pub const PRIxFAST64 = PRIx64;
-pub const PRIXFAST64 = PRIX64;
-pub const PRIdPTR = "ld";
-pub const PRIiPTR = "li";
-pub const PRIoPTR = "lo";
-pub const PRIuPTR = "lu";
-pub const PRIxPTR = "lx";
-pub const PRIXPTR = "lX";
-pub const PRIdMAX = __PRI_MAX_LENGTH_MODIFIER__ ++ "d";
-pub const PRIiMAX = __PRI_MAX_LENGTH_MODIFIER__ ++ "i";
-pub const PRIoMAX = __PRI_MAX_LENGTH_MODIFIER__ ++ "o";
-pub const PRIuMAX = __PRI_MAX_LENGTH_MODIFIER__ ++ "u";
-pub const PRIxMAX = __PRI_MAX_LENGTH_MODIFIER__ ++ "x";
-pub const PRIXMAX = __PRI_MAX_LENGTH_MODIFIER__ ++ "X";
-pub const SCNd8 = __PRI_8_LENGTH_MODIFIER__ ++ "d";
-pub const SCNi8 = __PRI_8_LENGTH_MODIFIER__ ++ "i";
-pub const SCNo8 = __PRI_8_LENGTH_MODIFIER__ ++ "o";
-pub const SCNu8 = __PRI_8_LENGTH_MODIFIER__ ++ "u";
-pub const SCNx8 = __PRI_8_LENGTH_MODIFIER__ ++ "x";
-pub const SCNd16 = "hd";
-pub const SCNi16 = "hi";
-pub const SCNo16 = "ho";
-pub const SCNu16 = "hu";
-pub const SCNx16 = "hx";
-pub const SCNd32 = "d";
-pub const SCNi32 = "i";
-pub const SCNo32 = "o";
-pub const SCNu32 = "u";
-pub const SCNx32 = "x";
-pub const SCNd64 = __SCN_64_LENGTH_MODIFIER__ ++ "d";
-pub const SCNi64 = __SCN_64_LENGTH_MODIFIER__ ++ "i";
-pub const SCNo64 = __SCN_64_LENGTH_MODIFIER__ ++ "o";
-pub const SCNu64 = __SCN_64_LENGTH_MODIFIER__ ++ "u";
-pub const SCNx64 = __SCN_64_LENGTH_MODIFIER__ ++ "x";
-pub const SCNdLEAST8 = SCNd8;
-pub const SCNiLEAST8 = SCNi8;
-pub const SCNoLEAST8 = SCNo8;
-pub const SCNuLEAST8 = SCNu8;
-pub const SCNxLEAST8 = SCNx8;
-pub const SCNdLEAST16 = SCNd16;
-pub const SCNiLEAST16 = SCNi16;
-pub const SCNoLEAST16 = SCNo16;
-pub const SCNuLEAST16 = SCNu16;
-pub const SCNxLEAST16 = SCNx16;
-pub const SCNdLEAST32 = SCNd32;
-pub const SCNiLEAST32 = SCNi32;
-pub const SCNoLEAST32 = SCNo32;
-pub const SCNuLEAST32 = SCNu32;
-pub const SCNxLEAST32 = SCNx32;
-pub const SCNdLEAST64 = SCNd64;
-pub const SCNiLEAST64 = SCNi64;
-pub const SCNoLEAST64 = SCNo64;
-pub const SCNuLEAST64 = SCNu64;
-pub const SCNxLEAST64 = SCNx64;
-pub const SCNdFAST8 = SCNd8;
-pub const SCNiFAST8 = SCNi8;
-pub const SCNoFAST8 = SCNo8;
-pub const SCNuFAST8 = SCNu8;
-pub const SCNxFAST8 = SCNx8;
-pub const SCNdFAST16 = SCNd16;
-pub const SCNiFAST16 = SCNi16;
-pub const SCNoFAST16 = SCNo16;
-pub const SCNuFAST16 = SCNu16;
-pub const SCNxFAST16 = SCNx16;
-pub const SCNdFAST32 = SCNd32;
-pub const SCNiFAST32 = SCNi32;
-pub const SCNoFAST32 = SCNo32;
-pub const SCNuFAST32 = SCNu32;
-pub const SCNxFAST32 = SCNx32;
-pub const SCNdFAST64 = SCNd64;
-pub const SCNiFAST64 = SCNi64;
-pub const SCNoFAST64 = SCNo64;
-pub const SCNuFAST64 = SCNu64;
-pub const SCNxFAST64 = SCNx64;
-pub const SCNdPTR = "ld";
-pub const SCNiPTR = "li";
-pub const SCNoPTR = "lo";
-pub const SCNuPTR = "lu";
-pub const SCNxPTR = "lx";
-pub const SCNdMAX = __SCN_MAX_LENGTH_MODIFIER__ ++ "d";
-pub const SCNiMAX = __SCN_MAX_LENGTH_MODIFIER__ ++ "i";
-pub const SCNoMAX = __SCN_MAX_LENGTH_MODIFIER__ ++ "o";
-pub const SCNuMAX = __SCN_MAX_LENGTH_MODIFIER__ ++ "u";
-pub const SCNxMAX = __SCN_MAX_LENGTH_MODIFIER__ ++ "x";
-pub const __API_TO_BE_DEPRECATED = 100000;
-pub const __MAC_10_0 = 1000;
-pub const __MAC_10_1 = 1010;
-pub const __MAC_10_2 = 1020;
-pub const __MAC_10_3 = 1030;
-pub const __MAC_10_4 = 1040;
-pub const __MAC_10_5 = 1050;
-pub const __MAC_10_6 = 1060;
-pub const __MAC_10_7 = 1070;
-pub const __MAC_10_8 = 1080;
-pub const __MAC_10_9 = 1090;
-pub const __MAC_10_10 = 101000;
-pub const __MAC_10_10_2 = 101002;
-pub const __MAC_10_10_3 = 101003;
-pub const __MAC_10_11 = 101100;
-pub const __MAC_10_11_2 = 101102;
-pub const __MAC_10_11_3 = 101103;
-pub const __MAC_10_11_4 = 101104;
-pub const __MAC_10_12 = 101200;
-pub const __MAC_10_12_1 = 101201;
-pub const __MAC_10_12_2 = 101202;
-pub const __MAC_10_12_4 = 101204;
-pub const __MAC_10_13 = 101300;
-pub const __MAC_10_13_1 = 101301;
-pub const __MAC_10_13_2 = 101302;
-pub const __MAC_10_13_4 = 101304;
-pub const __MAC_10_14 = 101400;
-pub const __MAC_10_14_1 = 101401;
-pub const __MAC_10_14_4 = 101404;
-pub const __MAC_10_15 = 101500;
-pub const __MAC_10_15_1 = 101501;
-pub const __MAC_10_15_4 = 101504;
-pub const __IPHONE_2_0 = 20000;
-pub const __IPHONE_2_1 = 20100;
-pub const __IPHONE_2_2 = 20200;
-pub const __IPHONE_3_0 = 30000;
-pub const __IPHONE_3_1 = 30100;
-pub const __IPHONE_3_2 = 30200;
-pub const __IPHONE_4_0 = 40000;
-pub const __IPHONE_4_1 = 40100;
-pub const __IPHONE_4_2 = 40200;
-pub const __IPHONE_4_3 = 40300;
-pub const __IPHONE_5_0 = 50000;
-pub const __IPHONE_5_1 = 50100;
-pub const __IPHONE_6_0 = 60000;
-pub const __IPHONE_6_1 = 60100;
-pub const __IPHONE_7_0 = 70000;
-pub const __IPHONE_7_1 = 70100;
-pub const __IPHONE_8_0 = 80000;
-pub const __IPHONE_8_1 = 80100;
-pub const __IPHONE_8_2 = 80200;
-pub const __IPHONE_8_3 = 80300;
-pub const __IPHONE_8_4 = 80400;
-pub const __IPHONE_9_0 = 90000;
-pub const __IPHONE_9_1 = 90100;
-pub const __IPHONE_9_2 = 90200;
-pub const __IPHONE_9_3 = 90300;
-pub const __IPHONE_10_0 = 100000;
-pub const __IPHONE_10_1 = 100100;
-pub const __IPHONE_10_2 = 100200;
-pub const __IPHONE_10_3 = 100300;
-pub const __IPHONE_11_0 = 110000;
-pub const __IPHONE_11_1 = 110100;
-pub const __IPHONE_11_2 = 110200;
-pub const __IPHONE_11_3 = 110300;
-pub const __IPHONE_11_4 = 110400;
-pub const __IPHONE_12_0 = 120000;
-pub const __IPHONE_12_1 = 120100;
-pub const __IPHONE_12_2 = 120200;
-pub const __IPHONE_12_3 = 120300;
-pub const __IPHONE_13_0 = 130000;
-pub const __IPHONE_13_1 = 130100;
-pub const __IPHONE_13_2 = 130200;
-pub const __IPHONE_13_3 = 130300;
-pub const __IPHONE_13_4 = 130400;
-pub const __IPHONE_13_5 = 130500;
-pub const __IPHONE_13_6 = 130600;
-pub const __TVOS_9_0 = 90000;
-pub const __TVOS_9_1 = 90100;
-pub const __TVOS_9_2 = 90200;
-pub const __TVOS_10_0 = 100000;
-pub const __TVOS_10_0_1 = 100001;
-pub const __TVOS_10_1 = 100100;
-pub const __TVOS_10_2 = 100200;
-pub const __TVOS_11_0 = 110000;
-pub const __TVOS_11_1 = 110100;
-pub const __TVOS_11_2 = 110200;
-pub const __TVOS_11_3 = 110300;
-pub const __TVOS_11_4 = 110400;
-pub const __TVOS_12_0 = 120000;
-pub const __TVOS_12_1 = 120100;
-pub const __TVOS_12_2 = 120200;
-pub const __TVOS_12_3 = 120300;
-pub const __TVOS_13_0 = 130000;
-pub const __TVOS_13_2 = 130200;
-pub const __TVOS_13_3 = 130300;
-pub const __TVOS_13_4 = 130400;
-pub const __WATCHOS_1_0 = 10000;
-pub const __WATCHOS_2_0 = 20000;
-pub const __WATCHOS_2_1 = 20100;
-pub const __WATCHOS_2_2 = 20200;
-pub const __WATCHOS_3_0 = 30000;
-pub const __WATCHOS_3_1 = 30100;
-pub const __WATCHOS_3_1_1 = 30101;
-pub const __WATCHOS_3_2 = 30200;
-pub const __WATCHOS_4_0 = 40000;
-pub const __WATCHOS_4_1 = 40100;
-pub const __WATCHOS_4_2 = 40200;
-pub const __WATCHOS_4_3 = 40300;
-pub const __WATCHOS_5_0 = 50000;
-pub const __WATCHOS_5_1 = 50100;
-pub const __WATCHOS_5_2 = 50200;
-pub const __WATCHOS_6_0 = 60000;
-pub const __WATCHOS_6_1 = 60100;
-pub const __WATCHOS_6_2 = 60200;
-pub const __DRIVERKIT_19_0 = 190000;
-pub const __MAC_OS_X_VERSION_MIN_REQUIRED = __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__;
-pub const __MAC_OS_X_VERSION_MAX_ALLOWED = __MAC_10_15;
-pub const __AVAILABILITY_INTERNAL_DEPRECATED = __attribute__(deprecated);
-pub fn __AVAILABILITY_INTERNAL_DEPRECATED_MSG(_msg: anytype) callconv(.Inline) @TypeOf(__attribute__(deprecated(_msg))) {
-    return __attribute__(deprecated(_msg));
-}
-pub const __AVAILABILITY_INTERNAL_UNAVAILABLE = __attribute__(unavailable);
-pub const __AVAILABILITY_INTERNAL_WEAK_IMPORT = __attribute__(weak_import);
-pub const __ENABLE_LEGACY_MAC_AVAILABILITY = 1;
-pub const __AVAILABILITY_INTERNAL__MAC_NA = __attribute__(availability(macosx, unavailable));
-pub const __AVAILABILITY_INTERNAL__MAC_NA_DEP__MAC_NA = __attribute__(availability(macosx, unavailable));
-pub fn __AVAILABILITY_INTERNAL__MAC_NA_DEP__MAC_NA_MSG(_msg: anytype) callconv(.Inline) @TypeOf(__attribute__(availability(macosx, unavailable))) {
-    return __attribute__(availability(macosx, unavailable));
-}
-pub const __AVAILABILITY_INTERNAL__IPHONE_NA = __attribute__(availability(ios, unavailable));
-pub const __AVAILABILITY_INTERNAL__IPHONE_NA__IPHONE_NA = __attribute__(availability(ios, unavailable));
-pub const __AVAILABILITY_INTERNAL__IPHONE_NA_DEP__IPHONE_NA = __attribute__(availability(ios, unavailable));
-pub fn __AVAILABILITY_INTERNAL__IPHONE_NA_DEP__IPHONE_NA_MSG(_msg: anytype) callconv(.Inline) @TypeOf(__attribute__(availability(ios, unavailable))) {
-    return __attribute__(availability(ios, unavailable));
-}
-pub const __AVAILABILITY_INTERNAL__IPHONE_COMPAT_VERSION = __attribute__(availability(ios, unavailable));
-pub const __AVAILABILITY_INTERNAL__IPHONE_COMPAT_VERSION_DEP__IPHONE_COMPAT_VERSION = __attribute__(availability(ios, unavailable));
-pub fn __AVAILABILITY_INTERNAL__IPHONE_COMPAT_VERSION_DEP__IPHONE_COMPAT_VERSION_MSG(_msg: anytype) callconv(.Inline) @TypeOf(__attribute__(availability(ios, unavailable))) {
-    return __attribute__(availability(ios, unavailable));
-}
-pub fn __API_AVAILABLE1(x: anytype) callconv(.Inline) @TypeOf(__API_A(x)) {
-    return __API_A(x);
-}
-pub fn __API_RANGE_STRINGIFY(x: anytype) callconv(.Inline) @TypeOf(__API_RANGE_STRINGIFY2(x)) {
-    return __API_RANGE_STRINGIFY2(x);
-}
-pub fn __API_AVAILABLE_BEGIN1(a: anytype) callconv(.Inline) @TypeOf(__API_A_BEGIN(a)) {
-    return __API_A_BEGIN(a);
-}
-pub fn __API_DEPRECATED_MSG2(msg: anytype, x: anytype) callconv(.Inline) @TypeOf(__API_D(msg, x)) {
-    return __API_D(msg, x);
-}
-pub fn __API_DEPRECATED_BEGIN_MSG2(msg: anytype, a: anytype) callconv(.Inline) @TypeOf(__API_D_BEGIN(msg, a)) {
-    return __API_D_BEGIN(msg, a);
-}
-pub fn __API_DEPRECATED_REP2(rep: anytype, x: anytype) callconv(.Inline) @TypeOf(__API_R(rep, x)) {
-    return __API_R(rep, x);
-}
-pub fn __API_DEPRECATED_BEGIN_REP2(rep: anytype, a: anytype) callconv(.Inline) @TypeOf(__API_R_BEGIN(rep, a)) {
-    return __API_R_BEGIN(rep, a);
-}
-pub const __API_UNAVAILABLE_PLATFORM_macos = blk: {
-    _ = macos;
-    break :blk unavailable;
-};
-pub const __API_UNAVAILABLE_PLATFORM_macosx = blk: {
-    _ = macosx;
-    break :blk unavailable;
-};
-pub const __API_UNAVAILABLE_PLATFORM_ios = blk: {
-    _ = ios;
-    break :blk unavailable;
-};
-pub const __API_UNAVAILABLE_PLATFORM_watchos = blk: {
-    _ = watchos;
-    break :blk unavailable;
-};
-pub const __API_UNAVAILABLE_PLATFORM_tvos = blk: {
-    _ = tvos;
-    break :blk unavailable;
-};
-pub const __API_UNAVAILABLE_PLATFORM_macCatalyst = blk: {
-    _ = macCatalyst;
-    break :blk unavailable;
-};
-pub fn __API_UNAVAILABLE_PLATFORM_uikitformac(x: anytype) callconv(.Inline) @TypeOf(unavailable) {
-    return blk: {
-        _ = uikitformac;
-        break :blk unavailable;
-    };
-}
-pub const __API_UNAVAILABLE_PLATFORM_driverkit = blk: {
-    _ = driverkit;
-    break :blk unavailable;
-};
-pub fn __API_UNAVAILABLE1(x: anytype) callconv(.Inline) @TypeOf(__API_U(x)) {
-    return __API_U(x);
-}
-pub fn __API_UNAVAILABLE_BEGIN1(a: anytype) callconv(.Inline) @TypeOf(__API_U_BEGIN(a)) {
-    return __API_U_BEGIN(a);
-}
-pub fn __OS_AVAILABILITY(_target: anytype, _availability: anytype) callconv(.Inline) @TypeOf(__attribute__(availability(_target, _availability))) {
-    return __attribute__(availability(_target, _availability));
-}
-pub fn __OSX_EXTENSION_UNAVAILABLE(_msg: anytype) callconv(.Inline) @TypeOf(__OS_AVAILABILITY_MSG(macosx_app_extension, unavailable, _msg)) {
-    return __OS_AVAILABILITY_MSG(macosx_app_extension, unavailable, _msg);
-}
-pub fn __IOS_EXTENSION_UNAVAILABLE(_msg: anytype) callconv(.Inline) @TypeOf(__OS_AVAILABILITY_MSG(ios_app_extension, unavailable, _msg)) {
-    return __OS_AVAILABILITY_MSG(ios_app_extension, unavailable, _msg);
-}
-pub const __OSX_UNAVAILABLE = __OS_AVAILABILITY(macosx, unavailable);
-pub const __IOS_UNAVAILABLE = __OS_AVAILABILITY(ios, unavailable);
-pub const __IOS_PROHIBITED = __OS_AVAILABILITY(ios, unavailable);
-pub const __TVOS_UNAVAILABLE = __OS_AVAILABILITY(tvos, unavailable);
-pub const __TVOS_PROHIBITED = __OS_AVAILABILITY(tvos, unavailable);
-pub const __WATCHOS_UNAVAILABLE = __OS_AVAILABILITY(watchos, unavailable);
-pub const __WATCHOS_PROHIBITED = __OS_AVAILABILITY(watchos, unavailable);
-pub const __SWIFT_UNAVAILABLE = __OS_AVAILABILITY(swift, unavailable);
-pub fn __SWIFT_UNAVAILABLE_MSG(_msg: anytype) callconv(.Inline) @TypeOf(__OS_AVAILABILITY_MSG(swift, unavailable, _msg)) {
-    return __OS_AVAILABILITY_MSG(swift, unavailable, _msg);
-}
-pub const __API_AVAILABLE_END = _Pragma("clang attribute pop");
-pub const __API_DEPRECATED_END = _Pragma("clang attribute pop");
-pub const __API_DEPRECATED_WITH_REPLACEMENT_END = _Pragma("clang attribute pop");
-pub const __API_UNAVAILABLE_END = _Pragma("clang attribute pop");
-pub fn __strfmonlike(fmtarg: anytype, firstvararg: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__strfmon__, fmtarg, firstvararg))) {
-    return __attribute__(__format__(__strfmon__, fmtarg, firstvararg));
-}
-pub fn __strftimelike(fmtarg: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__strftime__, fmtarg, 0))) {
-    return __attribute__(__format__(__strftime__, fmtarg, 0));
-}
-pub const __DARWIN_WCHAR_MAX = __WCHAR_MAX__;
-pub const __DARWIN_WCHAR_MIN = -0x7fffffff - 1;
-pub const __DARWIN_WEOF = __darwin_wint_t - 1;
-pub const _FORTIFY_SOURCE = 2;
-pub const __DARWIN_CLK_TCK = 100;
-pub const CHAR_BIT = 8;
-pub const MB_LEN_MAX = 6;
-pub const CLK_TCK = __DARWIN_CLK_TCK;
-pub const SCHAR_MAX = 127;
-pub const SCHAR_MIN = -128;
-pub const UCHAR_MAX = 255;
-pub const CHAR_MAX = 127;
+pub const PRId16 = __INT16_FMTd__;
+pub const PRIi16 = __INT16_FMTi__;
+pub const PRId32 = __INT32_FMTd__;
+pub const PRIi32 = __INT32_FMTi__;
+pub const PRId64 = __INT64_FMTd__;
+pub const PRIi64 = __INT64_FMTi__;
+pub const PRId8 = __INT8_FMTd__;
+pub const PRIi8 = __INT8_FMTi__;
+pub const PRIdMAX = __INTMAX_FMTd__;
+pub const PRIiMAX = __INTMAX_FMTi__;
+pub const PRIdPTR = __INTPTR_FMTd__;
+pub const PRIiPTR = __INTPTR_FMTi__;
+pub const PRIdFAST16 = __INT_FAST16_FMTd__;
+pub const PRIiFAST16 = __INT_FAST16_FMTi__;
+pub const PRIdFAST32 = __INT_FAST32_FMTd__;
+pub const PRIiFAST32 = __INT_FAST32_FMTi__;
+pub const PRIdFAST64 = __INT_FAST64_FMTd__;
+pub const PRIiFAST64 = __INT_FAST64_FMTi__;
+pub const PRIdFAST8 = __INT_FAST8_FMTd__;
+pub const PRIiFAST8 = __INT_FAST8_FMTi__;
+pub const PRIdLEAST16 = __INT_LEAST16_FMTd__;
+pub const PRIiLEAST16 = __INT_LEAST16_FMTi__;
+pub const PRIdLEAST32 = __INT_LEAST32_FMTd__;
+pub const PRIiLEAST32 = __INT_LEAST32_FMTi__;
+pub const PRIdLEAST64 = __INT_LEAST64_FMTd__;
+pub const PRIiLEAST64 = __INT_LEAST64_FMTi__;
+pub const PRIdLEAST8 = __INT_LEAST8_FMTd__;
+pub const PRIiLEAST8 = __INT_LEAST8_FMTi__;
+pub const PRIX16 = __UINT16_FMTX__;
+pub const PRIo16 = __UINT16_FMTo__;
+pub const PRIu16 = __UINT16_FMTu__;
+pub const PRIx16 = __UINT16_FMTx__;
+pub const PRIX32 = __UINT32_FMTX__;
+pub const PRIo32 = __UINT32_FMTo__;
+pub const PRIu32 = __UINT32_FMTu__;
+pub const PRIx32 = __UINT32_FMTx__;
+pub const PRIX64 = __UINT64_FMTX__;
+pub const PRIo64 = __UINT64_FMTo__;
+pub const PRIu64 = __UINT64_FMTu__;
+pub const PRIx64 = __UINT64_FMTx__;
+pub const PRIX8 = __UINT8_FMTX__;
+pub const PRIo8 = __UINT8_FMTo__;
+pub const PRIu8 = __UINT8_FMTu__;
+pub const PRIx8 = __UINT8_FMTx__;
+pub const PRIXMAX = __UINTMAX_FMTX__;
+pub const PRIoMAX = __UINTMAX_FMTo__;
+pub const PRIuMAX = __UINTMAX_FMTu__;
+pub const PRIxMAX = __UINTMAX_FMTx__;
+pub const PRIXPTR = __UINTPTR_FMTX__;
+pub const PRIoPTR = __UINTPTR_FMTo__;
+pub const PRIuPTR = __UINTPTR_FMTu__;
+pub const PRIxPTR = __UINTPTR_FMTx__;
+pub const PRIXFAST16 = __UINT_FAST16_FMTX__;
+pub const PRIoFAST16 = __UINT_FAST16_FMTo__;
+pub const PRIuFAST16 = __UINT_FAST16_FMTu__;
+pub const PRIxFAST16 = __UINT_FAST16_FMTx__;
+pub const PRIXFAST32 = __UINT_FAST32_FMTX__;
+pub const PRIoFAST32 = __UINT_FAST32_FMTo__;
+pub const PRIuFAST32 = __UINT_FAST32_FMTu__;
+pub const PRIxFAST32 = __UINT_FAST32_FMTx__;
+pub const PRIXFAST64 = __UINT_FAST64_FMTX__;
+pub const PRIoFAST64 = __UINT_FAST64_FMTo__;
+pub const PRIuFAST64 = __UINT_FAST64_FMTu__;
+pub const PRIxFAST64 = __UINT_FAST64_FMTx__;
+pub const PRIXFAST8 = __UINT_FAST8_FMTX__;
+pub const PRIoFAST8 = __UINT_FAST8_FMTo__;
+pub const PRIuFAST8 = __UINT_FAST8_FMTu__;
+pub const PRIxFAST8 = __UINT_FAST8_FMTx__;
+pub const PRIXLEAST16 = __UINT_LEAST16_FMTX__;
+pub const PRIoLEAST16 = __UINT_LEAST16_FMTo__;
+pub const PRIuLEAST16 = __UINT_LEAST16_FMTu__;
+pub const PRIxLEAST16 = __UINT_LEAST16_FMTx__;
+pub const PRIXLEAST32 = __UINT_LEAST32_FMTX__;
+pub const PRIoLEAST32 = __UINT_LEAST32_FMTo__;
+pub const PRIuLEAST32 = __UINT_LEAST32_FMTu__;
+pub const PRIxLEAST32 = __UINT_LEAST32_FMTx__;
+pub const PRIXLEAST64 = __UINT_LEAST64_FMTX__;
+pub const PRIoLEAST64 = __UINT_LEAST64_FMTo__;
+pub const PRIuLEAST64 = __UINT_LEAST64_FMTu__;
+pub const PRIxLEAST64 = __UINT_LEAST64_FMTx__;
+pub const PRIXLEAST8 = __UINT_LEAST8_FMTX__;
+pub const PRIoLEAST8 = __UINT_LEAST8_FMTo__;
+pub const PRIuLEAST8 = __UINT_LEAST8_FMTu__;
+pub const PRIxLEAST8 = __UINT_LEAST8_FMTx__;
+pub const SCNd16 = __INT16_FMTd__;
+pub const SCNi16 = __INT16_FMTi__;
+pub const SCNd32 = __INT32_FMTd__;
+pub const SCNi32 = __INT32_FMTi__;
+pub const SCNd64 = __INT64_FMTd__;
+pub const SCNi64 = __INT64_FMTi__;
+pub const SCNd8 = __INT8_FMTd__;
+pub const SCNi8 = __INT8_FMTi__;
+pub const SCNdMAX = __INTMAX_FMTd__;
+pub const SCNiMAX = __INTMAX_FMTi__;
+pub const SCNdPTR = __INTPTR_FMTd__;
+pub const SCNiPTR = __INTPTR_FMTi__;
+pub const SCNdFAST16 = __INT_FAST16_FMTd__;
+pub const SCNiFAST16 = __INT_FAST16_FMTi__;
+pub const SCNdFAST32 = __INT_FAST32_FMTd__;
+pub const SCNiFAST32 = __INT_FAST32_FMTi__;
+pub const SCNdFAST64 = __INT_FAST64_FMTd__;
+pub const SCNiFAST64 = __INT_FAST64_FMTi__;
+pub const SCNdFAST8 = __INT_FAST8_FMTd__;
+pub const SCNiFAST8 = __INT_FAST8_FMTi__;
+pub const SCNdLEAST16 = __INT_LEAST16_FMTd__;
+pub const SCNiLEAST16 = __INT_LEAST16_FMTi__;
+pub const SCNdLEAST32 = __INT_LEAST32_FMTd__;
+pub const SCNiLEAST32 = __INT_LEAST32_FMTi__;
+pub const SCNdLEAST64 = __INT_LEAST64_FMTd__;
+pub const SCNiLEAST64 = __INT_LEAST64_FMTi__;
+pub const SCNdLEAST8 = __INT_LEAST8_FMTd__;
+pub const SCNiLEAST8 = __INT_LEAST8_FMTi__;
+pub const SCNo16 = __UINT16_FMTo__;
+pub const SCNu16 = __UINT16_FMTu__;
+pub const SCNx16 = __UINT16_FMTx__;
+pub const SCNo32 = __UINT32_FMTo__;
+pub const SCNu32 = __UINT32_FMTu__;
+pub const SCNx32 = __UINT32_FMTx__;
+pub const SCNo64 = __UINT64_FMTo__;
+pub const SCNu64 = __UINT64_FMTu__;
+pub const SCNx64 = __UINT64_FMTx__;
+pub const SCNo8 = __UINT8_FMTo__;
+pub const SCNu8 = __UINT8_FMTu__;
+pub const SCNx8 = __UINT8_FMTx__;
+pub const SCNoMAX = __UINTMAX_FMTo__;
+pub const SCNuMAX = __UINTMAX_FMTu__;
+pub const SCNxMAX = __UINTMAX_FMTx__;
+pub const SCNoPTR = __UINTPTR_FMTo__;
+pub const SCNuPTR = __UINTPTR_FMTu__;
+pub const SCNxPTR = __UINTPTR_FMTx__;
+pub const SCNoFAST16 = __UINT_FAST16_FMTo__;
+pub const SCNuFAST16 = __UINT_FAST16_FMTu__;
+pub const SCNxFAST16 = __UINT_FAST16_FMTx__;
+pub const SCNoFAST32 = __UINT_FAST32_FMTo__;
+pub const SCNuFAST32 = __UINT_FAST32_FMTu__;
+pub const SCNxFAST32 = __UINT_FAST32_FMTx__;
+pub const SCNoFAST64 = __UINT_FAST64_FMTo__;
+pub const SCNuFAST64 = __UINT_FAST64_FMTu__;
+pub const SCNxFAST64 = __UINT_FAST64_FMTx__;
+pub const SCNoFAST8 = __UINT_FAST8_FMTo__;
+pub const SCNuFAST8 = __UINT_FAST8_FMTu__;
+pub const SCNxFAST8 = __UINT_FAST8_FMTx__;
+pub const SCNoLEAST16 = __UINT_LEAST16_FMTo__;
+pub const SCNuLEAST16 = __UINT_LEAST16_FMTu__;
+pub const SCNxLEAST16 = __UINT_LEAST16_FMTx__;
+pub const SCNoLEAST32 = __UINT_LEAST32_FMTo__;
+pub const SCNuLEAST32 = __UINT_LEAST32_FMTu__;
+pub const SCNxLEAST32 = __UINT_LEAST32_FMTx__;
+pub const SCNoLEAST64 = __UINT_LEAST64_FMTo__;
+pub const SCNuLEAST64 = __UINT_LEAST64_FMTu__;
+pub const SCNxLEAST64 = __UINT_LEAST64_FMTx__;
+pub const SCNoLEAST8 = __UINT_LEAST8_FMTo__;
+pub const SCNuLEAST8 = __UINT_LEAST8_FMTu__;
+pub const SCNxLEAST8 = __UINT_LEAST8_FMTx__;
 pub const CHAR_MIN = -128;
-pub const USHRT_MAX = 65535;
-pub const SHRT_MAX = 32767;
-pub const SHRT_MIN = -32768;
-pub const UINT_MAX = 0xffffffff;
-pub const INT_MAX = 2147483647;
-pub const INT_MIN = -2147483647 - 1;
-pub const ULONG_MAX = @as(c_ulong, 0xffffffffffffffff);
-pub const LONG_MAX = @as(c_long, 0x7fffffffffffffff);
-pub const LONG_MIN = -@as(c_long, 0x7fffffffffffffff) - 1;
-pub const ULLONG_MAX = @as(c_ulonglong, 0xffffffffffffffff);
+pub const CHAR_MAX = 127;
+pub const CHAR_BIT = 8;
+pub const SCHAR_MIN = -128;
+pub const SCHAR_MAX = 127;
+pub const UCHAR_MAX = 255;
+pub const SHRT_MIN = -1 - 0x7fff;
+pub const SHRT_MAX = 0x7fff;
+pub const USHRT_MAX = 0xffff;
+pub const INT_MIN = -1 - 0x7fffffff;
+pub const INT_MAX = 0x7fffffff;
+pub const UINT_MAX = @as(c_uint, 0xffffffff);
+pub const LONG_MIN = -LONG_MAX - 1;
+pub const LONG_MAX = __LONG_MAX;
+pub const ULONG_MAX = (@as(c_ulong, 2) * LONG_MAX) + 1;
+pub const LLONG_MIN = -LLONG_MAX - 1;
 pub const LLONG_MAX = @as(c_longlong, 0x7fffffffffffffff);
-pub const LLONG_MIN = -@as(c_longlong, 0x7fffffffffffffff) - 1;
-pub const LONG_BIT = 64;
-pub const SSIZE_MAX = LONG_MAX;
-pub const WORD_BIT = 32;
-pub const SIZE_T_MAX = ULONG_MAX;
-pub const UQUAD_MAX = ULLONG_MAX;
-pub const QUAD_MAX = LLONG_MAX;
-pub const QUAD_MIN = LLONG_MIN;
-pub const ARG_MAX = 256 * 1024;
-pub const CHILD_MAX = 266;
-pub const GID_MAX = @as(c_uint, 2147483647);
-pub const LINK_MAX = 32767;
-pub const MAX_CANON = 1024;
-pub const MAX_INPUT = 1024;
+pub const ULLONG_MAX = (@as(c_ulonglong, 2) * LLONG_MAX) + 1;
+pub const MB_LEN_MAX = 4;
+pub const PAGESIZE = 0x10000;
+pub const FILESIZEBITS = 64;
 pub const NAME_MAX = 255;
-pub const NGROUPS_MAX = 16;
-pub const UID_MAX = @as(c_uint, 2147483647);
-pub const OPEN_MAX = 10240;
-pub const PATH_MAX = 1024;
-pub const PIPE_BUF = 512;
-pub const BC_BASE_MAX = 99;
-pub const BC_DIM_MAX = 2048;
-pub const BC_SCALE_MAX = 99;
-pub const BC_STRING_MAX = 1000;
+pub const PATH_MAX = 4096;
+pub const NGROUPS_MAX = 32;
+pub const ARG_MAX = 131072;
+pub const IOV_MAX = 1024;
+pub const SYMLOOP_MAX = 40;
+pub const WORD_BIT = 32;
+pub const SSIZE_MAX = LONG_MAX;
+pub const TZNAME_MAX = 6;
+pub const TTY_NAME_MAX = 32;
+pub const HOST_NAME_MAX = 255;
+pub const LONG_BIT = 32;
+pub const DELAYTIMER_MAX = 0x7fffffff;
 pub const CHARCLASS_NAME_MAX = 14;
 pub const COLL_WEIGHTS_MAX = 2;
-pub const EQUIV_CLASS_MAX = 2;
-pub const EXPR_NEST_MAX = 32;
-pub const LINE_MAX = 2048;
 pub const RE_DUP_MAX = 255;
+pub const NL_ARGMAX = 9;
+pub const NL_MSGMAX = 32767;
+pub const NL_SETMAX = 255;
+pub const NL_TEXTMAX = 2048;
+pub const PAGE_SIZE = PAGESIZE;
 pub const NZERO = 20;
+pub const NL_LANGMAX = 32;
+pub const NL_NMAX = 16;
+pub const _POSIX_AIO_LISTIO_MAX = 2;
+pub const _POSIX_AIO_MAX = 1;
 pub const _POSIX_ARG_MAX = 4096;
 pub const _POSIX_CHILD_MAX = 25;
+pub const _POSIX_CLOCKRES_MIN = 20000000;
+pub const _POSIX_DELAYTIMER_MAX = 32;
+pub const _POSIX_HOST_NAME_MAX = 255;
 pub const _POSIX_LINK_MAX = 8;
+pub const _POSIX_LOGIN_NAME_MAX = 9;
 pub const _POSIX_MAX_CANON = 255;
 pub const _POSIX_MAX_INPUT = 255;
+pub const _POSIX_MQ_OPEN_MAX = 8;
+pub const _POSIX_MQ_PRIO_MAX = 32;
 pub const _POSIX_NAME_MAX = 14;
 pub const _POSIX_NGROUPS_MAX = 8;
 pub const _POSIX_OPEN_MAX = 20;
 pub const _POSIX_PATH_MAX = 256;
 pub const _POSIX_PIPE_BUF = 512;
-pub const _POSIX_SSIZE_MAX = 32767;
-pub const _POSIX_STREAM_MAX = 8;
-pub const _POSIX_TZNAME_MAX = 6;
-pub const _POSIX2_BC_BASE_MAX = 99;
-pub const _POSIX2_BC_DIM_MAX = 2048;
-pub const _POSIX2_BC_SCALE_MAX = 99;
-pub const _POSIX2_BC_STRING_MAX = 1000;
-pub const _POSIX2_EQUIV_CLASS_MAX = 2;
-pub const _POSIX2_EXPR_NEST_MAX = 32;
-pub const _POSIX2_LINE_MAX = 2048;
-pub const _POSIX2_RE_DUP_MAX = 255;
-pub const _POSIX_AIO_LISTIO_MAX = 2;
-pub const _POSIX_AIO_MAX = 1;
-pub const _POSIX_DELAYTIMER_MAX = 32;
-pub const _POSIX_MQ_OPEN_MAX = 8;
-pub const _POSIX_MQ_PRIO_MAX = 32;
+pub const _POSIX_RE_DUP_MAX = 255;
 pub const _POSIX_RTSIG_MAX = 8;
 pub const _POSIX_SEM_NSEMS_MAX = 256;
 pub const _POSIX_SEM_VALUE_MAX = 32767;
 pub const _POSIX_SIGQUEUE_MAX = 32;
-pub const _POSIX_TIMER_MAX = 32;
-pub const _POSIX_CLOCKRES_MIN = 20000000;
-pub const _POSIX_THREAD_DESTRUCTOR_ITERATIONS = 4;
-pub const _POSIX_THREAD_KEYS_MAX = 128;
-pub const _POSIX_THREAD_THREADS_MAX = 64;
-pub const PTHREAD_DESTRUCTOR_ITERATIONS = 4;
-pub const PTHREAD_KEYS_MAX = 512;
-pub const PTHREAD_STACK_MIN = 8192;
-pub const _POSIX_HOST_NAME_MAX = 255;
-pub const _POSIX_LOGIN_NAME_MAX = 9;
+pub const _POSIX_SSIZE_MAX = 32767;
+pub const _POSIX_STREAM_MAX = 8;
 pub const _POSIX_SS_REPL_MAX = 4;
 pub const _POSIX_SYMLINK_MAX = 255;
 pub const _POSIX_SYMLOOP_MAX = 8;
+pub const _POSIX_THREAD_DESTRUCTOR_ITERATIONS = 4;
+pub const _POSIX_THREAD_KEYS_MAX = 128;
+pub const _POSIX_THREAD_THREADS_MAX = 64;
+pub const _POSIX_TIMER_MAX = 32;
 pub const _POSIX_TRACE_EVENT_NAME_MAX = 30;
 pub const _POSIX_TRACE_NAME_MAX = 8;
 pub const _POSIX_TRACE_SYS_MAX = 8;
 pub const _POSIX_TRACE_USER_EVENT_MAX = 32;
 pub const _POSIX_TTY_NAME_MAX = 9;
+pub const _POSIX_TZNAME_MAX = 6;
+pub const _POSIX2_BC_BASE_MAX = 99;
+pub const _POSIX2_BC_DIM_MAX = 2048;
+pub const _POSIX2_BC_SCALE_MAX = 99;
+pub const _POSIX2_BC_STRING_MAX = 1000;
 pub const _POSIX2_CHARCLASS_NAME_MAX = 14;
 pub const _POSIX2_COLL_WEIGHTS_MAX = 2;
-pub const _POSIX_RE_DUP_MAX = _POSIX2_RE_DUP_MAX;
-pub const OFF_MIN = LLONG_MIN;
-pub const OFF_MAX = LLONG_MAX;
-pub const PASS_MAX = 128;
-pub const NL_ARGMAX = 9;
-pub const NL_LANGMAX = 14;
-pub const NL_MSGMAX = 32767;
-pub const NL_NMAX = 1;
-pub const NL_SETMAX = 255;
-pub const NL_TEXTMAX = 2048;
+pub const _POSIX2_EXPR_NEST_MAX = 32;
+pub const _POSIX2_LINE_MAX = 2048;
+pub const _POSIX2_RE_DUP_MAX = 255;
 pub const _XOPEN_IOV_MAX = 16;
-pub const IOV_MAX = 1024;
 pub const _XOPEN_NAME_MAX = 255;
 pub const _XOPEN_PATH_MAX = 1024;
-pub const LONG_LONG_MAX = __LONG_LONG_MAX__;
-pub const LONG_LONG_MIN = -__LONG_LONG_MAX__ - @as(c_longlong, 1);
-pub const ULONG_LONG_MAX = (__LONG_LONG_MAX__ * @as(c_ulonglong, 2)) + @as(c_ulonglong, 1);
-pub const NAN = __builtin_nanf("0x7fc00000");
-pub const INFINITY = HUGE_VALF;
-pub const FP_NAN = 1;
-pub const FP_INFINITE = 2;
-pub const FP_ZERO = 3;
-pub const FP_NORMAL = 4;
-pub const FP_SUBNORMAL = 5;
-pub const FP_SUPERNORMAL = 6;
-pub const FP_FAST_FMA = 1;
-pub const FP_FAST_FMAF = 1;
-pub const FP_ILOGB0 = -2147483647 - 1;
-pub const FP_ILOGBNAN = -2147483647 - 1;
+pub const NAN = __builtin_nanf("");
+pub const HUGE_VALF = INFINITY;
+pub const HUGE_VAL = @import("std").meta.cast(f64, INFINITY);
 pub const MATH_ERRNO = 1;
 pub const MATH_ERREXCEPT = 2;
-pub fn isgreater(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isgreater(x, y)) {
-    return __builtin_isgreater(x, y);
+pub const math_errhandling = 2;
+pub const FP_ILOGBNAN = -1 - 0x7fffffff;
+pub const FP_ILOGB0 = FP_ILOGBNAN;
+pub const FP_NAN = 0;
+pub const FP_INFINITE = 1;
+pub const FP_ZERO = 2;
+pub const FP_SUBNORMAL = 3;
+pub const FP_NORMAL = 4;
+pub fn fpclassify(x: anytype) callconv(.Inline) @TypeOf(__builtin_fpclassify(FP_NAN, FP_INFINITE, FP_NORMAL, FP_SUBNORMAL, FP_ZERO, x)) {
+    return __builtin_fpclassify(FP_NAN, FP_INFINITE, FP_NORMAL, FP_SUBNORMAL, FP_ZERO, x);
 }
-pub fn isgreaterequal(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isgreaterequal(x, y)) {
-    return __builtin_isgreaterequal(x, y);
+pub fn isinf(x: anytype) callconv(.Inline) @TypeOf(__builtin_isinf(x)) {
+    return __builtin_isinf(x);
+}
+pub fn isnan(x: anytype) callconv(.Inline) @TypeOf(__builtin_isnan(x)) {
+    return __builtin_isnan(x);
+}
+pub fn isnormal(x: anytype) callconv(.Inline) @TypeOf(__builtin_isnormal(x)) {
+    return __builtin_isnormal(x);
+}
+pub fn isfinite(x: anytype) callconv(.Inline) @TypeOf(__builtin_isfinite(x)) {
+    return __builtin_isfinite(x);
+}
+pub fn signbit(x: anytype) callconv(.Inline) @TypeOf(__builtin_signbit(x)) {
+    return __builtin_signbit(x);
+}
+pub fn isunordered(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isunordered(x, y)) {
+    return __builtin_isunordered(x, y);
 }
 pub fn isless(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isless(x, y)) {
     return __builtin_isless(x, y);
@@ -7412,436 +5447,42 @@ pub fn islessequal(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_i
 pub fn islessgreater(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_islessgreater(x, y)) {
     return __builtin_islessgreater(x, y);
 }
-pub fn isunordered(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isunordered(x, y)) {
-    return __builtin_isunordered(x, y);
+pub fn isgreater(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isgreater(x, y)) {
+    return __builtin_isgreater(x, y);
 }
-pub const M_E = 2.71828182845904523536028747135266250;
-pub const M_LOG2E = 1.44269504088896340735992468100189214;
-pub const M_LOG10E = 0.434294481903251827651128918916605082;
-pub const M_LN2 = 0.693147180559945309417232121458176568;
-pub const M_LN10 = 2.30258509299404568401799145468436421;
-pub const M_PI = 3.14159265358979323846264338327950288;
-pub const M_PI_2 = 1.57079632679489661923132169163975144;
-pub const M_PI_4 = 0.785398163397448309615660845819875721;
-pub const M_1_PI = 0.318309886183790671537767526745028724;
-pub const M_2_PI = 0.636619772367581343075535053490057448;
-pub const M_2_SQRTPI = 1.12837916709551257389615890312154517;
-pub const M_SQRT2 = 1.41421356237309504880168872420969808;
-pub const M_SQRT1_2 = 0.707106781186547524400844362104849039;
-pub const MAXFLOAT = @as(f32, 0x1.fffffep+127);
-pub const FP_SNAN = FP_NAN;
-pub const FP_QNAN = FP_NAN;
-pub const HUGE = MAXFLOAT;
-pub const X_TLOSS = 1.41484755040568800000e+16;
-pub const DOMAIN = 1;
-pub const SING = 2;
-pub const OVERFLOW = 3;
-pub const UNDERFLOW = 4;
-pub const TLOSS = 5;
-pub const PLOSS = 6;
-pub const NULL = __DARWIN_NULL;
-pub const RENAME_SECLUDE = 0x00000001;
-pub const RENAME_SWAP = 0x00000002;
-pub const RENAME_EXCL = 0x00000004;
-pub const __SLBF = 0x0001;
-pub const __SNBF = 0x0002;
-pub const __SRD = 0x0004;
-pub const __SWR = 0x0008;
-pub const __SRW = 0x0010;
-pub const __SEOF = 0x0020;
-pub const __SERR = 0x0040;
-pub const __SMBF = 0x0080;
-pub const __SAPP = 0x0100;
-pub const __SSTR = 0x0200;
-pub const __SOPT = 0x0400;
-pub const __SNPT = 0x0800;
-pub const __SOFF = 0x1000;
-pub const __SMOD = 0x2000;
-pub const __SALC = 0x4000;
-pub const __SIGN = 0x8000;
+pub fn isgreaterequal(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isgreaterequal(x, y)) {
+    return __builtin_isgreaterequal(x, y);
+}
+pub const MAXFLOAT = @as(f32, 3.40282346638528859812e+38);
+pub const M_E = 2.7182818284590452354;
+pub const M_LOG2E = 1.4426950408889634074;
+pub const M_LOG10E = 0.43429448190325182765;
+pub const M_LN2 = 0.69314718055994530942;
+pub const M_LN10 = 2.30258509299404568402;
+pub const M_PI = 3.14159265358979323846;
+pub const M_PI_2 = 1.57079632679489661923;
+pub const M_PI_4 = 0.78539816339744830962;
+pub const M_1_PI = 0.31830988618379067154;
+pub const M_2_PI = 0.63661977236758134308;
+pub const M_2_SQRTPI = 1.12837916709551257390;
+pub const M_SQRT2 = 1.41421356237309504880;
+pub const M_SQRT1_2 = 0.70710678118654752440;
+pub const HUGE = @as(f32, 3.40282346638528859812e+38);
+pub const EOF = -1;
+pub const SEEK_CUR = __WASI_WHENCE_CUR;
+pub const SEEK_END = __WASI_WHENCE_END;
+pub const SEEK_SET = __WASI_WHENCE_SET;
 pub const _IOFBF = 0;
 pub const _IOLBF = 1;
 pub const _IONBF = 2;
 pub const BUFSIZ = 1024;
-pub const EOF = -1;
-pub const FOPEN_MAX = 20;
-pub const FILENAME_MAX = 1024;
-pub const P_tmpdir = "/var/tmp/";
-pub const L_tmpnam = 1024;
-pub const TMP_MAX = 308915776;
-pub const SEEK_SET = 0;
-pub const SEEK_CUR = 1;
-pub const SEEK_END = 2;
-pub const stdin = __stdinp;
-pub const stdout = __stdoutp;
-pub const stderr = __stderrp;
-pub const L_ctermid = 1024;
-pub fn __swift_unavailable_on(osx_msg: anytype, ios_msg: anytype) callconv(.Inline) @TypeOf(__swift_unavailable(osx_msg)) {
-    return __swift_unavailable(osx_msg);
-}
-pub fn __sfeof(p: anytype) callconv(.Inline) @TypeOf((p.*._flags & __SEOF) != 0) {
-    return (p.*._flags & __SEOF) != 0;
-}
-pub fn __sferror(p: anytype) callconv(.Inline) @TypeOf((p.*._flags & __SERR) != 0) {
-    return (p.*._flags & __SERR) != 0;
-}
-pub fn __sfileno(p: anytype) callconv(.Inline) @TypeOf(p.*._file) {
-    return p.*._file;
-}
-pub fn fropen(cookie: anytype, @"fn": anytype) callconv(.Inline) @TypeOf(funopen(cookie, @"fn", 0, 0, 0)) {
-    return funopen(cookie, @"fn", 0, 0, 0);
-}
-pub fn fwopen(cookie: anytype, @"fn": anytype) callconv(.Inline) @TypeOf(funopen(cookie, 0, @"fn", 0, 0)) {
-    return funopen(cookie, 0, @"fn", 0, 0);
-}
-pub fn feof_unlocked(p: anytype) callconv(.Inline) @TypeOf(__sfeof(p)) {
-    return __sfeof(p);
-}
-pub fn ferror_unlocked(p: anytype) callconv(.Inline) @TypeOf(__sferror(p)) {
-    return __sferror(p);
-}
-pub fn clearerr_unlocked(p: anytype) callconv(.Inline) @TypeOf(__sclearerr(p)) {
-    return __sclearerr(p);
-}
-pub fn fileno_unlocked(p: anytype) callconv(.Inline) @TypeOf(__sfileno(p)) {
-    return __sfileno(p);
-}
-pub const _USE_FORTIFY_LEVEL = 2;
-pub fn __darwin_obsz0(object: anytype) callconv(.Inline) @TypeOf(__builtin_object_size(object, 0)) {
-    return __builtin_object_size(object, 0);
-}
-pub fn __darwin_obsz(object: anytype) callconv(.Inline) @TypeOf(__builtin_object_size(object, if (_USE_FORTIFY_LEVEL > 1) 1 else 0)) {
-    return __builtin_object_size(object, if (_USE_FORTIFY_LEVEL > 1) 1 else 0);
-}
-pub const __DARWIN_NSIG = 32;
-pub const NSIG = __DARWIN_NSIG;
-pub const _I386_SIGNAL_H_ = 1;
-pub const SIGHUP = 1;
-pub const SIGINT = 2;
-pub const SIGQUIT = 3;
-pub const SIGILL = 4;
-pub const SIGTRAP = 5;
-pub const SIGABRT = 6;
-pub const SIGIOT = SIGABRT;
-pub const SIGEMT = 7;
-pub const SIGFPE = 8;
-pub const SIGKILL = 9;
-pub const SIGBUS = 10;
-pub const SIGSEGV = 11;
-pub const SIGSYS = 12;
-pub const SIGPIPE = 13;
-pub const SIGALRM = 14;
-pub const SIGTERM = 15;
-pub const SIGURG = 16;
-pub const SIGSTOP = 17;
-pub const SIGTSTP = 18;
-pub const SIGCONT = 19;
-pub const SIGCHLD = 20;
-pub const SIGTTIN = 21;
-pub const SIGTTOU = 22;
-pub const SIGIO = 23;
-pub const SIGXCPU = 24;
-pub const SIGXFSZ = 25;
-pub const SIGVTALRM = 26;
-pub const SIGPROF = 27;
-pub const SIGWINCH = 28;
-pub const SIGINFO = 29;
-pub const SIGUSR1 = 30;
-pub const SIGUSR2 = 31;
-pub const _STRUCT_X86_THREAD_STATE32 = struct___darwin_i386_thread_state;
-pub const _STRUCT_FP_CONTROL = struct___darwin_fp_control;
-pub const FP_PREC_24B = 0;
-pub const FP_PREC_53B = 2;
-pub const FP_PREC_64B = 3;
-pub const FP_RND_NEAR = 0;
-pub const FP_RND_DOWN = 1;
-pub const FP_RND_UP = 2;
-pub const FP_CHOP = 3;
-pub const _STRUCT_FP_STATUS = struct___darwin_fp_status;
-pub const _STRUCT_MMST_REG = struct___darwin_mmst_reg;
-pub const _STRUCT_XMM_REG = struct___darwin_xmm_reg;
-pub const _STRUCT_YMM_REG = struct___darwin_ymm_reg;
-pub const _STRUCT_ZMM_REG = struct___darwin_zmm_reg;
-pub const _STRUCT_OPMASK_REG = struct___darwin_opmask_reg;
-pub const FP_STATE_BYTES = 512;
-pub const _STRUCT_X86_FLOAT_STATE32 = struct___darwin_i386_float_state;
-pub const _STRUCT_X86_AVX_STATE32 = struct___darwin_i386_avx_state;
-pub const _STRUCT_X86_AVX512_STATE32 = struct___darwin_i386_avx512_state;
-pub const _STRUCT_X86_EXCEPTION_STATE32 = struct___darwin_i386_exception_state;
-pub const _STRUCT_X86_DEBUG_STATE32 = struct___darwin_x86_debug_state32;
-pub const _STRUCT_X86_PAGEIN_STATE = struct___x86_pagein_state;
-pub const _STRUCT_X86_THREAD_STATE64 = struct___darwin_x86_thread_state64;
-pub const _STRUCT_X86_THREAD_FULL_STATE64 = struct___darwin_x86_thread_full_state64;
-pub const _STRUCT_X86_FLOAT_STATE64 = struct___darwin_x86_float_state64;
-pub const _STRUCT_X86_AVX_STATE64 = struct___darwin_x86_avx_state64;
-pub const _STRUCT_X86_AVX512_STATE64 = struct___darwin_x86_avx512_state64;
-pub const _STRUCT_X86_EXCEPTION_STATE64 = struct___darwin_x86_exception_state64;
-pub const _STRUCT_X86_DEBUG_STATE64 = struct___darwin_x86_debug_state64;
-pub const _STRUCT_X86_CPMU_STATE64 = struct___darwin_x86_cpmu_state64;
-pub const _STRUCT_MCONTEXT32 = struct___darwin_mcontext32;
-pub const _STRUCT_MCONTEXT_AVX32 = struct___darwin_mcontext_avx32;
-pub const _STRUCT_MCONTEXT_AVX512_32 = struct___darwin_mcontext_avx512_32;
-pub const _STRUCT_MCONTEXT64 = struct___darwin_mcontext64;
-pub const _STRUCT_MCONTEXT64_FULL = struct___darwin_mcontext64_full;
-pub const _STRUCT_MCONTEXT_AVX64 = struct___darwin_mcontext_avx64;
-pub const _STRUCT_MCONTEXT_AVX64_FULL = struct___darwin_mcontext_avx64_full;
-pub const _STRUCT_MCONTEXT_AVX512_64 = struct___darwin_mcontext_avx512_64;
-pub const _STRUCT_MCONTEXT_AVX512_64_FULL = struct___darwin_mcontext_avx512_64_full;
-pub const _STRUCT_MCONTEXT = _STRUCT_MCONTEXT64;
-pub const _STRUCT_SIGALTSTACK = struct___darwin_sigaltstack;
-pub const _STRUCT_UCONTEXT = struct___darwin_ucontext;
-pub const SIGEV_NONE = 0;
-pub const SIGEV_SIGNAL = 1;
-pub const SIGEV_THREAD = 3;
-pub const ILL_NOOP = 0;
-pub const ILL_ILLOPC = 1;
-pub const ILL_ILLTRP = 2;
-pub const ILL_PRVOPC = 3;
-pub const ILL_ILLOPN = 4;
-pub const ILL_ILLADR = 5;
-pub const ILL_PRVREG = 6;
-pub const ILL_COPROC = 7;
-pub const ILL_BADSTK = 8;
-pub const FPE_NOOP = 0;
-pub const FPE_FLTDIV = 1;
-pub const FPE_FLTOVF = 2;
-pub const FPE_FLTUND = 3;
-pub const FPE_FLTRES = 4;
-pub const FPE_FLTINV = 5;
-pub const FPE_FLTSUB = 6;
-pub const FPE_INTDIV = 7;
-pub const FPE_INTOVF = 8;
-pub const SEGV_NOOP = 0;
-pub const SEGV_MAPERR = 1;
-pub const SEGV_ACCERR = 2;
-pub const BUS_NOOP = 0;
-pub const BUS_ADRALN = 1;
-pub const BUS_ADRERR = 2;
-pub const BUS_OBJERR = 3;
-pub const TRAP_BRKPT = 1;
-pub const TRAP_TRACE = 2;
-pub const CLD_NOOP = 0;
-pub const CLD_EXITED = 1;
-pub const CLD_KILLED = 2;
-pub const CLD_DUMPED = 3;
-pub const CLD_TRAPPED = 4;
-pub const CLD_STOPPED = 5;
-pub const CLD_CONTINUED = 6;
-pub const POLL_IN = 1;
-pub const POLL_OUT = 2;
-pub const POLL_MSG = 3;
-pub const POLL_ERR = 4;
-pub const POLL_PRI = 5;
-pub const POLL_HUP = 6;
-pub const sa_handler = __sigaction_u.__sa_handler;
-pub const sa_sigaction = __sigaction_u.__sa_sigaction;
-pub const SA_ONSTACK = 0x0001;
-pub const SA_RESTART = 0x0002;
-pub const SA_RESETHAND = 0x0004;
-pub const SA_NOCLDSTOP = 0x0008;
-pub const SA_NODEFER = 0x0010;
-pub const SA_NOCLDWAIT = 0x0020;
-pub const SA_SIGINFO = 0x0040;
-pub const SA_USERTRAMP = 0x0100;
-pub const SA_64REGSET = 0x0200;
-pub const SA_USERSPACE_MASK = (((((SA_ONSTACK | SA_RESTART) | SA_RESETHAND) | SA_NOCLDSTOP) | SA_NODEFER) | SA_NOCLDWAIT) | SA_SIGINFO;
-pub const SIG_BLOCK = 1;
-pub const SIG_UNBLOCK = 2;
-pub const SIG_SETMASK = 3;
-pub const SI_USER = 0x10001;
-pub const SI_QUEUE = 0x10002;
-pub const SI_TIMER = 0x10003;
-pub const SI_ASYNCIO = 0x10004;
-pub const SI_MESGQ = 0x10005;
-pub const SS_ONSTACK = 0x0001;
-pub const SS_DISABLE = 0x0004;
-pub const MINSIGSTKSZ = 32768;
-pub const SIGSTKSZ = 131072;
-pub const SV_ONSTACK = SA_ONSTACK;
-pub const SV_INTERRUPT = SA_RESTART;
-pub const SV_RESETHAND = SA_RESETHAND;
-pub const SV_NODEFER = SA_NODEFER;
-pub const SV_NOCLDSTOP = SA_NOCLDSTOP;
-pub const SV_SIGINFO = SA_SIGINFO;
-pub const sv_onstack = sv_flags;
-pub fn sigmask(m: anytype) callconv(.Inline) @TypeOf(1 << (m - 1)) {
-    return 1 << (m - 1);
-}
-pub const BADSIG = SIG_ERR;
-pub const _STRUCT_TIMEVAL = struct_timeval;
-pub const PRIO_PROCESS = 0;
-pub const PRIO_PGRP = 1;
-pub const PRIO_USER = 2;
-pub const PRIO_DARWIN_THREAD = 3;
-pub const PRIO_DARWIN_PROCESS = 4;
-pub const PRIO_MIN = -20;
-pub const PRIO_MAX = 20;
-pub const PRIO_DARWIN_BG = 0x1000;
-pub const PRIO_DARWIN_NONUI = 0x1001;
-pub const RUSAGE_SELF = 0;
-pub const RUSAGE_CHILDREN = -1;
-pub const ru_first = ru_ixrss;
-pub const ru_last = ru_nivcsw;
-pub const RUSAGE_INFO_V0 = 0;
-pub const RUSAGE_INFO_V1 = 1;
-pub const RUSAGE_INFO_V2 = 2;
-pub const RUSAGE_INFO_V3 = 3;
-pub const RUSAGE_INFO_V4 = 4;
-pub const RUSAGE_INFO_CURRENT = RUSAGE_INFO_V4;
-pub const RLIM_INFINITY = @import("std").meta.cast(__uint64_t, 1 << 63) - 1;
-pub const RLIM_SAVED_MAX = RLIM_INFINITY;
-pub const RLIM_SAVED_CUR = RLIM_INFINITY;
-pub const RLIMIT_CPU = 0;
-pub const RLIMIT_FSIZE = 1;
-pub const RLIMIT_DATA = 2;
-pub const RLIMIT_STACK = 3;
-pub const RLIMIT_CORE = 4;
-pub const RLIMIT_AS = 5;
-pub const RLIMIT_RSS = RLIMIT_AS;
-pub const RLIMIT_MEMLOCK = 6;
-pub const RLIMIT_NPROC = 7;
-pub const RLIMIT_NOFILE = 8;
-pub const RLIM_NLIMITS = 9;
-pub const _RLIMIT_POSIX_FLAG = 0x1000;
-pub const RLIMIT_WAKEUPS_MONITOR = 0x1;
-pub const RLIMIT_CPU_USAGE_MONITOR = 0x2;
-pub const RLIMIT_THREAD_CPULIMITS = 0x3;
-pub const RLIMIT_FOOTPRINT_INTERVAL = 0x4;
-pub const WAKEMON_ENABLE = 0x01;
-pub const WAKEMON_DISABLE = 0x02;
-pub const WAKEMON_GET_PARAMS = 0x04;
-pub const WAKEMON_SET_DEFAULTS = 0x08;
-pub const WAKEMON_MAKE_FATAL = 0x10;
-pub const CPUMON_MAKE_FATAL = 0x1000;
-pub const FOOTPRINT_INTERVAL_RESET = 0x1;
-pub const IOPOL_TYPE_DISK = 0;
-pub const IOPOL_TYPE_VFS_ATIME_UPDATES = 2;
-pub const IOPOL_TYPE_VFS_MATERIALIZE_DATALESS_FILES = 3;
-pub const IOPOL_TYPE_VFS_STATFS_NO_DATA_VOLUME = 4;
-pub const IOPOL_SCOPE_PROCESS = 0;
-pub const IOPOL_SCOPE_THREAD = 1;
-pub const IOPOL_SCOPE_DARWIN_BG = 2;
-pub const IOPOL_DEFAULT = 0;
-pub const IOPOL_IMPORTANT = 1;
-pub const IOPOL_PASSIVE = 2;
-pub const IOPOL_THROTTLE = 3;
-pub const IOPOL_UTILITY = 4;
-pub const IOPOL_STANDARD = 5;
-pub const IOPOL_APPLICATION = IOPOL_STANDARD;
-pub const IOPOL_NORMAL = IOPOL_IMPORTANT;
-pub const IOPOL_ATIME_UPDATES_DEFAULT = 0;
-pub const IOPOL_ATIME_UPDATES_OFF = 1;
-pub const IOPOL_MATERIALIZE_DATALESS_FILES_DEFAULT = 0;
-pub const IOPOL_MATERIALIZE_DATALESS_FILES_OFF = 1;
-pub const IOPOL_MATERIALIZE_DATALESS_FILES_ON = 2;
-pub const IOPOL_VFS_STATFS_NO_DATA_VOLUME_DEFAULT = 0;
-pub const IOPOL_VFS_STATFS_FORCE_NO_DATA_VOLUME = 1;
-pub const WNOHANG = 0x00000001;
-pub const WUNTRACED = 0x00000002;
-pub fn _W_INT(w: anytype) callconv(.Inline) @TypeOf([*c]c_int.* & w) {
-    return [*c]c_int.* & w;
-}
-pub const WCOREFLAG = 0o0200;
-pub fn _WSTATUS(x: anytype) callconv(.Inline) @TypeOf(_W_INT(x) & 0o0177) {
-    return _W_INT(x) & 0o0177;
-}
-pub const _WSTOPPED = 0o0177;
-pub fn WEXITSTATUS(x: anytype) callconv(.Inline) @TypeOf((_W_INT(x) >> 8) & 0x000000ff) {
-    return (_W_INT(x) >> 8) & 0x000000ff;
-}
-pub fn WSTOPSIG(x: anytype) callconv(.Inline) @TypeOf(_W_INT(x) >> 8) {
-    return _W_INT(x) >> 8;
-}
-pub fn WIFCONTINUED(x: anytype) callconv(.Inline) @TypeOf((_WSTATUS(x) == _WSTOPPED) and (WSTOPSIG(x) == 0x13)) {
-    return (_WSTATUS(x) == _WSTOPPED) and (WSTOPSIG(x) == 0x13);
-}
-pub fn WIFSTOPPED(x: anytype) callconv(.Inline) @TypeOf((_WSTATUS(x) == _WSTOPPED) and (WSTOPSIG(x) != 0x13)) {
-    return (_WSTATUS(x) == _WSTOPPED) and (WSTOPSIG(x) != 0x13);
-}
-pub fn WIFEXITED(x: anytype) callconv(.Inline) @TypeOf(_WSTATUS(x) == 0) {
-    return _WSTATUS(x) == 0;
-}
-pub fn WIFSIGNALED(x: anytype) callconv(.Inline) @TypeOf((_WSTATUS(x) != _WSTOPPED) and (_WSTATUS(x) != 0)) {
-    return (_WSTATUS(x) != _WSTOPPED) and (_WSTATUS(x) != 0);
-}
-pub fn WTERMSIG(x: anytype) callconv(.Inline) @TypeOf(_WSTATUS(x)) {
-    return _WSTATUS(x);
-}
-pub fn WCOREDUMP(x: anytype) callconv(.Inline) @TypeOf(_W_INT(x) & WCOREFLAG) {
-    return _W_INT(x) & WCOREFLAG;
-}
-pub fn W_EXITCODE(ret: anytype, sig: anytype) callconv(.Inline) @TypeOf((ret << 8) | sig) {
-    return (ret << 8) | sig;
-}
-pub fn W_STOPCODE(sig: anytype) callconv(.Inline) @TypeOf((sig << 8) | _WSTOPPED) {
-    return (sig << 8) | _WSTOPPED;
-}
-pub const WEXITED = 0x00000004;
-pub const WSTOPPED = 0x00000008;
-pub const WCONTINUED = 0x00000010;
-pub const WNOWAIT = 0x00000020;
-pub const WAIT_ANY = -1;
-pub const WAIT_MYPGRP = 0;
-pub const _QUAD_HIGHWORD = 1;
-pub const _QUAD_LOWWORD = 0;
-pub const __DARWIN_LITTLE_ENDIAN = 1234;
-pub const __DARWIN_BIG_ENDIAN = 4321;
-pub const __DARWIN_PDP_ENDIAN = 3412;
-pub const __DARWIN_BYTE_ORDER = __DARWIN_LITTLE_ENDIAN;
-pub const LITTLE_ENDIAN = __DARWIN_LITTLE_ENDIAN;
-pub const BIG_ENDIAN = __DARWIN_BIG_ENDIAN;
-pub const PDP_ENDIAN = __DARWIN_PDP_ENDIAN;
-pub const BYTE_ORDER = __DARWIN_BYTE_ORDER;
-pub fn __DARWIN_OSSwapConstInt16(x: anytype) callconv(.Inline) __uint16_t {
-    return @import("std").meta.cast(__uint16_t, ((@import("std").meta.cast(__uint16_t, x) & 0xff00) >> 8) | ((@import("std").meta.cast(__uint16_t, x) & 0x00ff) << 8));
-}
-pub fn __DARWIN_OSSwapConstInt32(x: anytype) callconv(.Inline) __uint32_t {
-    return @import("std").meta.cast(__uint32_t, ((((@import("std").meta.cast(__uint32_t, x) & 0xff000000) >> 24) | ((@import("std").meta.cast(__uint32_t, x) & 0x00ff0000) >> 8)) | ((@import("std").meta.cast(__uint32_t, x) & 0x0000ff00) << 8)) | ((@import("std").meta.cast(__uint32_t, x) & 0x000000ff) << 24));
-}
-pub fn __DARWIN_OSSwapConstInt64(x: anytype) callconv(.Inline) __uint64_t {
-    return @import("std").meta.cast(__uint64_t, ((((((((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0xff00000000000000)) >> 56) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x00ff000000000000)) >> 40)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x0000ff0000000000)) >> 24)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x000000ff00000000)) >> 8)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x00000000ff000000)) << 8)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x0000000000ff0000)) << 24)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x000000000000ff00)) << 40)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x00000000000000ff)) << 56));
-}
-pub fn __DARWIN_OSSwapInt16(x: anytype) callconv(.Inline) __uint16_t {
-    return @import("std").meta.cast(__uint16_t, if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt16(x) else _OSSwapInt16(x));
-}
-pub fn __DARWIN_OSSwapInt32(x: anytype) callconv(.Inline) @TypeOf(if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt32(x) else _OSSwapInt32(x)) {
-    return if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt32(x) else _OSSwapInt32(x);
-}
-pub fn __DARWIN_OSSwapInt64(x: anytype) callconv(.Inline) @TypeOf(if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt64(x) else _OSSwapInt64(x)) {
-    return if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt64(x) else _OSSwapInt64(x);
-}
-pub fn ntohs(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt16(x)) {
-    return __DARWIN_OSSwapInt16(x);
-}
-pub fn htons(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt16(x)) {
-    return __DARWIN_OSSwapInt16(x);
-}
-pub fn ntohl(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt32(x)) {
-    return __DARWIN_OSSwapInt32(x);
-}
-pub fn htonl(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt32(x)) {
-    return __DARWIN_OSSwapInt32(x);
-}
-pub fn ntohll(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt64(x)) {
-    return __DARWIN_OSSwapInt64(x);
-}
-pub fn htonll(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt64(x)) {
-    return __DARWIN_OSSwapInt64(x);
-}
-pub const w_termsig = w_T.w_Termsig;
-pub const w_coredump = w_T.w_Coredump;
-pub const w_retcode = w_T.w_Retcode;
-pub const w_stopval = w_S.w_Stopval;
-pub const w_stopsig = w_S.w_Stopsig;
-pub fn __alloca(size: anytype) callconv(.Inline) @TypeOf(__builtin_alloca(size)) {
-    return __builtin_alloca(size);
-}
+pub const FILENAME_MAX = 4096;
+pub const FOPEN_MAX = 1000;
+pub const L_ctermid = 20;
+pub const L_cuserid = 20;
 pub const EXIT_FAILURE = 1;
 pub const EXIT_SUCCESS = 0;
 pub const RAND_MAX = 0x7fffffff;
-pub const MB_CUR_MAX = __mb_cur_max;
-pub const __sort_noescape = __attribute__(__noescape__);
-pub const __HAS_FIXED_CHK_PROTOTYPES = 1;
 pub fn AV_GCC_VERSION_AT_LEAST(x: anytype, y: anytype) callconv(.Inline) @TypeOf((__GNUC__ > x) or ((__GNUC__ == x) and (__GNUC_MINOR__ >= y))) {
     return (__GNUC__ > x) or ((__GNUC__ == x) and (__GNUC_MINOR__ >= y));
 }
@@ -7892,7 +5533,7 @@ pub fn AV_VERSION_MICRO(a: anytype) callconv(.Inline) @TypeOf(a & 0xFF) {
     return a & 0xFF;
 }
 pub const LIBAVUTIL_VERSION_MAJOR = 56;
-pub const LIBAVUTIL_VERSION_MINOR = 66;
+pub const LIBAVUTIL_VERSION_MINOR = 67;
 pub const LIBAVUTIL_VERSION_MICRO = 100;
 pub const LIBAVUTIL_VERSION_INT = AV_VERSION_INT(LIBAVUTIL_VERSION_MAJOR, LIBAVUTIL_VERSION_MINOR, LIBAVUTIL_VERSION_MICRO);
 pub const LIBAVUTIL_VERSION = AV_VERSION(LIBAVUTIL_VERSION_MAJOR, LIBAVUTIL_VERSION_MINOR, LIBAVUTIL_VERSION_MICRO);
@@ -7990,9 +5631,6 @@ pub fn MKTAG(a: anytype, b: anytype, c: anytype, d: anytype) callconv(.Inline) @
 }
 pub fn MKBETAG(a: anytype, b: anytype, c: anytype, d: anytype) callconv(.Inline) @TypeOf(((d | (c << 8)) | (b << 16)) | (@import("std").meta.cast(c_uint, a) << 24)) {
     return ((d | (c << 8)) | (b << 16)) | (@import("std").meta.cast(c_uint, a) << 24);
-}
-pub fn offsetof(t: anytype, d: anytype) callconv(.Inline) @TypeOf(__builtin_offsetof(t, d)) {
-    return __builtin_offsetof(t, d);
 }
 pub fn AVERROR(e: anytype) callconv(.Inline) @TypeOf(-e) {
     return -e;
@@ -8274,7 +5912,7 @@ pub const AV_CODEC_ID_IFF_BYTERUN1 = AV_CODEC_ID_IFF_ILBM;
 pub const AV_CODEC_ID_H265 = AV_CODEC_ID_HEVC;
 pub const AV_CODEC_ID_H266 = AV_CODEC_ID_VVC;
 pub const LIBAVCODEC_VERSION_MAJOR = 58;
-pub const LIBAVCODEC_VERSION_MINOR = 128;
+pub const LIBAVCODEC_VERSION_MINOR = 129;
 pub const LIBAVCODEC_VERSION_MICRO = 100;
 pub const LIBAVCODEC_VERSION_INT = AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, LIBAVCODEC_VERSION_MINOR, LIBAVCODEC_VERSION_MICRO);
 pub const LIBAVCODEC_VERSION = AV_VERSION(LIBAVCODEC_VERSION_MAJOR, LIBAVCODEC_VERSION_MINOR, LIBAVCODEC_VERSION_MICRO);
@@ -8313,6 +5951,7 @@ pub const FF_API_AVPRIV_PUT_BITS = LIBAVCODEC_VERSION_MAJOR < 59;
 pub const FF_API_OLD_ENCDEC = LIBAVCODEC_VERSION_MAJOR < 59;
 pub const FF_API_AVCODEC_PIX_FMT = LIBAVCODEC_VERSION_MAJOR < 59;
 pub const FF_API_MPV_RC_STRATEGY = LIBAVCODEC_VERSION_MAJOR < 59;
+pub const FF_API_PARSER_CHANGE = LIBAVCODEC_VERSION_MAJOR < 59;
 pub const FF_API_THREAD_SAFE_CALLBACKS = LIBAVCODEC_VERSION_MAJOR < 60;
 pub const FF_API_DEBUG_MV = LIBAVCODEC_VERSION_MAJOR < 60;
 pub const FF_API_GET_FRAME_CLASS = LIBAVCODEC_VERSION_MAJOR < 60;
@@ -8606,19 +6245,17 @@ pub const PARSER_FLAG_COMPLETE_FRAMES = 0x0001;
 pub const PARSER_FLAG_ONCE = 0x0002;
 pub const PARSER_FLAG_FETCHED_OFFSET = 0x0004;
 pub const PARSER_FLAG_USE_CODEC_TS = 0x1000;
-pub const _STRUCT_TIMESPEC = struct_timespec;
-pub const CLOCKS_PER_SEC = 1000000;
-pub const CLOCK_REALTIME = _CLOCK_REALTIME;
-pub const CLOCK_MONOTONIC = _CLOCK_MONOTONIC;
-pub const CLOCK_MONOTONIC_RAW = _CLOCK_MONOTONIC_RAW;
-pub const CLOCK_MONOTONIC_RAW_APPROX = _CLOCK_MONOTONIC_RAW_APPROX;
-pub const CLOCK_UPTIME_RAW = _CLOCK_UPTIME_RAW;
-pub const CLOCK_UPTIME_RAW_APPROX = _CLOCK_UPTIME_RAW_APPROX;
-pub const CLOCK_PROCESS_CPUTIME_ID = _CLOCK_PROCESS_CPUTIME_ID;
-pub const CLOCK_THREAD_CPUTIME_ID = _CLOCK_THREAD_CPUTIME_ID;
+pub const __tm_gmtoff = tm_gmtoff;
+pub const __tm_zone = tm_zone;
+pub const TIMER_ABSTIME = __WASI_SUBCLOCKFLAGS_SUBSCRIPTION_CLOCK_ABSTIME;
+pub const CLOCK_MONOTONIC = &_CLOCK_MONOTONIC;
+pub const CLOCK_PROCESS_CPUTIME_ID = &_CLOCK_PROCESS_CPUTIME_ID;
+pub const CLOCK_REALTIME = &_CLOCK_REALTIME;
+pub const CLOCK_THREAD_CPUTIME_ID = &_CLOCK_THREAD_CPUTIME_ID;
 pub const TIME_UTC = 1;
+pub const CLOCKS_PER_SEC = @import("std").meta.cast(clock_t, 1000000000);
 pub const LIBAVFORMAT_VERSION_MAJOR = 58;
-pub const LIBAVFORMAT_VERSION_MINOR = 70;
+pub const LIBAVFORMAT_VERSION_MINOR = 71;
 pub const LIBAVFORMAT_VERSION_MICRO = 100;
 pub const LIBAVFORMAT_VERSION_INT = AV_VERSION_INT(LIBAVFORMAT_VERSION_MAJOR, LIBAVFORMAT_VERSION_MINOR, LIBAVFORMAT_VERSION_MICRO);
 pub const LIBAVFORMAT_VERSION = AV_VERSION(LIBAVFORMAT_VERSION_MAJOR, LIBAVFORMAT_VERSION_MINOR, LIBAVFORMAT_VERSION_MICRO);
@@ -8732,75 +6369,14 @@ pub const AVSEEK_FLAG_FRAME = 8;
 pub const AVSTREAM_INIT_IN_WRITE_HEADER = 0;
 pub const AVSTREAM_INIT_IN_INIT_OUTPUT = 1;
 pub const AV_FRAME_FILENAME_FLAGS_MULTIPLE = 1;
-pub const __va_list_tag = struct___va_list_tag;
-pub const __darwin_pthread_handler_rec = struct___darwin_pthread_handler_rec;
-pub const _opaque_pthread_attr_t = struct__opaque_pthread_attr_t;
-pub const _opaque_pthread_cond_t = struct__opaque_pthread_cond_t;
-pub const _opaque_pthread_condattr_t = struct__opaque_pthread_condattr_t;
-pub const _opaque_pthread_mutex_t = struct__opaque_pthread_mutex_t;
-pub const _opaque_pthread_mutexattr_t = struct__opaque_pthread_mutexattr_t;
-pub const _opaque_pthread_once_t = struct__opaque_pthread_once_t;
-pub const _opaque_pthread_rwlock_t = struct__opaque_pthread_rwlock_t;
-pub const _opaque_pthread_rwlockattr_t = struct__opaque_pthread_rwlockattr_t;
-pub const _opaque_pthread_t = struct__opaque_pthread_t;
+pub const timeval = struct_timeval;
+pub const timespec = struct_timespec;
+pub const iovec = struct_iovec;
 pub const AVMediaType = enum_AVMediaType;
 pub const AVPictureType = enum_AVPictureType;
-pub const __float2 = struct___float2;
-pub const __double2 = struct___double2;
-pub const exception = struct_exception;
-pub const __sbuf = struct___sbuf;
-pub const __sFILEX = struct___sFILEX;
-pub const __sFILE = struct___sFILE;
-pub const __darwin_i386_thread_state = struct___darwin_i386_thread_state;
-pub const __darwin_fp_control = struct___darwin_fp_control;
-pub const __darwin_fp_status = struct___darwin_fp_status;
-pub const __darwin_mmst_reg = struct___darwin_mmst_reg;
-pub const __darwin_xmm_reg = struct___darwin_xmm_reg;
-pub const __darwin_ymm_reg = struct___darwin_ymm_reg;
-pub const __darwin_zmm_reg = struct___darwin_zmm_reg;
-pub const __darwin_opmask_reg = struct___darwin_opmask_reg;
-pub const __darwin_i386_float_state = struct___darwin_i386_float_state;
-pub const __darwin_i386_avx_state = struct___darwin_i386_avx_state;
-pub const __darwin_i386_avx512_state = struct___darwin_i386_avx512_state;
-pub const __darwin_i386_exception_state = struct___darwin_i386_exception_state;
-pub const __darwin_x86_debug_state32 = struct___darwin_x86_debug_state32;
-pub const __x86_pagein_state = struct___x86_pagein_state;
-pub const __darwin_x86_thread_state64 = struct___darwin_x86_thread_state64;
-pub const __darwin_x86_thread_full_state64 = struct___darwin_x86_thread_full_state64;
-pub const __darwin_x86_float_state64 = struct___darwin_x86_float_state64;
-pub const __darwin_x86_avx_state64 = struct___darwin_x86_avx_state64;
-pub const __darwin_x86_avx512_state64 = struct___darwin_x86_avx512_state64;
-pub const __darwin_x86_exception_state64 = struct___darwin_x86_exception_state64;
-pub const __darwin_x86_debug_state64 = struct___darwin_x86_debug_state64;
-pub const __darwin_x86_cpmu_state64 = struct___darwin_x86_cpmu_state64;
-pub const __darwin_mcontext32 = struct___darwin_mcontext32;
-pub const __darwin_mcontext_avx32 = struct___darwin_mcontext_avx32;
-pub const __darwin_mcontext_avx512_32 = struct___darwin_mcontext_avx512_32;
-pub const __darwin_mcontext64 = struct___darwin_mcontext64;
-pub const __darwin_mcontext64_full = struct___darwin_mcontext64_full;
-pub const __darwin_mcontext_avx64 = struct___darwin_mcontext_avx64;
-pub const __darwin_mcontext_avx64_full = struct___darwin_mcontext_avx64_full;
-pub const __darwin_mcontext_avx512_64 = struct___darwin_mcontext_avx512_64;
-pub const __darwin_mcontext_avx512_64_full = struct___darwin_mcontext_avx512_64_full;
-pub const __darwin_sigaltstack = struct___darwin_sigaltstack;
-pub const __darwin_ucontext = struct___darwin_ucontext;
-pub const sigval = union_sigval;
-pub const sigevent = struct_sigevent;
-pub const __siginfo = struct___siginfo;
-pub const __sigaction_u = union___sigaction_u;
-pub const __sigaction = struct___sigaction;
-pub const sigaction = struct_sigaction;
-pub const sigvec = struct_sigvec;
-pub const sigstack = struct_sigstack;
-pub const timeval = struct_timeval;
-pub const rusage = struct_rusage;
-pub const rusage_info_v0 = struct_rusage_info_v0;
-pub const rusage_info_v1 = struct_rusage_info_v1;
-pub const rusage_info_v2 = struct_rusage_info_v2;
-pub const rusage_info_v3 = struct_rusage_info_v3;
-pub const rusage_info_v4 = struct_rusage_info_v4;
-pub const rlimit = struct_rlimit;
-pub const proc_rlimit_control_wakeupmon = struct_proc_rlimit_control_wakeupmon;
+pub const _IO_FILE = struct__IO_FILE;
+pub const _G_fpos64_t = union__G_fpos64_t;
+pub const __locale_struct = struct___locale_struct;
 pub const av_intfloat32 = union_av_intfloat32;
 pub const av_intfloat64 = union_av_intfloat64;
 pub const AVRounding = enum_AVRounding;
@@ -8831,8 +6407,9 @@ pub const MpegEncContext = struct_MpegEncContext;
 pub const AVDiscard = enum_AVDiscard;
 pub const AVPictureStructure = enum_AVPictureStructure;
 pub const AVLockOp = enum_AVLockOp;
-pub const timespec = struct_timespec;
+pub const __clockid = struct___clockid;
 pub const tm = struct_tm;
+pub const itimerspec = struct_itimerspec;
 pub const AVIODirEntryType = enum_AVIODirEntryType;
 pub const URLContext = struct_URLContext;
 pub const AVIODataMarkerType = enum_AVIODataMarkerType;
