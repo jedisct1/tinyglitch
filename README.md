@@ -98,7 +98,7 @@ make install
 
 Notes:
 - Do not enable LTO. Linking your own application with `ffmpeg` compiled with LTO is literally going to take forever.
-- `-Os` produces fastly WebAssembly code than `-O2` and `-O3`.
+- `-Os` produces faster WebAssembly code than `-O2` and `-O3`.
 - Including the `file` protocol highly recommended, even if you are not actually going to access files. If it is not compiled in, anything involving timecodes immediately becomes much more complicated to do.
 
 Libraries compiled to WebAssembly are then available in `out/lib/`:
