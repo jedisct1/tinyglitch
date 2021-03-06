@@ -80,11 +80,11 @@ const AVBufferedWriter = struct {
 
 pub const av_allocator = &av_allocator_state;
 var av_allocator_state = Allocator{
-    .allocFn = rawCAlloc,
-    .resizeFn = rawCResize,
+    .allocFn = avAlloc,
+    .resizeFn = avResize,
 };
 
-fn rawCAlloc(
+fn avAlloc(
     self: *Allocator,
     len: usize,
     ptr_align: u29,
@@ -96,7 +96,7 @@ fn rawCAlloc(
     return ptr[0..len];
 }
 
-fn rawCResize(
+fn avResize(
     self: *Allocator,
     buf: []u8,
     old_align: u29,
