@@ -5,8 +5,13 @@ This is just an attempt at doing video processing on the edge, using `ffmpeg` li
 Uses [Zigly](https://github.com/jedisct1/zigly), as well as `libavformat`, `libavcodecs`
 and `libavutil` ported to WebAssembly/WASI.
 
-Since these libraries also depend on the WASI sysroot, linking is a little bit tricky,
-but it may work.
+## Compiling
+
+```sh
+make
+```
+
+This requires `wasm-ld` to be in your `PATH`.
 
 ## Testing
 
@@ -28,7 +33,7 @@ On macOS:
 brew install llvm
 ```
 
-This is not stricly necessary, but since libunwind doesn't work on WebAssembly, and the `wasm-ld` linker requires non-generic options, this makes the process easier.
+This is not stricly necessary, but since `libunwind` doesn't work on WebAssembly, and the `wasm-ld` linker requires non-generic options, this makes the process easier.
 
 Give the LLVM tools a higher precedence than Xcode in your `PATH`:
 
@@ -55,7 +60,7 @@ Download and extract [wasi-sysroot-*.tar.gz](https://github.com/WebAssembly/wasi
 
 ```sh
 git clone https://github.com/FFmpeg/FFmpeg
-cd FFMPEG
+cd FFmpeg
 ```
 
 ### Compile `ffmpeg` to WebAssembly
