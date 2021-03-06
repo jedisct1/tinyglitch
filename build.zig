@@ -6,14 +6,9 @@ pub fn build(b: *Builder) !void {
 
     const mode = b.standardReleaseOptions();
 
-    const exe = b.addExecutable("avglitch", "src/main.zig");
-    exe.setTarget(target);
-    exe.setBuildMode(mode);
-    exe.install();
+    const obj = b.addObject("avglitch", "src/main.zig");
+    obj.setTarget(target);
+    obj.setBuildMode(mode);
 
-    const run_cmd = exe.run();
-    run_cmd.step.dependOn(b.getInstallStep());
-    if (b.args) |args| {
-        run_cmd.addArgs(args);
-    }
+    b.default_step.dependOn(&obj.step);
 }
