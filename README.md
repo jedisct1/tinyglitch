@@ -2,10 +2,22 @@
 
 This is just an attempt at doing video processing on the edge, using `ffmpeg` libraries.
 
-Uses [Zigly](https://github.com/jedisct1/zigly), as well as `libavformat`, `libavcodecs`
+Uses [wigly](https://github.com/jedisct1/zigly), as well as `libavformat`, `libavcodecs`
 and `libavutil` ported to WebAssembly/WASI.
 
 These libraries can also be used on the edge in Rust with the [ffmpeg-wasi](https://docs.rs/ffmpeg-wasi) crate.
+
+  - [Compiling](#compiling)
+  - [Testing](#testing)
+  - [Native version](#native-version)
+  - [Compiling and using ffmpeg in WebAssembly](#compiling-and-using-ffmpeg-in-webassembly)
+    - [Install LLVM](#install-llvm)
+    - [Install the WebAssembly builtins](#install-the-webassembly-builtins)
+    - [Install the WASI C library](#install-the-wasi-c-library)
+    - [Check that `clang` can compile to WebAssembly](#check-that-clang-can-compile-to-webassembly)
+    - [Clone the `ffmpeg` repository](#clone-the-ffmpeg-repository)
+    - [Compile `ffmpeg` to WebAssembly](#compile-ffmpeg-to-webassembly)
+  - [Using the `ffmpeg` libraries in WebAssembly](#using-the-ffmpeg-libraries-in-webassembly)
 
 ## Compiling
 
