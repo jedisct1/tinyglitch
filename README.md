@@ -2,7 +2,7 @@
 
 This is just an attempt at doing video processing on the edge, using `ffmpeg` libraries.
 
-Uses [wigly](https://github.com/jedisct1/zigly), as well as `libavformat`, `libavcodecs`
+Uses [zigly](https://github.com/jedisct1/zigly), as well as `libavformat`, `libavcodecs`
 and `libavutil` ported to WebAssembly/WASI.
 
 These libraries can also be used on the edge in Rust with the [ffmpeg-wasi](https://docs.rs/ffmpeg-wasi) crate.
