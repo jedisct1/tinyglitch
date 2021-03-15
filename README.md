@@ -2,10 +2,7 @@
 
 This is just an attempt at doing video processing on the edge, using `ffmpeg` libraries.
 
-Uses [zigly](https://github.com/jedisct1/zigly), as well as `libavformat`, `libavcodecs`
-and `libavutil` ported to WebAssembly/WASI.
-
-These libraries can also be used on the edge in Rust with the [ffmpeg-wasi](https://docs.rs/ffmpeg-wasi) crate.
+Uses [zigly](https://github.com/jedisct1/zigly), as well as `libavformat`, `libavcodecs` and `libavutil` ported to WebAssembly/WASI.
 
   - [Compiling](#compiling)
   - [Testing](#testing)
@@ -142,6 +139,12 @@ Using these libraries in an application requires a few things.
 First, the WASI C library (e.g. `/opt/wasi-sysroot/lib/wasm32-wasi/libc.a`) needs to be linked, as well as the builtins `libclang_rt.builtins-wasm32.a`.
 
 The only suitable linker for this is `wasm-ld`.
+
+This repository contains a PoC written in [zig](https://ziglang.org), using the [zigly](https://github.com/jedisct1/zigly) library for Compute@Edge.
+
+These libraries can also be used on the edge in Rust with the [ffmpeg-wasi](https://docs.rs/ffmpeg-wasi) crate. Using AssemblyScript seems a little more complicated at the moment.
+
+Instructions for the current code:
 
 1) Compile your application into an object. This is necessary to avoid symbol collisions with the WASI C library:
 ```sh
