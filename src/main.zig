@@ -1,3 +1,5 @@
+// https://github.com/leandromoreira/ffmpeg-libav-tutorial#transcoding
+
 const std = @import("std");
 const SipHash = std.crypto.auth.siphash.SipHash64(2, 4);
 const Kdf = std.crypto.kdf.hkdf.HkdfSha256;
@@ -7,6 +9,7 @@ const av = @cImport({
     @cInclude("libavcodec/avcodec.h");
     @cInclude("libavformat/avformat.h");
     @cInclude("libavutil/avutil.h");
+    @cInclude("libavutil/opt.h");
 });
 const fs = std.fs;
 const heap = std.heap;
@@ -14,8 +17,10 @@ const heap = std.heap;
 const AVFormatContext = av.AVFormatContext;
 const AVCodecContext = av.AVCodecContext;
 const AVCodec = av.AVCodec;
+const AVFrame = av.AVFrame;
 const AVPacket = av.AVPacket;
 const AVRational = av.AVRational;
+const AVStream = av.AVStream;
 
 const input_file = "in.mp4";
 const out_file = "out.mp4";
@@ -95,7 +100,7 @@ pub fn main() anyerror!void {
 
     // Read the input file
 
-    var in_data = try fs.cwd().readFileAlloc(allocator, input_file, 50 * 1024 * 1024);
+    var in_data = try fs.cwd().readFileAlloc(allocator, input_file, 1024 * 1024 * 1024);
     defer allocator.free(in_data);
 
     // Create a buffered reader for libavformat
@@ -129,78 +134,161 @@ pub fn main() anyerror!void {
         return error.InternalError;
     }
     defer _ = av.av_free(avio_out_ctx);
-    var out_format_ctx: [*c]AVFormatContext = null;
-    if (av.avformat_alloc_output_context2(&out_format_ctx, null, "mp4", out_file) != 0) {
-        return error.WriteError;
-    }
-    out_format_ctx.*.pb = avio_out_ctx;
-    out_format_ctx.*.flags = av.AVFMT_FLAG_CUSTOM_IO;
 
     // Fetch stream information
 
     if (av.avformat_find_stream_info(format_ctx, null) != 0) {
         return error.NoStreamInfo;
     }
+
     const nb_streams = format_ctx.*.nb_streams;
+    var in_stream: *AVStream = undefined;
     var i: usize = 0;
+
     while (i < nb_streams) : (i += 1) {
-        const in_stream = format_ctx.*.streams[i].*;
-        const out_stream = av.avformat_new_stream(out_format_ctx, in_stream.codec.*.codec);
-        if (out_stream == null) {
-            return error.ParseError;
+        in_stream = format_ctx.*.streams[i];
+        if (@enumToInt(in_stream.codec.*.codec_type) == av.AVMEDIA_TYPE_VIDEO) {
+            break;
         }
-        if ((out_format_ctx.*.oformat.*.flags & av.AVFMT_GLOBALHEADER) != 0) {
-            out_stream.*.codec.*.flags |= av.AV_CODEC_FLAG_GLOBAL_HEADER;
-        }
-        if (av.avcodec_parameters_copy(out_stream.*.codecpar, in_stream.codecpar) != 0) {
-            return error.ParseError;
-        }
+        std.debug.print("Skipping non-video codec\n", .{});
     }
-    i = 0;
-    const video_stream_idx = video_stream_idx: {
-        while (i < nb_streams) : (i += 1) {
-            if (@enumToInt(format_ctx.*.streams[i].*.codec.*.codec_type) == av.AVMEDIA_TYPE_VIDEO) {
-                break :video_stream_idx i;
-            }
-        }
-        return error.NoVideoStream;
-    };
+    if (i >= nb_streams) {
+        return error.VideoStreamNotFound;
+    }
+    const video_stream_idx = i;
+
+    const decoder = av.avcodec_find_decoder(in_stream.codecpar.*.codec_id) orelse return error.UnsupportedCodec;
+    var decoder_ctx = av.avcodec_alloc_context3(decoder);
+    if (av.avcodec_parameters_to_context(decoder_ctx, in_stream.codecpar) != 0) {
+        return error.ParametersContextFailed;
+    }
+    if (av.avcodec_open2(decoder_ctx, decoder, null) != 0) {
+        return error.AvCodecOpen2Failed;
+    }
+
+    //
+
+    var frame_rate = av.av_guess_frame_rate(format_ctx, in_stream, null);
+    if (frame_rate.den == 0) {
+        frame_rate.den = 1;
+    }
+    std.debug.print("Estimated frame rate: {d}\n", .{frame_rate});
+
+    //
+
+    var out_format_ctx: [*c]AVFormatContext = null;
+    if (av.avformat_alloc_output_context2(&out_format_ctx, null, null, out_file) != 0) {
+        return error.WriteError;
+    }
+    out_format_ctx.*.pb = avio_out_ctx;
+    out_format_ctx.*.flags = av.AVFMT_FLAG_CUSTOM_IO;
+
+    const out_stream = av.avformat_new_stream(out_format_ctx, null);
+    if (out_stream == null) {
+        return error.ParseError;
+    }
+    if (av.avcodec_parameters_copy(out_stream.*.codecpar, in_stream.codecpar) != 0) {
+        return error.ParseError;
+    }
+    if ((out_format_ctx.*.oformat.*.flags & av.AVFMT_GLOBALHEADER) != 0) {
+        out_stream.*.codec.*.flags |= av.AV_CODEC_FLAG_GLOBAL_HEADER;
+    }
+
+    //
+
+    const encoder = av.avcodec_find_encoder(@intToEnum(av.AVCodecID, av.AV_CODEC_ID_H265)) orelse return error.CodecNotFound;
+    // const encoder = av.avcodec_find_encoder_by_name("libaom-av1") orelse return error.CodecNotFound;
+    var encoder_ctx = av.avcodec_alloc_context3(encoder) orelse return error.CodecNotFound;
+    _ = av.av_opt_set_int(encoder_ctx.*.priv_data, "cpu-used", 8, 0);
+    _ = av.av_opt_set(encoder_ctx.*.priv_data, "preset", "fast", 0);
+    encoder_ctx.*.height = decoder_ctx.*.height;
+    encoder_ctx.*.width = decoder_ctx.*.width;
+    encoder_ctx.*.sample_aspect_ratio = decoder_ctx.*.sample_aspect_ratio;
+    if (decoder.*.pix_fmts != null) {
+        encoder_ctx.*.pix_fmt = decoder.*.pix_fmts[0];
+    } else {
+        encoder_ctx.*.pix_fmt = decoder_ctx.*.pix_fmt;
+    }
+    encoder_ctx.*.bit_rate = decoder_ctx.*.bit_rate;
+    encoder_ctx.*.rc_buffer_size = decoder_ctx.*.rc_buffer_size;
+    encoder_ctx.*.rc_min_rate = decoder_ctx.*.rc_min_rate;
+    encoder_ctx.*.rc_max_rate = decoder_ctx.*.rc_max_rate;
+    encoder_ctx.*.time_base = av.av_inv_q(frame_rate);
+    out_stream.*.time_base = encoder_ctx.*.time_base;
+
+    if (av.avcodec_open2(encoder_ctx, encoder, null) != 0) {
+        return error.OutputCodecOpenError;
+    }
+    if (av.avcodec_parameters_from_context(out_stream.*.codecpar, encoder_ctx) != 0) {
+        return error.OutputCodecParameters;
+    }
+
+    //
+
+    av.av_dump_format(out_format_ctx, 0, out_file, 1);
 
     // Copy the input stream metadata to the output stream
+    out_stream.*.r_frame_rate = in_stream.*.r_frame_rate;
+    out_stream.*.time_base = in_stream.*.time_base;
+    out_stream.*.duration = in_stream.*.duration;
+    out_stream.*.start_time = in_stream.*.start_time;
+    out_stream.*.metadata = in_stream.*.metadata;
+    out_stream.*.attached_pic = in_stream.*.attached_pic;
 
-    const in_video_stream = format_ctx.*.streams[video_stream_idx];
-    const out_video_stream = out_format_ctx.*.streams[video_stream_idx];
-    out_video_stream.*.r_frame_rate = in_video_stream.*.r_frame_rate;
-    out_video_stream.*.time_base = in_video_stream.*.time_base;
-    out_video_stream.*.duration = in_video_stream.*.duration;
-    out_video_stream.*.start_time = in_video_stream.*.start_time;
-    out_video_stream.*.nb_frames = in_video_stream.*.nb_frames;
-    out_video_stream.*.metadata = in_video_stream.*.metadata;
-    out_video_stream.*.attached_pic = in_video_stream.*.attached_pic;
-    av.av_dump_format(out_format_ctx, 0, out_file, 1);
     if (av.avformat_write_header(out_format_ctx, null) != 0) {
         return error.WriteError;
     }
 
     // Copy frames, watermarking key frames
 
-    var packet: AVPacket = undefined;
+    var packet: *AVPacket = av.av_packet_alloc();
+    var frame: *AVFrame = av.av_frame_alloc();
     var keyframe_idx: u32 = 0;
-    while (av.av_read_frame(format_ctx, &packet) == 0) {
-        defer av.av_packet_unref(&packet);
-        const data: []u8 = packet.data[0..@intCast(usize, packet.size)];
-        if (packet.stream_index != video_stream_idx) {
-            continue;
-        } else if (packet.flags == av.AVINDEX_KEYFRAME) {
-            var prfx = prf;
-            prfx.update(&mem.toBytes(keyframe_idx));
-            const glitch = @truncate(u8, prfx.finalInt());
-            data[data.len - 1] = glitch;
-            std.debug.print("glitching key frame {d} with {d}\n", .{ keyframe_idx, glitch });
-            keyframe_idx += 1;
-        }
-        if (av.av_interleaved_write_frame(out_format_ctx, &packet) != 0) {
-            return error.WriteError;
+    const av_again = -std.os.EAGAIN;
+    while (av.av_read_frame(format_ctx, packet) >= 0) {
+        defer av.av_packet_unref(packet);
+        var in_frame_status = av.avcodec_send_packet(decoder_ctx, packet);
+        while (in_frame_status >= 0) {
+            defer av.av_frame_unref(frame);
+            in_frame_status = av.avcodec_receive_frame(decoder_ctx, frame);
+            if (in_frame_status == av_again or in_frame_status == av.AVERROR_EOF) {
+                break;
+            }
+            if (in_frame_status < 0) {
+                std.debug.print("ERROR\n", .{});
+                break;
+            }
+
+            //
+
+            std.debug.print("Received frame {d}x{d} pts={d} dst={d} keyframe={d}\n", .{ frame.width, frame.height, frame.pts, frame.pkt_dts, frame.key_frame });
+
+            //            if (frame.key_frame == 0) continue;
+
+            //
+
+            var out_packet: [*c]AVPacket = av.av_packet_alloc();
+            defer {
+                av.av_packet_unref(out_packet);
+                av.av_packet_free(&out_packet);
+            }
+            var out_frame_status = av.avcodec_send_frame(encoder_ctx, frame);
+            std.debug.print("out status: {d}\n", .{out_frame_status});
+            while (out_frame_status >= 0) {
+                out_frame_status = av.avcodec_receive_packet(encoder_ctx, out_packet);
+                if (out_frame_status == av_again or in_frame_status == av.AVERROR_EOF) {
+                    break;
+                }
+                if (out_frame_status < 0) {
+                    std.debug.print("ERROR\n", .{});
+                    break;
+                }
+                out_packet.*.stream_index = packet.*.stream_index;
+                out_packet.*.duration = packet.*.duration;
+                // out_packet.*.duration = out_stream.*.time_base.den / out_stream.*.time_base.num / in_stream.*.avg_frame_rate.num * in_stream.*.avg_frame_rate.den;
+                std.debug.print("ENCODED\n", .{});
+                out_frame_status = av.av_interleaved_write_frame(out_format_ctx, out_packet);
+            }
         }
     }
 
