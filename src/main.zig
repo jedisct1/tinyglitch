@@ -1,4 +1,5 @@
 // https://github.com/leandromoreira/ffmpeg-libav-tutorial#transcoding
+// ffmpeg -i in.mp4 -c copy -movflags frag_keyframe+empty_moov -f mp4 in-frag.mp4
 
 const std = @import("std");
 const SipHash = std.crypto.auth.siphash.SipHash64(2, 4);
@@ -14,6 +15,7 @@ const av = @cImport({
 const fs = std.fs;
 const heap = std.heap;
 
+const AVDictionary = av.AVDictionary;
 const AVFormatContext = av.AVFormatContext;
 const AVCodecContext = av.AVCodecContext;
 const AVCodec = av.AVCodec;
@@ -118,6 +120,7 @@ pub fn main() anyerror!void {
     defer av.av_free(format_ctx);
     format_ctx.*.pb = avio_in_ctx;
     format_ctx.*.flags = av.AVFMT_FLAG_CUSTOM_IO;
+    format_ctx.*.flags |= av.AVFMTCTX_UNSEEKABLE | av.AVFMT_FLAG_AUTO_BSF;
     if (av.avformat_open_input(&format_ctx, "", null, null) != 0) {
         return error.InternalError;
     }
@@ -182,8 +185,15 @@ pub fn main() anyerror!void {
     }
     out_format_ctx.*.pb = avio_out_ctx;
     out_format_ctx.*.flags = av.AVFMT_FLAG_CUSTOM_IO;
+    out_format_ctx.*.flags |= av.AVFMTCTX_UNSEEKABLE | av.AVFMT_FLAG_AUTO_BSF;
 
-    const out_stream = av.avformat_new_stream(out_format_ctx, null);
+    //
+
+    const encoder = av.avcodec_find_encoder(@intToEnum(av.AVCodecID, av.AV_CODEC_ID_H265)) orelse return error.CodecNotFound;
+
+    //
+
+    const out_stream = av.avformat_new_stream(out_format_ctx, encoder);
     if (out_stream == null) {
         return error.ParseError;
     }
@@ -196,11 +206,10 @@ pub fn main() anyerror!void {
 
     //
 
-    const encoder = av.avcodec_find_encoder(@intToEnum(av.AVCodecID, av.AV_CODEC_ID_H265)) orelse return error.CodecNotFound;
     // const encoder = av.avcodec_find_encoder_by_name("libaom-av1") orelse return error.CodecNotFound;
     var encoder_ctx = av.avcodec_alloc_context3(encoder) orelse return error.CodecNotFound;
     _ = av.av_opt_set_int(encoder_ctx.*.priv_data, "cpu-used", 8, 0);
-    _ = av.av_opt_set(encoder_ctx.*.priv_data, "preset", "fast", 0);
+    _ = av.av_opt_set(encoder_ctx.*.priv_data, "preset", "medium", 0);
     encoder_ctx.*.height = decoder_ctx.*.height;
     encoder_ctx.*.width = decoder_ctx.*.width;
     encoder_ctx.*.sample_aspect_ratio = decoder_ctx.*.sample_aspect_ratio;
@@ -216,7 +225,11 @@ pub fn main() anyerror!void {
     encoder_ctx.*.time_base = av.av_inv_q(frame_rate);
     out_stream.*.time_base = encoder_ctx.*.time_base;
 
-    if (av.avcodec_open2(encoder_ctx, encoder, null) != 0) {
+    var options: ?*AVDictionary = null;
+    if (av.av_dict_set(&options, "movflags", "frag_keyframe+empty_moov", 0) != 0) {
+        return error.OptionsFailed;
+    }
+    if (av.avcodec_open2(encoder_ctx, encoder, &options) != 0) {
         return error.OutputCodecOpenError;
     }
     if (av.avcodec_parameters_from_context(out_stream.*.codecpar, encoder_ctx) != 0) {
@@ -235,7 +248,7 @@ pub fn main() anyerror!void {
     out_stream.*.metadata = in_stream.*.metadata;
     out_stream.*.attached_pic = in_stream.*.attached_pic;
 
-    if (av.avformat_write_header(out_format_ctx, null) != 0) {
+    if (av.avformat_write_header(out_format_ctx, &options) != 0) {
         return error.WriteError;
     }
 
@@ -259,11 +272,7 @@ pub fn main() anyerror!void {
                 break;
             }
 
-            //
-
             std.debug.print("Received frame {d}x{d} pts={d} dst={d} keyframe={d}\n", .{ frame.width, frame.height, frame.pts, frame.pkt_dts, frame.key_frame });
-
-            //            if (frame.key_frame == 0) continue;
 
             //
 
@@ -273,7 +282,6 @@ pub fn main() anyerror!void {
                 av.av_packet_free(&out_packet);
             }
             var out_frame_status = av.avcodec_send_frame(encoder_ctx, frame);
-            std.debug.print("out status: {d}\n", .{out_frame_status});
             while (out_frame_status >= 0) {
                 out_frame_status = av.avcodec_receive_packet(encoder_ctx, out_packet);
                 if (out_frame_status == av_again or in_frame_status == av.AVERROR_EOF) {
@@ -285,8 +293,6 @@ pub fn main() anyerror!void {
                 }
                 out_packet.*.stream_index = packet.*.stream_index;
                 out_packet.*.duration = packet.*.duration;
-                // out_packet.*.duration = out_stream.*.time_base.den / out_stream.*.time_base.num / in_stream.*.avg_frame_rate.num * in_stream.*.avg_frame_rate.den;
-                std.debug.print("ENCODED\n", .{});
                 out_frame_status = av.av_interleaved_write_frame(out_format_ctx, out_packet);
             }
         }
