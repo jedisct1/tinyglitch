@@ -1,5 +1,5 @@
 // https://github.com/leandromoreira/ffmpeg-libav-tutorial#transcoding
-// ffmpeg -i in.mp4 -c copy -movflags frag_keyframe+empty_moov -f mp4 in-frag.mp4
+// ffmpeg -i in.mp4 -c copy -tag:v hvc1 -movflags frag_keyframe+empty_moov -f mp4 in-frag.mp4
 
 const std = @import("std");
 const SipHash = std.crypto.auth.siphash.SipHash64(2, 4);
@@ -121,6 +121,7 @@ pub fn main() anyerror!void {
     format_ctx.*.pb = avio_in_ctx;
     format_ctx.*.flags = av.AVFMT_FLAG_CUSTOM_IO;
     format_ctx.*.flags |= av.AVFMTCTX_UNSEEKABLE | av.AVFMT_FLAG_AUTO_BSF;
+    format_ctx.*.strict_std_compliance = -1;
     if (av.avformat_open_input(&format_ctx, "", null, null) != 0) {
         return error.InternalError;
     }
@@ -186,10 +187,11 @@ pub fn main() anyerror!void {
     out_format_ctx.*.pb = avio_out_ctx;
     out_format_ctx.*.flags = av.AVFMT_FLAG_CUSTOM_IO;
     out_format_ctx.*.flags |= av.AVFMTCTX_UNSEEKABLE | av.AVFMT_FLAG_AUTO_BSF;
+    out_format_ctx.*.strict_std_compliance = -1;
 
     //
 
-    const encoder = av.avcodec_find_encoder(@intToEnum(av.AVCodecID, av.AV_CODEC_ID_H265)) orelse return error.CodecNotFound;
+    const encoder = av.avcodec_find_encoder(@intToEnum(av.AVCodecID, av.AV_CODEC_ID_HEVC)) orelse return error.CodecNotFound;
 
     //
 
@@ -231,6 +233,9 @@ pub fn main() anyerror!void {
     if (av.avcodec_parameters_from_context(out_stream.*.codecpar, encoder_ctx) != 0) {
         return error.OutputCodecParameters;
     }
+
+    // HVC1
+    out_stream.*.codecpar.*.codec_tag = 0x31637668;
 
     //
 
