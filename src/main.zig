@@ -1,5 +1,6 @@
 // https://github.com/leandromoreira/ffmpeg-libav-tutorial#transcoding
 // ffmpeg -i in.mp4 -c copy -tag:v hvc1 -movflags frag_keyframe+empty_moov -f mp4 in-frag.mp4
+// ffmpeg -i 4k.mp4 -tag:v hvc1 -movflags frag_keyframe+empty_moov  -c:v libx265 -c:a aac -preset medium -an -ss 0 -t 60 4k-h265.mp4
 
 const std = @import("std");
 const SipHash = std.crypto.auth.siphash.SipHash64(2, 4);
@@ -148,7 +149,6 @@ pub fn main() anyerror!void {
     const nb_streams = format_ctx.*.nb_streams;
     var in_stream: *AVStream = undefined;
     var i: usize = 0;
-
     while (i < nb_streams) : (i += 1) {
         in_stream = format_ctx.*.streams[i];
         if (@enumToInt(in_stream.codec.*.codec_type) == av.AVMEDIA_TYPE_VIDEO) {
@@ -159,8 +159,6 @@ pub fn main() anyerror!void {
     if (i >= nb_streams) {
         return error.VideoStreamNotFound;
     }
-    const video_stream_idx = i;
-
     const decoder = av.avcodec_find_decoder(in_stream.codecpar.*.codec_id) orelse return error.UnsupportedCodec;
     var decoder_ctx = av.avcodec_alloc_context3(decoder);
     if (av.avcodec_parameters_to_context(decoder_ctx, in_stream.codecpar) != 0) {
@@ -210,7 +208,7 @@ pub fn main() anyerror!void {
 
     // const encoder = av.avcodec_find_encoder_by_name("libaom-av1") orelse return error.CodecNotFound;
     var encoder_ctx = av.avcodec_alloc_context3(encoder) orelse return error.CodecNotFound;
-    _ = av.av_opt_set_int(encoder_ctx.*.priv_data, "cpu-used", 8, 0);
+    _ = av.av_opt_set_int(encoder_ctx.*.priv_data, "cpu-used", 5, 0);
     _ = av.av_opt_set(encoder_ctx.*.priv_data, "preset", "medium", 0);
     encoder_ctx.*.height = decoder_ctx.*.height;
     encoder_ctx.*.width = decoder_ctx.*.width;
