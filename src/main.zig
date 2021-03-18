@@ -225,11 +225,7 @@ pub fn main() anyerror!void {
     encoder_ctx.*.time_base = av.av_inv_q(frame_rate);
     out_stream.*.time_base = encoder_ctx.*.time_base;
 
-    var options: ?*AVDictionary = null;
-    if (av.av_dict_set(&options, "movflags", "frag_keyframe+empty_moov", 0) != 0) {
-        return error.OptionsFailed;
-    }
-    if (av.avcodec_open2(encoder_ctx, encoder, &options) != 0) {
+    if (av.avcodec_open2(encoder_ctx, encoder, null) != 0) {
         return error.OutputCodecOpenError;
     }
     if (av.avcodec_parameters_from_context(out_stream.*.codecpar, encoder_ctx) != 0) {
@@ -248,6 +244,10 @@ pub fn main() anyerror!void {
     out_stream.*.metadata = in_stream.*.metadata;
     out_stream.*.attached_pic = in_stream.*.attached_pic;
 
+    var options: ?*AVDictionary = null;
+    if (av.av_dict_set(&options, "movflags", "frag_keyframe", 0) != 0) {
+        return error.OptionsFailed;
+    }
     if (av.avformat_write_header(out_format_ctx, &options) != 0) {
         return error.WriteError;
     }
