@@ -4,7 +4,7 @@ clean:
 	-@rm main.o.wasm tinyglitch.wasm
 
 tinyglitch.wasm: main.o.wasm
-	wasm-ld --stack-first --strip-all --compress-relocations -o tinyglitch.wasm main.o.wasm wasm-libs/{lib{avutil,avcodec,avformat}.a,libc-wasm.a,libc-builtins.a}
+	wasm-ld --stack-first --strip-all --compress-relocations -o tinyglitch.wasm main.o.wasm wasm-libs/{lib{avutil,avcodec,avformat}.a,libc-wasm.a,libc-builtins.a,libvpx.a}
 	-@rm main.o.wasm
 
 opt: tinyglitch.wasm
