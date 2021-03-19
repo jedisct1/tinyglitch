@@ -34,7 +34,9 @@ curl -o /tmp/out.mp4 --http1.1 -H'Content-Type: video/mp4' --data-binary '@/tmp/
 
 Available in the [master branch](https://github.com/jedisct1/tinyglitch).
 
-## Compiling and using ffmpeg in WebAssembly
+# Compiling and using ffmpeg in WebAssembly
+
+## Prerequisites
 
 ### Install LLVM
 
@@ -67,6 +69,157 @@ Download and extract [wasi-sysroot-*.tar.gz](https://github.com/WebAssembly/wasi
   clang -x c -target wasm32-wasi --sysroot /opt/wasi-sysroot -
 ```
 
+## Compiling the `vpx` library, for the `VP1` codecs
+
+### Clone the `libvpx` repository
+
+```sh
+git clone git@github.com:webmproject/libvpx.git
+cd libvpx
+```
+
+### Patch the configure script
+
+Patch `build/make/configure.sh` to include:
+
+```diff
+diff --git a/build/make/configure.sh b/build/make/configure.sh
+index 81d30a16c..eea1e4946 100644
+--- a/build/make/configure.sh
++++ b/build/make/configure.sh
+@@ -797,6 +797,9 @@ process_common_toolchain() {
+       *os2*)
+         tgt_os=os2
+         ;;
++      *wasi*)
++        tgt_os=wasi
++        ;;
+     esac
+
+     if [ -n "$tgt_isa" ] && [ -n "$tgt_os" ]; then
+@@ -806,8 +809,8 @@ process_common_toolchain() {
+
+   toolchain=${toolchain:-generic-gnu}
+
+-  is_in ${toolchain} ${all_platforms} || enabled force_toolchain \
+-    || die "Unrecognized toolchain '${toolchain}'"
++  is_in ${toolchain} ${all_platforms} || enabled force_toolchain \
++    || echo "Unsupported toolchain"
+
+   enabled child || log_echo "Configuring for target '${toolchain}'"
+
+diff --git a/configure b/configure
+index da631a45e..c6e34fb83 100755
+--- a/configure
++++ b/configure
+@@ -590,9 +590,6 @@ process_detect() {
+         }
+     fi
+     check_header stdio.h || die "Unable to invoke compiler: ${CC} ${CFLAGS}"
+-    check_ld <<EOF || die "Toolchain is unable to link executables"
+-int main(void) {return 0;}
+-EOF
+     # check system headers
+
+     # Use both check_header and check_lib here, since check_lib
+```
+
+### Configure
+
+```sh
+env LD=wasm-ld RANLIB=llvm-ranlib LDFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" \
+CXX=/usr/local/opt/llvm/bin/clang CXXFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" \
+CC=/usr/local/opt/llvm/bin/clang CFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" \
+./configure --prefix=/tmp/vpx --target=generic-gnu --disable-multithread --disable-tools \
+--disable-debug --disable-docs --disable-examples --enable-vp9 --enable-vp8 \
+--enable-optimizations
+```
+
+### Ignore `setjmp` calls
+
+WASI doesn't support `setjmp`/`longjmp`. A dummy `setjmp.h` header can be added in the `/opt/wasi-sysroot/include/`
+directory:
+
+```c
+#pragma once
+typedef void *jmp_buf;
+#define longjmp(A, B)
+#define setjmp(X) 0
+```
+
+### Disable threading support
+
+Change occurrences of `CONFIG_MULTITHREAD` to `0`.
+
+### Compile
+
+```sh
+make install
+```
+
+## Compiling `libaom`, for AV1 support
+
+### Setup
+
+Create a `cmake/toolchains/wasi.cmake` file:
+
+```cmake
+set(CMAKE_CROSSCOMPILING "TRUE")
+set(CMAKE_SYSTEM_PROCESSOR "generic")
+set(CMAKE_SYSTEM_NAME "wasi")
+set(CMAKE_C_COMPILER /usr/local/opt/llvm/bin/clang)
+set(CMAKE_CXX_COMPILER /usr/local/opt/llvm/bin/clang++)
+set(CMAKE_C_COMPILER_ARG1 "-target wasm32-wasi --sysroot /opt/wasi-sysroot")
+set(CMAKE_CXX_COMPILER_ARG1 "-target wasm32-wasi --sysroot /opt/wasi-sysroot")
+set(CMAKE_AR llvm-ar)
+set(CMAKE_NM llvm-nm)
+set(CMAKE_LD wasm-ld)
+```
+
+Then run:
+
+```sh
+mkdir build
+
+cd build
+
+env AR=llvm-ar NM=llvm-nm LD=wasm-ld RANLIB=llvm-ranlib LDFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" CXX=/usr/local/opt/llvm/bin/clang CXXFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" CC=/usr/local/opt/llvm/bin/clang CFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" cmake .. -DCMAKE_TOOLCHAIN_FILE=../build/cmake/toolchains/wasi.cmake
+```
+
+### Compilation
+
+Compile as much as possible:
+
+```sh
+make -k -i
+```
+
+### Rebuilding the libraries
+
+The resulting libraries are not usable. They need to be properly recreated.
+
+Start by removing unneeded files:
+
+```sh
+rm -fr CMakeFiles/test* CMakeFiles/**/examples
+```
+
+Then create the `libaom.a` file out of the remaining objects:
+
+```sh
+llvm-ar a libaom.a **/*.obj
+```
+
+### Manual install
+
+```sh
+mkdir -p /tmp/aom/{include,lib}
+mv libaom.a /tmp/aom/lib
+cp -R cp -R ../aom/* /tmp/aom/include
+```
+
+## Compiling `ffmpeg`
+
 ### Clone the `ffmpeg` repository
 
 ```sh
@@ -74,14 +227,47 @@ git clone https://github.com/FFmpeg/FFmpeg
 cd FFmpeg
 ```
 
+### Path `ffmpeg` for `aom` detection
+
+```diff
+diff --git a/configure b/configure
+index f0ac719d2d..dd65bcb8f9 100755
+--- a/configure
++++ b/configure
+@@ -6336,7 +6336,7 @@ enabled gmp               && require gmp gmp.h mpz_export -lgmp
+ enabled gnutls            && require_pkg_config gnutls gnutls gnutls/gnutls.h gnutls_global_init
+ enabled jni               && { [ $target_os = "android" ] && check_headers jni.h && enabled pthreads || die "ERROR: jni not found"; }
+ enabled ladspa            && require_headers "ladspa.h dlfcn.h"
+-enabled libaom            && require_pkg_config libaom "aom >= 1.0.0" aom/aom_codec.h aom_codec_version
++enabled libaom            && require_headers "aom/aom_codec.h"
+ enabled libaribb24        && { check_pkg_config libaribb24 "aribb24 > 1.0.3" "aribb24/aribb24.h" arib_instance_new ||
+                                { enabled gpl && require_pkg_config libaribb24 aribb24 "aribb24/aribb24.h" arib_instance_new; } ||
+                                die "ERROR: libaribb24 requires version higher than 1.0.3 or --enable-gpl."; }
+diff --git a/libavutil/file_open.c b/libavutil/file_open.c
+index cc302f2f76..9b7f02c62e 100644
+--- a/libavutil/file_open.c
++++ b/libavutil/file_open.c
+@@ -28,6 +28,7 @@
+ #if HAVE_IO_H
+ #include <io.h>
+ #endif
++#include <stdio.h>
+
+ #ifdef _WIN32
+ #undef open
+ ```
+
 ### Compile `ffmpeg` to WebAssembly
 
 ```sh
 export PATH=/usr/local/opt/llvm/bin:$PATH
 
-export CPPFLAGS="-Dtempnam\(A,B\)=tmpnam\(NULL\)"
-export CFLAGS="-target wasm32-wasi --sysroot=/opt/wasi-sysroot"
-export LDFLAGS="-target wasm32-wasi --sysroot=/opt/wasi-sysroot -Wl,--stack-first"
+VPX="-I/tmp/vpx/include -L/tmp/vpx/lib"
+AOM="-I/tmp/aom/include -L/tmp/aom/lib"
+
+export CPPFLAGS="-Dtempnam\(A,B\)=tmpnam\(NULL\) $VPX $AOM"
+export CFLAGS="-target wasm32-wasi --sysroot=/opt/wasi-sysroot $VPX $AOM"
+export LDFLAGS="-target wasm32-wasi --sysroot=/opt/wasi-sysroot -Wl,--stack-first $VPX $AOM"
 
 mkdir -p out
 
@@ -94,7 +280,7 @@ mkdir -p out
     --nm=llvm-nm \
     --strip=llvm-strip \
     --disable-debug \
-    --disable-asm --disable-autodetect --disable-doc \
+    --disable-asm --disable-doc \
     --disable-sdl2 --enable-cross-compile --disable-cuda-llvm \
     --disable-programs --disable-doc --disable-postproc \
     --disable-swresample --disable-pthreads --disable-network \
@@ -107,7 +293,9 @@ mkdir -p out
     --disable-sndio --disable-schannel --disable-sdl2 --disable-securetransport \
     --disable-amf --disable-audiotoolbox --disable-cuda-llvm --disable-cuvid \
     --disable-ffnvcodec --disable-nvdec --disable-nvenc --disable-v4l2-m2m \
-    --disable-vaapi --disable-vdpau
+    --disable-vaapi --disable-vdpau \
+    --enable-libvpx \
+    --enable-libaom
 
 make install
 ```
