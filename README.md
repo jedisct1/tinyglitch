@@ -231,7 +231,7 @@ llvm-ar a libaom.a **/*.obj
 ```sh
 mkdir -p /tmp/aom/{include,lib}
 mv libaom.a /tmp/aom/lib
-cp -R cp -R ../aom/* /tmp/aom/include
+cp -R ../aom/* /tmp/aom/include
 ```
 
 ## Compiling `ffmpeg`
