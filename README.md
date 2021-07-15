@@ -177,7 +177,7 @@ make install
 
 ### Setup
 
-Create a `cmake/toolchains/wasi.cmake` file:
+Create a `build/cmake/toolchains/wasi.cmake` file:
 
 ```cmake
 set(CMAKE_CROSSCOMPILING "TRUE")
@@ -195,11 +195,15 @@ set(CMAKE_LD wasm-ld)
 Then run:
 
 ```sh
-mkdir build
-
-cd build
-
-env AR=llvm-ar NM=llvm-nm LD=wasm-ld RANLIB=llvm-ranlib LDFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" CXX=/usr/local/opt/llvm/bin/clang CXXFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" CC=/usr/local/opt/llvm/bin/clang CFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" cmake .. -DCMAKE_TOOLCHAIN_FILE=../build/cmake/toolchains/wasi.cmake
+env AR=llvm-ar NM=llvm-nm LD=wasm-ld RANLIB=llvm-ranlib \
+LDFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" \
+CXX=/usr/local/opt/llvm/bin/clang \
+CXXFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" \
+CC=/usr/local/opt/llvm/bin/clang \
+CFLAGS="-Os --target=wasm32-wasi --sysroot /opt/wasi-sysroot" \
+cmake .. \
+-DCMAKE_TOOLCHAIN_FILE=../build/cmake/toolchains/wasi.cmake \
+-DAOM_TARGET_CPU=generic
 ```
 
 ### Compilation
