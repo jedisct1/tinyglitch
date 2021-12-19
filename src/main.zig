@@ -23,7 +23,7 @@ const AVBufferedReader = struct {
     data: []u8,
     pos: usize = 0,
 
-    fn read_buffer(c_self: ?*c_void, c_buf: [*c]u8, c_buf_len: c_int) callconv(.C) c_int {
+    fn read_buffer(c_self: ?*anyopaque, c_buf: [*c]u8, c_buf_len: c_int) callconv(.C) c_int {
         var self = @intToPtr(*AVBufferedReader, @ptrToInt(c_self));
         if (self.pos >= self.data.len) {
             return -1;
@@ -35,7 +35,7 @@ const AVBufferedReader = struct {
         return @intCast(c_int, len);
     }
 
-    fn seek(c_self: ?*c_void, offset: i64, whence: c_int) callconv(.C) i64 {
+    fn seek(c_self: ?*anyopaque, offset: i64, whence: c_int) callconv(.C) i64 {
         var self = @intToPtr(*AVBufferedReader, @ptrToInt(c_self));
         if (whence == av.AVSEEK_SIZE) {
             return @intCast(i64, self.data.len);
@@ -47,7 +47,7 @@ const AVBufferedReader = struct {
 
 const AVBufferedWriter = struct {
     buffer: [*c]u8 = null,
-    allocator: *mem.Allocator,
+    allocator: mem.Allocator,
     data: []u8,
     pos: usize = 0,
 
@@ -59,7 +59,7 @@ const AVBufferedWriter = struct {
         return self.data[0..self.pos];
     }
 
-    fn write_buffer(c_self: ?*c_void, c_buf: [*c]u8, c_buf_len: c_int) callconv(.C) c_int {
+    fn write_buffer(c_self: ?*anyopaque, c_buf: [*c]u8, c_buf_len: c_int) callconv(.C) c_int {
         var self = @intToPtr(*AVBufferedWriter, @ptrToInt(c_self));
         const buf: []u8 = c_buf[0..@intCast(usize, c_buf_len)];
         const required_len = self.pos + @intCast(usize, buf.len);
@@ -71,7 +71,8 @@ const AVBufferedWriter = struct {
         return c_buf_len;
     }
 
-    fn seek(c_self: ?*c_void, offset: i64, whence: c_int) callconv(.C) i64 {
+    fn seek(c_self: ?*anyopaque, offset: i64, whence: c_int) callconv(.C) i64 {
+        _ = whence;
         var self = @intToPtr(*AVBufferedWriter, @ptrToInt(c_self));
         self.pos = @intCast(usize, offset);
         return offset;
@@ -100,7 +101,8 @@ fn start() !void {
         try response.flush();
         return;
     }
-    const in_data = try request.body.readAll(allocator);
+    const max_in_data_len = if (request.headers.get(allocator, "Content-Length")) |content_length| try std.fmt.parseInt(usize, content_length, 10) else |_| 1 * 1024 * 1024 * 1024;
+    const in_data = try request.body.readAll(allocator, max_in_data_len);
     defer allocator.free(in_data);
     std.debug.print("input size: {d}\n", .{in_data.len});
     std.debug.print("input start: {s}\n", .{std.fmt.fmtSliceHexLower(in_data[0..16])});

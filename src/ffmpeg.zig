@@ -41,8 +41,8 @@ pub const __darwin_size_t = c_ulong;
 pub const struct___va_list_tag = extern struct {
     gp_offset: c_uint,
     fp_offset: c_uint,
-    overflow_arg_area: ?*c_void,
-    reg_save_area: ?*c_void,
+    overflow_arg_area: ?*anyopaque,
+    reg_save_area: ?*anyopaque,
 };
 pub const __builtin_va_list = [1]struct___va_list_tag;
 pub const __darwin_va_list = __builtin_va_list;
@@ -74,8 +74,8 @@ pub const __darwin_useconds_t = __uint32_t;
 pub const __darwin_uuid_t = [16]u8;
 pub const __darwin_uuid_string_t = [37]u8;
 pub const struct___darwin_pthread_handler_rec = extern struct {
-    __routine: ?fn (?*c_void) callconv(.C) void,
-    __arg: ?*c_void,
+    __routine: ?fn (?*anyopaque) callconv(.C) void,
+    __arg: ?*anyopaque,
     __next: [*c]struct___darwin_pthread_handler_rec,
 };
 pub const struct__opaque_pthread_attr_t = extern struct {
@@ -551,11 +551,11 @@ pub const struct___sFILE = extern struct {
     _file: c_short,
     _bf: struct___sbuf,
     _lbfsize: c_int,
-    _cookie: ?*c_void,
-    _close: ?fn (?*c_void) callconv(.C) c_int,
-    _read: ?fn (?*c_void, [*c]u8, c_int) callconv(.C) c_int,
-    _seek: ?fn (?*c_void, fpos_t, c_int) callconv(.C) fpos_t,
-    _write: ?fn (?*c_void, [*c]const u8, c_int) callconv(.C) c_int,
+    _cookie: ?*anyopaque,
+    _close: ?fn (?*anyopaque) callconv(.C) c_int,
+    _read: ?fn (?*anyopaque, [*c]u8, c_int) callconv(.C) c_int,
+    _seek: ?fn (?*anyopaque, fpos_t, c_int) callconv(.C) fpos_t,
+    _write: ?fn (?*anyopaque, [*c]const u8, c_int) callconv(.C) c_int,
     _ub: struct___sbuf,
     _extra: ?*struct___sFILEX,
     _ur: c_int,
@@ -581,13 +581,13 @@ pub extern fn fopen(__filename: [*c]const u8, __mode: [*c]const u8) [*c]FILE;
 pub extern fn fprintf([*c]FILE, [*c]const u8, ...) c_int;
 pub extern fn fputc(c_int, [*c]FILE) c_int;
 pub extern fn fputs(noalias [*c]const u8, noalias [*c]FILE) c_int;
-pub extern fn fread(__ptr: ?*c_void, __size: c_ulong, __nitems: c_ulong, __stream: [*c]FILE) c_ulong;
+pub extern fn fread(__ptr: ?*anyopaque, __size: c_ulong, __nitems: c_ulong, __stream: [*c]FILE) c_ulong;
 pub extern fn freopen(noalias [*c]const u8, noalias [*c]const u8, noalias [*c]FILE) [*c]FILE;
 pub extern fn fscanf(noalias [*c]FILE, noalias [*c]const u8, ...) c_int;
 pub extern fn fseek([*c]FILE, c_long, c_int) c_int;
 pub extern fn fsetpos([*c]FILE, [*c]const fpos_t) c_int;
 pub extern fn ftell([*c]FILE) c_long;
-pub extern fn fwrite(__ptr: ?*const c_void, __size: c_ulong, __nitems: c_ulong, __stream: [*c]FILE) c_ulong;
+pub extern fn fwrite(__ptr: ?*const anyopaque, __size: c_ulong, __nitems: c_ulong, __stream: [*c]FILE) c_ulong;
 pub extern fn getc([*c]FILE) c_int;
 pub extern fn getchar() c_int;
 pub extern fn gets([*c]u8) [*c]u8;
@@ -661,7 +661,7 @@ pub extern fn dprintf(c_int, noalias [*c]const u8, ...) c_int;
 pub extern fn vdprintf(c_int, noalias [*c]const u8, [*c]struct___va_list_tag) c_int;
 pub extern fn getdelim(noalias __linep: [*c][*c]u8, noalias __linecapp: [*c]usize, __delimiter: c_int, noalias __stream: [*c]FILE) isize;
 pub extern fn getline(noalias __linep: [*c][*c]u8, noalias __linecapp: [*c]usize, noalias __stream: [*c]FILE) isize;
-pub extern fn fmemopen(noalias __buf: ?*c_void, __size: usize, noalias __mode: [*c]const u8) [*c]FILE;
+pub extern fn fmemopen(noalias __buf: ?*anyopaque, __size: usize, noalias __mode: [*c]const u8) [*c]FILE;
 pub extern fn open_memstream(__bufp: [*c][*c]u8, __sizep: [*c]usize) [*c]FILE;
 pub extern const sys_nerr: c_int;
 pub extern const sys_errlist: [*c]const [*c]const u8;
@@ -674,7 +674,7 @@ pub extern fn setbuffer([*c]FILE, [*c]u8, c_int) void;
 pub extern fn setlinebuf([*c]FILE) c_int;
 pub extern fn vasprintf(noalias [*c][*c]u8, noalias [*c]const u8, [*c]struct___va_list_tag) c_int;
 pub extern fn zopen([*c]const u8, [*c]const u8, c_int) [*c]FILE;
-pub extern fn funopen(?*const c_void, ?fn (?*c_void, [*c]u8, c_int) callconv(.C) c_int, ?fn (?*c_void, [*c]const u8, c_int) callconv(.C) c_int, ?fn (?*c_void, fpos_t, c_int) callconv(.C) fpos_t, ?fn (?*c_void) callconv(.C) c_int) [*c]FILE;
+pub extern fn funopen(?*const anyopaque, ?fn (?*anyopaque, [*c]u8, c_int) callconv(.C) c_int, ?fn (?*anyopaque, [*c]const u8, c_int) callconv(.C) c_int, ?fn (?*anyopaque, fpos_t, c_int) callconv(.C) fpos_t, ?fn (?*anyopaque) callconv(.C) c_int) [*c]FILE;
 pub extern fn __sprintf_chk(noalias [*c]u8, c_int, usize, noalias [*c]const u8, ...) c_int;
 pub extern fn __snprintf_chk(noalias [*c]u8, usize, c_int, usize, noalias [*c]const u8, ...) c_int;
 pub extern fn __vsprintf_chk(noalias [*c]u8, c_int, usize, noalias [*c]const u8, [*c]struct___va_list_tag) c_int;
@@ -1182,7 +1182,7 @@ pub const struct___darwin_mcontext_avx512_64_full = extern struct {
 pub const mcontext_t = [*c]struct___darwin_mcontext64;
 pub const pthread_attr_t = __darwin_pthread_attr_t;
 pub const struct___darwin_sigaltstack = extern struct {
-    ss_sp: ?*c_void,
+    ss_sp: ?*anyopaque,
     ss_size: __darwin_size_t,
     ss_flags: c_int,
 };
@@ -1200,7 +1200,7 @@ pub const sigset_t = __darwin_sigset_t;
 pub const uid_t = __darwin_uid_t;
 pub const union_sigval = extern union {
     sival_int: c_int,
-    sival_ptr: ?*c_void,
+    sival_ptr: ?*anyopaque,
 };
 pub const struct_sigevent = extern struct {
     sigev_notify: c_int,
@@ -1216,7 +1216,7 @@ pub const struct___siginfo = extern struct {
     si_pid: pid_t,
     si_uid: uid_t,
     si_status: c_int,
-    si_addr: ?*c_void,
+    si_addr: ?*anyopaque,
     si_value: union_sigval,
     si_band: c_long,
     __pad: [7]c_ulong,
@@ -1224,11 +1224,11 @@ pub const struct___siginfo = extern struct {
 pub const siginfo_t = struct___siginfo;
 pub const union___sigaction_u = extern union {
     __sa_handler: ?fn (c_int) callconv(.C) void,
-    __sa_sigaction: ?fn (c_int, [*c]struct___siginfo, ?*c_void) callconv(.C) void,
+    __sa_sigaction: ?fn (c_int, [*c]struct___siginfo, ?*anyopaque) callconv(.C) void,
 };
 pub const struct___sigaction = extern struct {
     __sigaction_u: union___sigaction_u,
-    sa_tramp: ?fn (?*c_void, c_int, c_int, [*c]siginfo_t, ?*c_void) callconv(.C) void,
+    sa_tramp: ?fn (?*anyopaque, c_int, c_int, [*c]siginfo_t, ?*anyopaque) callconv(.C) void,
     sa_mask: sigset_t,
     sa_flags: c_int,
 };
@@ -1271,7 +1271,7 @@ pub const struct_rusage = extern struct {
     ru_nvcsw: c_long,
     ru_nivcsw: c_long,
 };
-pub const rusage_info_t = ?*c_void;
+pub const rusage_info_t = ?*anyopaque;
 pub const struct_rusage_info_v0 = extern struct {
     ri_uuid: [16]u8,
     ri_user_time: u64,
@@ -1433,7 +1433,7 @@ pub extern fn waitpid(pid_t, [*c]c_int, c_int) pid_t;
 pub extern fn waitid(idtype_t, id_t, [*c]siginfo_t, c_int) c_int;
 pub extern fn wait3([*c]c_int, c_int, [*c]struct_rusage) pid_t;
 pub extern fn wait4(pid_t, [*c]c_int, c_int, [*c]struct_rusage) pid_t;
-pub extern fn alloca(c_ulong) ?*c_void;
+pub extern fn alloca(c_ulong) ?*anyopaque;
 pub const ct_rune_t = __darwin_ct_rune_t;
 pub const rune_t = __darwin_rune_t;
 const struct_unnamed_10 = extern struct {
@@ -1452,13 +1452,13 @@ const struct_unnamed_12 = extern struct {
 };
 pub const lldiv_t = struct_unnamed_12;
 pub extern var __mb_cur_max: c_int;
-pub extern fn malloc(__size: c_ulong) ?*c_void;
-pub extern fn calloc(__count: c_ulong, __size: c_ulong) ?*c_void;
-pub extern fn free(?*c_void) void;
-pub extern fn realloc(__ptr: ?*c_void, __size: c_ulong) ?*c_void;
-pub extern fn valloc(usize) ?*c_void;
-pub extern fn aligned_alloc(__alignment: usize, __size: usize) ?*c_void;
-pub extern fn posix_memalign(__memptr: [*c]?*c_void, __alignment: usize, __size: usize) c_int;
+pub extern fn malloc(__size: c_ulong) ?*anyopaque;
+pub extern fn calloc(__count: c_ulong, __size: c_ulong) ?*anyopaque;
+pub extern fn free(?*anyopaque) void;
+pub extern fn realloc(__ptr: ?*anyopaque, __size: c_ulong) ?*anyopaque;
+pub extern fn valloc(usize) ?*anyopaque;
+pub extern fn aligned_alloc(__alignment: usize, __size: usize) ?*anyopaque;
+pub extern fn posix_memalign(__memptr: [*c]?*anyopaque, __alignment: usize, __size: usize) c_int;
 pub extern fn abort() noreturn;
 pub extern fn abs(c_int) c_int;
 pub extern fn atexit(?fn () callconv(.C) void) c_int;
@@ -1466,7 +1466,7 @@ pub extern fn atof([*c]const u8) f64;
 pub extern fn atoi([*c]const u8) c_int;
 pub extern fn atol([*c]const u8) c_long;
 pub extern fn atoll([*c]const u8) c_longlong;
-pub extern fn bsearch(__key: ?*const c_void, __base: ?*const c_void, __nel: usize, __width: usize, __compar: ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) ?*c_void;
+pub extern fn bsearch(__key: ?*const anyopaque, __base: ?*const anyopaque, __nel: usize, __width: usize, __compar: ?fn (?*const anyopaque, ?*const anyopaque) callconv(.C) c_int) ?*anyopaque;
 pub extern fn div(c_int, c_int) div_t;
 pub extern fn exit(c_int) noreturn;
 pub extern fn getenv([*c]const u8) [*c]u8;
@@ -1477,7 +1477,7 @@ pub extern fn lldiv(c_longlong, c_longlong) lldiv_t;
 pub extern fn mblen(__s: [*c]const u8, __n: usize) c_int;
 pub extern fn mbstowcs(noalias [*c]wchar_t, noalias [*c]const u8, usize) usize;
 pub extern fn mbtowc(noalias [*c]wchar_t, noalias [*c]const u8, usize) c_int;
-pub extern fn qsort(__base: ?*c_void, __nel: usize, __width: usize, __compar: ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) void;
+pub extern fn qsort(__base: ?*anyopaque, __nel: usize, __width: usize, __compar: ?fn (?*const anyopaque, ?*const anyopaque) callconv(.C) c_int) void;
 pub extern fn rand() c_int;
 pub extern fn srand(c_uint) void;
 pub extern fn strtod([*c]const u8, [*c][*c]u8) f64;
@@ -1527,7 +1527,7 @@ pub const dev_t = __darwin_dev_t;
 pub const mode_t = __darwin_mode_t;
 pub extern fn arc4random() u32;
 pub extern fn arc4random_addrandom([*c]u8, c_int) void;
-pub extern fn arc4random_buf(__buf: ?*c_void, __nbytes: usize) void;
+pub extern fn arc4random_buf(__buf: ?*anyopaque, __nbytes: usize) void;
 pub extern fn arc4random_stir() void;
 pub extern fn arc4random_uniform(__upper_bound: u32) u32; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:275:6: warning: unsupported type: 'BlockPointer'
 pub const atexit_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:275:6
@@ -1550,29 +1550,29 @@ pub extern fn getbsize([*c]c_int, [*c]c_long) [*c]u8;
 pub extern fn getloadavg([*c]f64, c_int) c_int;
 pub extern fn getprogname() [*c]const u8;
 pub extern fn setprogname([*c]const u8) void;
-pub extern fn heapsort(__base: ?*c_void, __nel: usize, __width: usize, __compar: ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) c_int; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:312:6: warning: unsupported type: 'BlockPointer'
+pub extern fn heapsort(__base: ?*anyopaque, __nel: usize, __width: usize, __compar: ?fn (?*const anyopaque, ?*const anyopaque) callconv(.C) c_int) c_int; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:312:6: warning: unsupported type: 'BlockPointer'
 pub const heapsort_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:312:6
-pub extern fn mergesort(__base: ?*c_void, __nel: usize, __width: usize, __compar: ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) c_int; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:319:6: warning: unsupported type: 'BlockPointer'
+pub extern fn mergesort(__base: ?*anyopaque, __nel: usize, __width: usize, __compar: ?fn (?*const anyopaque, ?*const anyopaque) callconv(.C) c_int) c_int; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:319:6: warning: unsupported type: 'BlockPointer'
 pub const mergesort_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:319:6
-pub extern fn psort(__base: ?*c_void, __nel: usize, __width: usize, __compar: ?fn (?*const c_void, ?*const c_void) callconv(.C) c_int) void; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:327:7: warning: unsupported type: 'BlockPointer'
+pub extern fn psort(__base: ?*anyopaque, __nel: usize, __width: usize, __compar: ?fn (?*const anyopaque, ?*const anyopaque) callconv(.C) c_int) void; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:327:7: warning: unsupported type: 'BlockPointer'
 pub const psort_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:327:7
-pub extern fn psort_r(__base: ?*c_void, __nel: usize, __width: usize, ?*c_void, __compar: ?fn (?*c_void, ?*const c_void, ?*const c_void) callconv(.C) c_int) void; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:335:7: warning: unsupported type: 'BlockPointer'
+pub extern fn psort_r(__base: ?*anyopaque, __nel: usize, __width: usize, ?*anyopaque, __compar: ?fn (?*anyopaque, ?*const anyopaque, ?*const anyopaque) callconv(.C) c_int) void; // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:335:7: warning: unsupported type: 'BlockPointer'
 pub const qsort_b = @compileError("unable to resolve prototype of function"); // /opt/zig/lib/zig/libc/include/x86_64-macos-gnu/stdlib.h:335:7
-pub extern fn qsort_r(__base: ?*c_void, __nel: usize, __width: usize, ?*c_void, __compar: ?fn (?*c_void, ?*const c_void, ?*const c_void) callconv(.C) c_int) void;
+pub extern fn qsort_r(__base: ?*anyopaque, __nel: usize, __width: usize, ?*anyopaque, __compar: ?fn (?*anyopaque, ?*const anyopaque, ?*const anyopaque) callconv(.C) c_int) void;
 pub extern fn radixsort(__base: [*c][*c]const u8, __nel: c_int, __table: [*c]const u8, __endbyte: c_uint) c_int;
 pub extern fn rpmatch([*c]const u8) c_int;
 pub extern fn sradixsort(__base: [*c][*c]const u8, __nel: c_int, __table: [*c]const u8, __endbyte: c_uint) c_int;
 pub extern fn sranddev() void;
 pub extern fn srandomdev() void;
-pub extern fn reallocf(__ptr: ?*c_void, __size: usize) ?*c_void;
+pub extern fn reallocf(__ptr: ?*anyopaque, __size: usize) ?*anyopaque;
 pub extern fn strtoq(__str: [*c]const u8, __endptr: [*c][*c]u8, __base: c_int) c_longlong;
 pub extern fn strtouq(__str: [*c]const u8, __endptr: [*c][*c]u8, __base: c_int) c_ulonglong;
 pub extern var suboptarg: [*c]u8;
-pub extern fn memchr(__s: ?*const c_void, __c: c_int, __n: c_ulong) ?*c_void;
-pub extern fn memcmp(__s1: ?*const c_void, __s2: ?*const c_void, __n: c_ulong) c_int;
-pub extern fn memcpy(__dst: ?*c_void, __src: ?*const c_void, __n: c_ulong) ?*c_void;
-pub extern fn memmove(__dst: ?*c_void, __src: ?*const c_void, __len: c_ulong) ?*c_void;
-pub extern fn memset(__b: ?*c_void, __c: c_int, __len: c_ulong) ?*c_void;
+pub extern fn memchr(__s: ?*const anyopaque, __c: c_int, __n: c_ulong) ?*anyopaque;
+pub extern fn memcmp(__s1: ?*const anyopaque, __s2: ?*const anyopaque, __n: c_ulong) c_int;
+pub extern fn memcpy(__dst: ?*anyopaque, __src: ?*const anyopaque, __n: c_ulong) ?*anyopaque;
+pub extern fn memmove(__dst: ?*anyopaque, __src: ?*const anyopaque, __len: c_ulong) ?*anyopaque;
+pub extern fn memset(__b: ?*anyopaque, __c: c_int, __len: c_ulong) ?*anyopaque;
 pub extern fn strcat(__s1: [*c]u8, __s2: [*c]const u8) [*c]u8;
 pub extern fn strchr(__s: [*c]const u8, __c: c_int) [*c]u8;
 pub extern fn strcmp(__s1: [*c]const u8, __s2: [*c]const u8) c_int;
@@ -1593,29 +1593,29 @@ pub extern fn strxfrm(__s1: [*c]u8, __s2: [*c]const u8, __n: c_ulong) c_ulong;
 pub extern fn strtok_r(__str: [*c]u8, __sep: [*c]const u8, __lasts: [*c][*c]u8) [*c]u8;
 pub extern fn strerror_r(__errnum: c_int, __strerrbuf: [*c]u8, __buflen: usize) c_int;
 pub extern fn strdup(__s1: [*c]const u8) [*c]u8;
-pub extern fn memccpy(__dst: ?*c_void, __src: ?*const c_void, __c: c_int, __n: c_ulong) ?*c_void;
+pub extern fn memccpy(__dst: ?*anyopaque, __src: ?*const anyopaque, __c: c_int, __n: c_ulong) ?*anyopaque;
 pub extern fn stpcpy(__dst: [*c]u8, __src: [*c]const u8) [*c]u8;
 pub extern fn stpncpy(__dst: [*c]u8, __src: [*c]const u8, __n: c_ulong) [*c]u8;
 pub extern fn strndup(__s1: [*c]const u8, __n: c_ulong) [*c]u8;
 pub extern fn strnlen(__s1: [*c]const u8, __n: usize) usize;
 pub extern fn strsignal(__sig: c_int) [*c]u8;
 pub const rsize_t = __darwin_size_t;
-pub extern fn memset_s(__s: ?*c_void, __smax: rsize_t, __c: c_int, __n: rsize_t) errno_t;
-pub extern fn memmem(__big: ?*const c_void, __big_len: usize, __little: ?*const c_void, __little_len: usize) ?*c_void;
-pub extern fn memset_pattern4(__b: ?*c_void, __pattern4: ?*const c_void, __len: usize) void;
-pub extern fn memset_pattern8(__b: ?*c_void, __pattern8: ?*const c_void, __len: usize) void;
-pub extern fn memset_pattern16(__b: ?*c_void, __pattern16: ?*const c_void, __len: usize) void;
+pub extern fn memset_s(__s: ?*anyopaque, __smax: rsize_t, __c: c_int, __n: rsize_t) errno_t;
+pub extern fn memmem(__big: ?*const anyopaque, __big_len: usize, __little: ?*const anyopaque, __little_len: usize) ?*anyopaque;
+pub extern fn memset_pattern4(__b: ?*anyopaque, __pattern4: ?*const anyopaque, __len: usize) void;
+pub extern fn memset_pattern8(__b: ?*anyopaque, __pattern8: ?*const anyopaque, __len: usize) void;
+pub extern fn memset_pattern16(__b: ?*anyopaque, __pattern16: ?*const anyopaque, __len: usize) void;
 pub extern fn strcasestr(__big: [*c]const u8, __little: [*c]const u8) [*c]u8;
 pub extern fn strnstr(__big: [*c]const u8, __little: [*c]const u8, __len: usize) [*c]u8;
 pub extern fn strlcat(__dst: [*c]u8, __source: [*c]const u8, __size: c_ulong) c_ulong;
 pub extern fn strlcpy(__dst: [*c]u8, __source: [*c]const u8, __size: c_ulong) c_ulong;
 pub extern fn strmode(__mode: c_int, __bp: [*c]u8) void;
 pub extern fn strsep(__stringp: [*c][*c]u8, __delim: [*c]const u8) [*c]u8;
-pub extern fn swab(noalias ?*const c_void, noalias ?*c_void, isize) void;
-pub extern fn timingsafe_bcmp(__b1: ?*const c_void, __b2: ?*const c_void, __len: usize) c_int;
-pub extern fn bcmp(?*const c_void, ?*const c_void, c_ulong) c_int;
-pub extern fn bcopy(?*const c_void, ?*c_void, usize) void;
-pub extern fn bzero(?*c_void, c_ulong) void;
+pub extern fn swab(noalias ?*const anyopaque, noalias ?*anyopaque, isize) void;
+pub extern fn timingsafe_bcmp(__b1: ?*const anyopaque, __b2: ?*const anyopaque, __len: usize) c_int;
+pub extern fn bcmp(?*const anyopaque, ?*const anyopaque, c_ulong) c_int;
+pub extern fn bcopy(?*const anyopaque, ?*anyopaque, usize) void;
+pub extern fn bzero(?*anyopaque, c_ulong) void;
 pub extern fn index([*c]const u8, c_int) [*c]u8;
 pub extern fn rindex([*c]const u8, c_int) [*c]u8;
 pub extern fn ffs(c_int) c_int;
@@ -1760,28 +1760,28 @@ pub fn av_make_error_string(arg_errbuf: [*c]u8, arg_errbuf_size: usize, arg_errn
     _ = av_strerror(errnum, errbuf, errbuf_size);
     return errbuf;
 }
-pub extern fn av_malloc(size: usize) ?*c_void;
-pub extern fn av_mallocz(size: usize) ?*c_void;
-pub extern fn av_malloc_array(nmemb: usize, size: usize) ?*c_void;
-pub extern fn av_mallocz_array(nmemb: usize, size: usize) ?*c_void;
-pub extern fn av_calloc(nmemb: usize, size: usize) ?*c_void;
-pub extern fn av_realloc(ptr: ?*c_void, size: usize) ?*c_void;
-pub extern fn av_reallocp(ptr: ?*c_void, size: usize) c_int;
-pub extern fn av_realloc_f(ptr: ?*c_void, nelem: usize, elsize: usize) ?*c_void;
-pub extern fn av_realloc_array(ptr: ?*c_void, nmemb: usize, size: usize) ?*c_void;
-pub extern fn av_reallocp_array(ptr: ?*c_void, nmemb: usize, size: usize) c_int;
-pub extern fn av_fast_realloc(ptr: ?*c_void, size: [*c]c_uint, min_size: usize) ?*c_void;
-pub extern fn av_fast_malloc(ptr: ?*c_void, size: [*c]c_uint, min_size: usize) void;
-pub extern fn av_fast_mallocz(ptr: ?*c_void, size: [*c]c_uint, min_size: usize) void;
-pub extern fn av_free(ptr: ?*c_void) void;
-pub extern fn av_freep(ptr: ?*c_void) void;
+pub extern fn av_malloc(size: usize) ?*anyopaque;
+pub extern fn av_mallocz(size: usize) ?*anyopaque;
+pub extern fn av_malloc_array(nmemb: usize, size: usize) ?*anyopaque;
+pub extern fn av_mallocz_array(nmemb: usize, size: usize) ?*anyopaque;
+pub extern fn av_calloc(nmemb: usize, size: usize) ?*anyopaque;
+pub extern fn av_realloc(ptr: ?*anyopaque, size: usize) ?*anyopaque;
+pub extern fn av_reallocp(ptr: ?*anyopaque, size: usize) c_int;
+pub extern fn av_realloc_f(ptr: ?*anyopaque, nelem: usize, elsize: usize) ?*anyopaque;
+pub extern fn av_realloc_array(ptr: ?*anyopaque, nmemb: usize, size: usize) ?*anyopaque;
+pub extern fn av_reallocp_array(ptr: ?*anyopaque, nmemb: usize, size: usize) c_int;
+pub extern fn av_fast_realloc(ptr: ?*anyopaque, size: [*c]c_uint, min_size: usize) ?*anyopaque;
+pub extern fn av_fast_malloc(ptr: ?*anyopaque, size: [*c]c_uint, min_size: usize) void;
+pub extern fn av_fast_mallocz(ptr: ?*anyopaque, size: [*c]c_uint, min_size: usize) void;
+pub extern fn av_free(ptr: ?*anyopaque) void;
+pub extern fn av_freep(ptr: ?*anyopaque) void;
 pub extern fn av_strdup(s: [*c]const u8) [*c]u8;
 pub extern fn av_strndup(s: [*c]const u8, len: usize) [*c]u8;
-pub extern fn av_memdup(p: ?*const c_void, size: usize) ?*c_void;
+pub extern fn av_memdup(p: ?*const anyopaque, size: usize) ?*anyopaque;
 pub extern fn av_memcpy_backptr(dst: [*c]u8, back: c_int, cnt: c_int) void;
-pub extern fn av_dynarray_add(tab_ptr: ?*c_void, nb_ptr: [*c]c_int, elem: ?*c_void) void;
-pub extern fn av_dynarray_add_nofree(tab_ptr: ?*c_void, nb_ptr: [*c]c_int, elem: ?*c_void) c_int;
-pub extern fn av_dynarray2_add(tab_ptr: [*c]?*c_void, nb_ptr: [*c]c_int, elem_size: usize, elem_data: [*c]const u8) ?*c_void;
+pub extern fn av_dynarray_add(tab_ptr: ?*anyopaque, nb_ptr: [*c]c_int, elem: ?*anyopaque) void;
+pub extern fn av_dynarray_add_nofree(tab_ptr: ?*anyopaque, nb_ptr: [*c]c_int, elem: ?*anyopaque) c_int;
+pub extern fn av_dynarray2_add(tab_ptr: [*c]?*anyopaque, nb_ptr: [*c]c_int, elem_size: usize, elem_data: [*c]const u8) ?*anyopaque;
 pub fn av_size_mult(arg_a: usize, arg_b: usize, arg_r: [*c]usize) callconv(.C) c_int {
     var a = arg_a;
     var b = arg_b;
@@ -1936,29 +1936,29 @@ pub const struct_AVOptionRanges = opaque {};
 pub const struct_AVOption = opaque {};
 pub const struct_AVClass = extern struct {
     class_name: [*c]const u8,
-    item_name: ?fn (?*c_void) callconv(.C) [*c]const u8,
+    item_name: ?fn (?*anyopaque) callconv(.C) [*c]const u8,
     option: ?*const struct_AVOption,
     version: c_int,
     log_level_offset_offset: c_int,
     parent_log_context_offset: c_int,
-    child_next: ?fn (?*c_void, ?*c_void) callconv(.C) ?*c_void,
+    child_next: ?fn (?*anyopaque, ?*anyopaque) callconv(.C) ?*anyopaque,
     child_class_next: ?fn ([*c]const struct_AVClass) callconv(.C) [*c]const struct_AVClass,
     category: AVClassCategory,
-    get_category: ?fn (?*c_void) callconv(.C) AVClassCategory,
-    query_ranges: ?fn ([*c]?*struct_AVOptionRanges, ?*c_void, [*c]const u8, c_int) callconv(.C) c_int,
+    get_category: ?fn (?*anyopaque) callconv(.C) AVClassCategory,
+    query_ranges: ?fn ([*c]?*struct_AVOptionRanges, ?*anyopaque, [*c]const u8, c_int) callconv(.C) c_int,
 };
 pub const AVClass = struct_AVClass;
-pub extern fn av_log(avcl: ?*c_void, level: c_int, fmt: [*c]const u8, ...) void;
-pub extern fn av_log_once(avcl: ?*c_void, initial_level: c_int, subsequent_level: c_int, state: [*c]c_int, fmt: [*c]const u8, ...) void;
-pub extern fn av_vlog(avcl: ?*c_void, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag) void;
+pub extern fn av_log(avcl: ?*anyopaque, level: c_int, fmt: [*c]const u8, ...) void;
+pub extern fn av_log_once(avcl: ?*anyopaque, initial_level: c_int, subsequent_level: c_int, state: [*c]c_int, fmt: [*c]const u8, ...) void;
+pub extern fn av_vlog(avcl: ?*anyopaque, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag) void;
 pub extern fn av_log_get_level() c_int;
 pub extern fn av_log_set_level(level: c_int) void;
-pub extern fn av_log_set_callback(callback: ?fn (?*c_void, c_int, [*c]const u8, [*c]struct___va_list_tag) callconv(.C) void) void;
-pub extern fn av_log_default_callback(avcl: ?*c_void, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag) void;
-pub extern fn av_default_item_name(ctx: ?*c_void) [*c]const u8;
-pub extern fn av_default_get_category(ptr: ?*c_void) AVClassCategory;
-pub extern fn av_log_format_line(ptr: ?*c_void, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag, line: [*c]u8, line_size: c_int, print_prefix: [*c]c_int) void;
-pub extern fn av_log_format_line2(ptr: ?*c_void, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag, line: [*c]u8, line_size: c_int, print_prefix: [*c]c_int) c_int;
+pub extern fn av_log_set_callback(callback: ?fn (?*anyopaque, c_int, [*c]const u8, [*c]struct___va_list_tag) callconv(.C) void) void;
+pub extern fn av_log_default_callback(avcl: ?*anyopaque, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag) void;
+pub extern fn av_default_item_name(ctx: ?*anyopaque) [*c]const u8;
+pub extern fn av_default_get_category(ptr: ?*anyopaque) AVClassCategory;
+pub extern fn av_log_format_line(ptr: ?*anyopaque, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag, line: [*c]u8, line_size: c_int, print_prefix: [*c]c_int) void;
+pub extern fn av_log_format_line2(ptr: ?*anyopaque, level: c_int, fmt: [*c]const u8, vl: [*c]struct___va_list_tag, line: [*c]u8, line_size: c_int, print_prefix: [*c]c_int) c_int;
 pub extern fn av_log_set_flags(arg: c_int) void;
 pub extern fn av_log_get_flags() c_int;
 pub const enum_AVPixelFormat = extern enum(c_int) {
@@ -2519,12 +2519,12 @@ pub const AVCHROMA_LOC_TOP = @enumToInt(enum_AVChromaLocation.AVCHROMA_LOC_TOP);
 pub const AVCHROMA_LOC_BOTTOMLEFT = @enumToInt(enum_AVChromaLocation.AVCHROMA_LOC_BOTTOMLEFT);
 pub const AVCHROMA_LOC_BOTTOM = @enumToInt(enum_AVChromaLocation.AVCHROMA_LOC_BOTTOM);
 pub const AVCHROMA_LOC_NB = @enumToInt(enum_AVChromaLocation.AVCHROMA_LOC_NB);
-pub fn av_x_if_null(arg_p: ?*const c_void, arg_x: ?*const c_void) callconv(.C) ?*c_void {
+pub fn av_x_if_null(arg_p: ?*const anyopaque, arg_x: ?*const anyopaque) callconv(.C) ?*anyopaque {
     var p = arg_p;
     var x = arg_x;
-    return @intToPtr(?*c_void, @intCast(isize, @ptrToInt(if (p != null) p else x)));
+    return @intToPtr(?*anyopaque, @intCast(isize, @ptrToInt(if (p != null) p else x)));
 }
-pub extern fn av_int_list_length_for_size(elsize: c_uint, list: ?*const c_void, term: u64) c_uint;
+pub extern fn av_int_list_length_for_size(elsize: c_uint, list: ?*const anyopaque, term: u64) c_uint;
 pub extern fn av_fopen_utf8(path: [*c]const u8, mode: [*c]const u8) [*c]FILE;
 pub extern fn av_get_time_base_q() AVRational;
 pub extern fn av_fourcc_make_string(buf: [*c]u8, fourcc: u32) [*c]u8;
@@ -2583,22 +2583,22 @@ pub const struct_AVBufferRef = extern struct {
 pub const AVBufferRef = struct_AVBufferRef;
 pub extern fn av_buffer_alloc(size: c_int) [*c]AVBufferRef;
 pub extern fn av_buffer_allocz(size: c_int) [*c]AVBufferRef;
-pub extern fn av_buffer_create(data: [*c]u8, size: c_int, free: ?fn (?*c_void, [*c]u8) callconv(.C) void, @"opaque": ?*c_void, flags: c_int) [*c]AVBufferRef;
-pub extern fn av_buffer_default_free(@"opaque": ?*c_void, data: [*c]u8) void;
+pub extern fn av_buffer_create(data: [*c]u8, size: c_int, free: ?fn (?*anyopaque, [*c]u8) callconv(.C) void, @"opaque": ?*anyopaque, flags: c_int) [*c]AVBufferRef;
+pub extern fn av_buffer_default_free(@"opaque": ?*anyopaque, data: [*c]u8) void;
 pub extern fn av_buffer_ref(buf: [*c]AVBufferRef) [*c]AVBufferRef;
 pub extern fn av_buffer_unref(buf: [*c][*c]AVBufferRef) void;
 pub extern fn av_buffer_is_writable(buf: [*c]const AVBufferRef) c_int;
-pub extern fn av_buffer_get_opaque(buf: [*c]const AVBufferRef) ?*c_void;
+pub extern fn av_buffer_get_opaque(buf: [*c]const AVBufferRef) ?*anyopaque;
 pub extern fn av_buffer_get_ref_count(buf: [*c]const AVBufferRef) c_int;
 pub extern fn av_buffer_make_writable(buf: [*c][*c]AVBufferRef) c_int;
 pub extern fn av_buffer_realloc(buf: [*c][*c]AVBufferRef, size: c_int) c_int;
 pub const struct_AVBufferPool = opaque {};
 pub const AVBufferPool = struct_AVBufferPool;
 pub extern fn av_buffer_pool_init(size: c_int, alloc: ?fn (c_int) callconv(.C) [*c]AVBufferRef) ?*AVBufferPool;
-pub extern fn av_buffer_pool_init2(size: c_int, @"opaque": ?*c_void, alloc: ?fn (?*c_void, c_int) callconv(.C) [*c]AVBufferRef, pool_free: ?fn (?*c_void) callconv(.C) void) ?*AVBufferPool;
+pub extern fn av_buffer_pool_init2(size: c_int, @"opaque": ?*anyopaque, alloc: ?fn (?*anyopaque, c_int) callconv(.C) [*c]AVBufferRef, pool_free: ?fn (?*anyopaque) callconv(.C) void) ?*AVBufferPool;
 pub extern fn av_buffer_pool_uninit(pool: [*c]?*AVBufferPool) void;
 pub extern fn av_buffer_pool_get(pool: ?*AVBufferPool) [*c]AVBufferRef;
-pub extern fn av_buffer_pool_buffer_get_opaque(ref: [*c]AVBufferRef) ?*c_void;
+pub extern fn av_buffer_pool_buffer_get_opaque(ref: [*c]AVBufferRef) ?*anyopaque;
 pub extern fn av_get_cpu_flags() c_int;
 pub extern fn av_force_cpu_flags(flags: c_int) void;
 pub extern fn av_set_cpu_flags_mask(mask: c_int) void;
@@ -2750,7 +2750,7 @@ pub const struct_AVFrame = extern struct {
     coded_picture_number: c_int,
     display_picture_number: c_int,
     quality: c_int,
-    @"opaque": ?*c_void,
+    @"opaque": ?*anyopaque,
     @"error": [8]u64,
     repeat_pict: c_int,
     interlaced_frame: c_int,
@@ -2871,9 +2871,9 @@ pub const struct_AVHWDeviceContext = extern struct {
     av_class: [*c]const AVClass,
     internal: ?*AVHWDeviceInternal,
     type: enum_AVHWDeviceType,
-    hwctx: ?*c_void,
+    hwctx: ?*anyopaque,
     free: ?fn ([*c]struct_AVHWDeviceContext) callconv(.C) void,
-    user_opaque: ?*c_void,
+    user_opaque: ?*anyopaque,
 };
 pub const AVHWDeviceContext = struct_AVHWDeviceContext;
 pub const struct_AVHWFramesInternal = opaque {};
@@ -2883,9 +2883,9 @@ pub const struct_AVHWFramesContext = extern struct {
     internal: ?*AVHWFramesInternal,
     device_ref: [*c]AVBufferRef,
     device_ctx: [*c]AVHWDeviceContext,
-    hwctx: ?*c_void,
+    hwctx: ?*anyopaque,
     free: ?fn ([*c]struct_AVHWFramesContext) callconv(.C) void,
-    user_opaque: ?*c_void,
+    user_opaque: ?*anyopaque,
     pool: ?*AVBufferPool,
     initial_pool_size: c_int,
     format: enum_AVPixelFormat,
@@ -2923,8 +2923,8 @@ pub const struct_AVHWFramesConstraints = extern struct {
     max_height: c_int,
 };
 pub const AVHWFramesConstraints = struct_AVHWFramesConstraints;
-pub extern fn av_hwdevice_hwconfig_alloc(device_ctx: [*c]AVBufferRef) ?*c_void;
-pub extern fn av_hwdevice_get_hwframe_constraints(ref: [*c]AVBufferRef, hwconfig: ?*const c_void) [*c]AVHWFramesConstraints;
+pub extern fn av_hwdevice_hwconfig_alloc(device_ctx: [*c]AVBufferRef) ?*anyopaque;
+pub extern fn av_hwdevice_get_hwframe_constraints(ref: [*c]AVBufferRef, hwconfig: ?*const anyopaque) [*c]AVHWFramesConstraints;
 pub extern fn av_hwframe_constraints_free(constraints: [*c][*c]AVHWFramesConstraints) void;
 const enum_unnamed_15 = extern enum(c_int) {
     AV_HWFRAME_MAP_READ = 1,
@@ -4099,7 +4099,7 @@ pub const struct_AVBSFContext = extern struct {
     av_class: [*c]const AVClass,
     filter: [*c]const struct_AVBitStreamFilter,
     internal: ?*AVBSFInternal,
-    priv_data: ?*c_void,
+    priv_data: ?*anyopaque,
     par_in: [*c]AVCodecParameters,
     par_out: [*c]AVCodecParameters,
     time_base_in: AVRational,
@@ -4107,7 +4107,7 @@ pub const struct_AVBSFContext = extern struct {
 };
 pub const AVBitStreamFilter = struct_AVBitStreamFilter;
 pub extern fn av_bsf_get_by_name(name: [*c]const u8) [*c]const AVBitStreamFilter;
-pub extern fn av_bsf_iterate(@"opaque": [*c]?*c_void) [*c]const AVBitStreamFilter;
+pub extern fn av_bsf_iterate(@"opaque": [*c]?*anyopaque) [*c]const AVBitStreamFilter;
 pub extern fn av_bsf_alloc(filter: [*c]const AVBitStreamFilter, ctx: [*c][*c]AVBSFContext) c_int;
 pub extern fn av_bsf_init(ctx: [*c]AVBSFContext) c_int;
 pub extern fn av_bsf_send_packet(ctx: [*c]AVBSFContext, pkt: [*c]AVPacket) c_int;
@@ -4194,7 +4194,7 @@ pub const struct_AVCodec = extern struct {
     init: ?fn ([*c]struct_AVCodecContext) callconv(.C) c_int,
     encode_sub: ?fn ([*c]struct_AVCodecContext, [*c]u8, c_int, [*c]const struct_AVSubtitle) callconv(.C) c_int,
     encode2: ?fn ([*c]struct_AVCodecContext, [*c]struct_AVPacket, [*c]const struct_AVFrame, [*c]c_int) callconv(.C) c_int,
-    decode: ?fn ([*c]struct_AVCodecContext, ?*c_void, [*c]c_int, [*c]struct_AVPacket) callconv(.C) c_int,
+    decode: ?fn ([*c]struct_AVCodecContext, ?*anyopaque, [*c]c_int, [*c]struct_AVPacket) callconv(.C) c_int,
     close: ?fn ([*c]struct_AVCodecContext) callconv(.C) c_int,
     send_frame: ?fn ([*c]struct_AVCodecContext, [*c]const struct_AVFrame) callconv(.C) c_int,
     receive_packet: ?fn ([*c]struct_AVCodecContext, [*c]struct_AVPacket) callconv(.C) c_int,
@@ -4291,9 +4291,9 @@ pub const struct_AVCodecContext = extern struct {
     codec: [*c]const struct_AVCodec,
     codec_id: enum_AVCodecID,
     codec_tag: c_uint,
-    priv_data: ?*c_void,
+    priv_data: ?*anyopaque,
     internal: ?*struct_AVCodecInternal,
-    @"opaque": ?*c_void,
+    @"opaque": ?*anyopaque,
     bit_rate: i64,
     bit_rate_tolerance: c_int,
     global_quality: c_int,
@@ -4403,7 +4403,7 @@ pub const struct_AVCodecContext = extern struct {
     min_prediction_order: c_int,
     max_prediction_order: c_int,
     timecode_frame_start: i64,
-    rtp_callback: ?fn ([*c]struct_AVCodecContext, ?*c_void, c_int, c_int) callconv(.C) void,
+    rtp_callback: ?fn ([*c]struct_AVCodecContext, ?*anyopaque, c_int, c_int) callconv(.C) void,
     rtp_payload_size: c_int,
     mv_bits: c_int,
     header_bits: c_int,
@@ -4423,7 +4423,7 @@ pub const struct_AVCodecContext = extern struct {
     err_recognition: c_int,
     reordered_opaque: i64,
     hwaccel: [*c]const struct_AVHWAccel,
-    hwaccel_context: ?*c_void,
+    hwaccel_context: ?*anyopaque,
     @"error": [8]u64,
     dct_algo: c_int,
     idct_algo: c_int,
@@ -4435,8 +4435,8 @@ pub const struct_AVCodecContext = extern struct {
     thread_type: c_int,
     active_thread_type: c_int,
     thread_safe_callbacks: c_int,
-    execute: ?fn ([*c]struct_AVCodecContext, ?fn ([*c]struct_AVCodecContext, ?*c_void) callconv(.C) c_int, ?*c_void, [*c]c_int, c_int, c_int) callconv(.C) c_int,
-    execute2: ?fn ([*c]struct_AVCodecContext, ?fn ([*c]struct_AVCodecContext, ?*c_void, c_int, c_int) callconv(.C) c_int, ?*c_void, [*c]c_int, c_int) callconv(.C) c_int,
+    execute: ?fn ([*c]struct_AVCodecContext, ?fn ([*c]struct_AVCodecContext, ?*anyopaque) callconv(.C) c_int, ?*anyopaque, [*c]c_int, c_int, c_int) callconv(.C) c_int,
+    execute2: ?fn ([*c]struct_AVCodecContext, ?fn ([*c]struct_AVCodecContext, ?*anyopaque, c_int, c_int) callconv(.C) c_int, ?*anyopaque, [*c]c_int, c_int) callconv(.C) c_int,
     nsse_weight: c_int,
     profile: c_int,
     level: c_int,
@@ -4480,7 +4480,7 @@ pub const struct_AVCodecContext = extern struct {
     export_side_data: c_int,
 };
 pub const AVCodec = struct_AVCodec;
-pub extern fn av_codec_iterate(@"opaque": [*c]?*c_void) [*c]const AVCodec;
+pub extern fn av_codec_iterate(@"opaque": [*c]?*anyopaque) [*c]const AVCodec;
 pub extern fn avcodec_find_decoder(id: enum_AVCodecID) [*c]AVCodec;
 pub extern fn avcodec_find_decoder_by_name(name: [*c]const u8) [*c]AVCodec;
 pub extern fn avcodec_find_encoder(id: enum_AVCodecID) [*c]AVCodec;
@@ -4595,7 +4595,7 @@ pub const struct_AVCodecParser = extern struct {
     next: [*c]struct_AVCodecParser,
 };
 pub const struct_AVCodecParserContext = extern struct {
-    priv_data: ?*c_void,
+    priv_data: ?*anyopaque,
     parser: [*c]struct_AVCodecParser,
     frame_offset: i64,
     cur_offset: i64,
@@ -4633,7 +4633,7 @@ pub const struct_AVCodecParserContext = extern struct {
     format: c_int,
 };
 pub const AVCodecParser = struct_AVCodecParser;
-pub extern fn av_parser_iterate(@"opaque": [*c]?*c_void) [*c]const AVCodecParser;
+pub extern fn av_parser_iterate(@"opaque": [*c]?*anyopaque) [*c]const AVCodecParser;
 pub extern fn av_parser_next(c: [*c]const AVCodecParser) [*c]AVCodecParser;
 pub extern fn av_register_codec_parser(parser: [*c]AVCodecParser) void;
 pub extern fn av_parser_init(codec_id: c_int) [*c]AVCodecParserContext;
@@ -4662,8 +4662,8 @@ pub extern fn av_get_codec_tag_string(buf: [*c]u8, buf_size: usize, codec_tag: c
 pub extern fn avcodec_string(buf: [*c]u8, buf_size: c_int, enc: [*c]AVCodecContext, encode: c_int) void;
 pub extern fn av_get_profile_name(codec: [*c]const AVCodec, profile: c_int) [*c]const u8;
 pub extern fn avcodec_profile_name(codec_id: enum_AVCodecID, profile: c_int) [*c]const u8;
-pub extern fn avcodec_default_execute(c: [*c]AVCodecContext, func: ?fn ([*c]AVCodecContext, ?*c_void) callconv(.C) c_int, arg: ?*c_void, ret: [*c]c_int, count: c_int, size: c_int) c_int;
-pub extern fn avcodec_default_execute2(c: [*c]AVCodecContext, func: ?fn ([*c]AVCodecContext, ?*c_void, c_int, c_int) callconv(.C) c_int, arg: ?*c_void, ret: [*c]c_int, count: c_int) c_int;
+pub extern fn avcodec_default_execute(c: [*c]AVCodecContext, func: ?fn ([*c]AVCodecContext, ?*anyopaque) callconv(.C) c_int, arg: ?*anyopaque, ret: [*c]c_int, count: c_int, size: c_int) c_int;
+pub extern fn avcodec_default_execute2(c: [*c]AVCodecContext, func: ?fn ([*c]AVCodecContext, ?*anyopaque, c_int, c_int) callconv(.C) c_int, arg: ?*anyopaque, ret: [*c]c_int, count: c_int) c_int;
 pub extern fn avcodec_fill_audio_frame(frame: [*c]AVFrame, nb_channels: c_int, sample_fmt: enum_AVSampleFormat, buf: [*c]const u8, buf_size: c_int, @"align": c_int) c_int;
 pub extern fn avcodec_flush_buffers(avctx: [*c]AVCodecContext) void;
 pub extern fn av_get_bits_per_sample(codec_id: enum_AVCodecID) c_int;
@@ -4672,7 +4672,7 @@ pub extern fn av_get_exact_bits_per_sample(codec_id: enum_AVCodecID) c_int;
 pub extern fn av_get_audio_frame_duration(avctx: [*c]AVCodecContext, frame_bytes: c_int) c_int;
 pub extern fn av_get_audio_frame_duration2(par: [*c]AVCodecParameters, frame_bytes: c_int) c_int;
 pub const struct_AVBitStreamFilterContext = extern struct {
-    priv_data: ?*c_void,
+    priv_data: ?*anyopaque,
     filter: [*c]const struct_AVBitStreamFilter,
     parser: [*c]AVCodecParserContext,
     next: [*c]struct_AVBitStreamFilterContext,
@@ -4684,9 +4684,9 @@ pub extern fn av_bitstream_filter_init(name: [*c]const u8) [*c]AVBitStreamFilter
 pub extern fn av_bitstream_filter_filter(bsfc: [*c]AVBitStreamFilterContext, avctx: [*c]AVCodecContext, args: [*c]const u8, poutbuf: [*c][*c]u8, poutbuf_size: [*c]c_int, buf: [*c]const u8, buf_size: c_int, keyframe: c_int) c_int;
 pub extern fn av_bitstream_filter_close(bsf: [*c]AVBitStreamFilterContext) void;
 pub extern fn av_bitstream_filter_next(f: [*c]const AVBitStreamFilter) [*c]const AVBitStreamFilter;
-pub extern fn av_bsf_next(@"opaque": [*c]?*c_void) [*c]const AVBitStreamFilter;
-pub extern fn av_fast_padded_malloc(ptr: ?*c_void, size: [*c]c_uint, min_size: usize) void;
-pub extern fn av_fast_padded_mallocz(ptr: ?*c_void, size: [*c]c_uint, min_size: usize) void;
+pub extern fn av_bsf_next(@"opaque": [*c]?*anyopaque) [*c]const AVBitStreamFilter;
+pub extern fn av_fast_padded_malloc(ptr: ?*anyopaque, size: [*c]c_uint, min_size: usize) void;
+pub extern fn av_fast_padded_mallocz(ptr: ?*anyopaque, size: [*c]c_uint, min_size: usize) void;
 pub extern fn av_xiphlacing(s: [*c]u8, v: c_uint) c_uint;
 pub extern fn av_register_hwaccel(hwaccel: [*c]AVHWAccel) void;
 pub extern fn av_hwaccel_next(hwaccel: [*c]const AVHWAccel) [*c]AVHWAccel;
@@ -4701,7 +4701,7 @@ pub const AV_LOCK_CREATE = @enumToInt(enum_AVLockOp.AV_LOCK_CREATE);
 pub const AV_LOCK_OBTAIN = @enumToInt(enum_AVLockOp.AV_LOCK_OBTAIN);
 pub const AV_LOCK_RELEASE = @enumToInt(enum_AVLockOp.AV_LOCK_RELEASE);
 pub const AV_LOCK_DESTROY = @enumToInt(enum_AVLockOp.AV_LOCK_DESTROY);
-pub extern fn av_lockmgr_register(cb: ?fn ([*c]?*c_void, enum_AVLockOp) callconv(.C) c_int) c_int;
+pub extern fn av_lockmgr_register(cb: ?fn ([*c]?*anyopaque, enum_AVLockOp) callconv(.C) c_int) c_int;
 pub extern fn avcodec_is_open(s: [*c]AVCodecContext) c_int;
 pub extern fn av_cpb_properties_alloc(size: [*c]usize) [*c]AVCPBProperties;
 pub const clock_t = __darwin_clock_t;
@@ -4775,8 +4775,8 @@ pub extern fn clock_gettime_nsec_np(__clock_id: clockid_t) __uint64_t;
 pub extern fn clock_settime(__clock_id: clockid_t, __tp: [*c]const struct_timespec) c_int;
 pub extern fn timespec_get(ts: [*c]struct_timespec, base: c_int) c_int;
 pub const struct_AVIOInterruptCB = extern struct {
-    callback: ?fn (?*c_void) callconv(.C) c_int,
-    @"opaque": ?*c_void,
+    callback: ?fn (?*anyopaque) callconv(.C) c_int,
+    @"opaque": ?*anyopaque,
 };
 pub const AVIOInterruptCB = struct_AVIOInterruptCB;
 pub const enum_AVIODirEntryType = extern enum(c_int) {
@@ -4843,10 +4843,10 @@ pub const struct_AVIOContext = extern struct {
     buffer_size: c_int,
     buf_ptr: [*c]u8,
     buf_end: [*c]u8,
-    @"opaque": ?*c_void,
-    read_packet: ?fn (?*c_void, [*c]u8, c_int) callconv(.C) c_int,
-    write_packet: ?fn (?*c_void, [*c]u8, c_int) callconv(.C) c_int,
-    seek: ?fn (?*c_void, i64, c_int) callconv(.C) i64,
+    @"opaque": ?*anyopaque,
+    read_packet: ?fn (?*anyopaque, [*c]u8, c_int) callconv(.C) c_int,
+    write_packet: ?fn (?*anyopaque, [*c]u8, c_int) callconv(.C) c_int,
+    seek: ?fn (?*anyopaque, i64, c_int) callconv(.C) i64,
     pos: i64,
     eof_reached: c_int,
     write_flag: c_int,
@@ -4855,8 +4855,8 @@ pub const struct_AVIOContext = extern struct {
     checksum_ptr: [*c]u8,
     update_checksum: ?fn (c_ulong, [*c]const u8, c_uint) callconv(.C) c_ulong,
     @"error": c_int,
-    read_pause: ?fn (?*c_void, c_int) callconv(.C) c_int,
-    read_seek: ?fn (?*c_void, c_int, i64, c_int) callconv(.C) i64,
+    read_pause: ?fn (?*anyopaque, c_int) callconv(.C) c_int,
+    read_seek: ?fn (?*anyopaque, c_int, i64, c_int) callconv(.C) i64,
     seekable: c_int,
     maxsize: i64,
     direct: c_int,
@@ -4867,11 +4867,11 @@ pub const struct_AVIOContext = extern struct {
     short_seek_threshold: c_int,
     protocol_whitelist: [*c]const u8,
     protocol_blacklist: [*c]const u8,
-    write_data_type: ?fn (?*c_void, [*c]u8, c_int, enum_AVIODataMarkerType, i64) callconv(.C) c_int,
+    write_data_type: ?fn (?*anyopaque, [*c]u8, c_int, enum_AVIODataMarkerType, i64) callconv(.C) c_int,
     ignore_boundary_point: c_int,
     current_type: enum_AVIODataMarkerType,
     last_time: i64,
-    short_seek_get: ?fn (?*c_void) callconv(.C) c_int,
+    short_seek_get: ?fn (?*anyopaque) callconv(.C) c_int,
     written: i64,
     buf_ptr_max: [*c]u8,
     min_packet_size: c_int,
@@ -4885,7 +4885,7 @@ pub extern fn avio_open_dir(s: [*c][*c]AVIODirContext, url: [*c]const u8, option
 pub extern fn avio_read_dir(s: [*c]AVIODirContext, next: [*c][*c]AVIODirEntry) c_int;
 pub extern fn avio_close_dir(s: [*c][*c]AVIODirContext) c_int;
 pub extern fn avio_free_directory_entry(entry: [*c][*c]AVIODirEntry) void;
-pub extern fn avio_alloc_context(buffer: [*c]u8, buffer_size: c_int, write_flag: c_int, @"opaque": ?*c_void, read_packet: ?fn (?*c_void, [*c]u8, c_int) callconv(.C) c_int, write_packet: ?fn (?*c_void, [*c]u8, c_int) callconv(.C) c_int, seek: ?fn (?*c_void, i64, c_int) callconv(.C) i64) [*c]AVIOContext;
+pub extern fn avio_alloc_context(buffer: [*c]u8, buffer_size: c_int, write_flag: c_int, @"opaque": ?*anyopaque, read_packet: ?fn (?*anyopaque, [*c]u8, c_int) callconv(.C) c_int, write_packet: ?fn (?*anyopaque, [*c]u8, c_int) callconv(.C) c_int, seek: ?fn (?*anyopaque, i64, c_int) callconv(.C) i64) [*c]AVIOContext;
 pub extern fn avio_context_free(s: [*c][*c]AVIOContext) void;
 pub extern fn avio_w8(s: [*c]AVIOContext, b: c_int) void;
 pub extern fn avio_write(s: [*c]AVIOContext, buf: [*c]const u8, size: c_int) void;
@@ -4933,7 +4933,7 @@ pub extern fn avio_closep(s: [*c][*c]AVIOContext) c_int;
 pub extern fn avio_open_dyn_buf(s: [*c][*c]AVIOContext) c_int;
 pub extern fn avio_get_dyn_buf(s: [*c]AVIOContext, pbuffer: [*c][*c]u8) c_int;
 pub extern fn avio_close_dyn_buf(s: [*c]AVIOContext, pbuffer: [*c][*c]u8) c_int;
-pub extern fn avio_enum_protocols(@"opaque": [*c]?*c_void, output: c_int) [*c]const u8;
+pub extern fn avio_enum_protocols(@"opaque": [*c]?*anyopaque, output: c_int) [*c]const u8;
 pub extern fn avio_protocol_get_class(name: [*c]const u8) [*c]const AVClass;
 pub extern fn avio_pause(h: [*c]AVIOContext, pause: c_int) c_int;
 pub extern fn avio_seek_time(h: [*c]AVIOContext, stream_index: c_int, timestamp: i64, flags: c_int) i64;
@@ -4993,7 +4993,7 @@ pub const struct_AVOutputFormat = extern struct {
     interleave_packet: ?fn ([*c]struct_AVFormatContext, [*c]AVPacket, [*c]AVPacket, c_int) callconv(.C) c_int,
     query_codec: ?fn (enum_AVCodecID, c_int) callconv(.C) c_int,
     get_output_timestamp: ?fn ([*c]struct_AVFormatContext, c_int, [*c]i64, [*c]i64) callconv(.C) void,
-    control_message: ?fn ([*c]struct_AVFormatContext, c_int, ?*c_void, usize) callconv(.C) c_int,
+    control_message: ?fn ([*c]struct_AVFormatContext, c_int, ?*anyopaque, usize) callconv(.C) c_int,
     write_uncoded_frame: ?fn ([*c]struct_AVFormatContext, c_int, [*c][*c]AVFrame, c_uint) callconv(.C) c_int,
     get_device_list: ?fn ([*c]struct_AVFormatContext, ?*struct_AVDeviceInfoList) callconv(.C) c_int,
     create_device_capabilities: ?fn ([*c]struct_AVFormatContext, ?*struct_AVDeviceCapabilitiesQuery) callconv(.C) c_int,
@@ -5046,7 +5046,7 @@ pub const struct_AVStream = extern struct {
     index: c_int,
     id: c_int,
     codec: [*c]AVCodecContext,
-    priv_data: ?*c_void,
+    priv_data: ?*anyopaque,
     time_base: AVRational,
     start_time: i64,
     duration: i64,
@@ -5142,12 +5142,12 @@ pub const AVFMT_DURATION_FROM_STREAM = @enumToInt(enum_AVDurationEstimationMetho
 pub const AVFMT_DURATION_FROM_BITRATE = @enumToInt(enum_AVDurationEstimationMethod.AVFMT_DURATION_FROM_BITRATE);
 pub const struct_AVFormatInternal = opaque {};
 pub const AVFormatInternal = struct_AVFormatInternal;
-pub const av_format_control_message = ?fn ([*c]struct_AVFormatContext, c_int, ?*c_void, usize) callconv(.C) c_int;
+pub const av_format_control_message = ?fn ([*c]struct_AVFormatContext, c_int, ?*anyopaque, usize) callconv(.C) c_int;
 pub const struct_AVFormatContext = extern struct {
     av_class: [*c]const AVClass,
     iformat: [*c]struct_AVInputFormat,
     oformat: [*c]struct_AVOutputFormat,
-    priv_data: ?*c_void,
+    priv_data: ?*anyopaque,
     pb: [*c]AVIOContext,
     ctx_flags: c_int,
     nb_streams: c_uint,
@@ -5206,7 +5206,7 @@ pub const struct_AVFormatContext = extern struct {
     subtitle_codec: [*c]AVCodec,
     data_codec: [*c]AVCodec,
     metadata_header_padding: c_int,
-    @"opaque": ?*c_void,
+    @"opaque": ?*anyopaque,
     control_message_cb: av_format_control_message,
     output_ts_offset: i64,
     dump_separator: [*c]u8,
@@ -5243,8 +5243,8 @@ pub extern fn av_format_get_data_codec(s: [*c]const AVFormatContext) [*c]AVCodec
 pub extern fn av_format_set_data_codec(s: [*c]AVFormatContext, c: [*c]AVCodec) void;
 pub extern fn av_format_get_metadata_header_padding(s: [*c]const AVFormatContext) c_int;
 pub extern fn av_format_set_metadata_header_padding(s: [*c]AVFormatContext, c: c_int) void;
-pub extern fn av_format_get_opaque(s: [*c]const AVFormatContext) ?*c_void;
-pub extern fn av_format_set_opaque(s: [*c]AVFormatContext, @"opaque": ?*c_void) void;
+pub extern fn av_format_get_opaque(s: [*c]const AVFormatContext) ?*anyopaque;
+pub extern fn av_format_set_opaque(s: [*c]AVFormatContext, @"opaque": ?*anyopaque) void;
 pub extern fn av_format_get_control_message_cb(s: [*c]const AVFormatContext) av_format_control_message;
 pub extern fn av_format_set_control_message_cb(s: [*c]AVFormatContext, callback: av_format_control_message) void;
 pub extern fn av_format_get_open_cb(s: [*c]const AVFormatContext) AVOpenCallback;
@@ -5262,8 +5262,8 @@ pub extern fn avformat_network_init() c_int;
 pub extern fn avformat_network_deinit() c_int;
 pub extern fn av_iformat_next(f: [*c]const AVInputFormat) [*c]AVInputFormat;
 pub extern fn av_oformat_next(f: [*c]const AVOutputFormat) [*c]AVOutputFormat;
-pub extern fn av_muxer_iterate(@"opaque": [*c]?*c_void) [*c]const AVOutputFormat;
-pub extern fn av_demuxer_iterate(@"opaque": [*c]?*c_void) [*c]const AVInputFormat;
+pub extern fn av_muxer_iterate(@"opaque": [*c]?*anyopaque) [*c]const AVOutputFormat;
+pub extern fn av_demuxer_iterate(@"opaque": [*c]?*anyopaque) [*c]const AVInputFormat;
 pub extern fn avformat_alloc_context() [*c]AVFormatContext;
 pub extern fn avformat_free_context(s: [*c]AVFormatContext) void;
 pub extern fn avformat_get_class() [*c]const AVClass;
@@ -5277,8 +5277,8 @@ pub extern fn av_find_input_format(short_name: [*c]const u8) [*c]AVInputFormat;
 pub extern fn av_probe_input_format(pd: [*c]AVProbeData, is_opened: c_int) [*c]AVInputFormat;
 pub extern fn av_probe_input_format2(pd: [*c]AVProbeData, is_opened: c_int, score_max: [*c]c_int) [*c]AVInputFormat;
 pub extern fn av_probe_input_format3(pd: [*c]AVProbeData, is_opened: c_int, score_ret: [*c]c_int) [*c]AVInputFormat;
-pub extern fn av_probe_input_buffer2(pb: [*c]AVIOContext, fmt: [*c][*c]AVInputFormat, url: [*c]const u8, logctx: ?*c_void, offset: c_uint, max_probe_size: c_uint) c_int;
-pub extern fn av_probe_input_buffer(pb: [*c]AVIOContext, fmt: [*c][*c]AVInputFormat, url: [*c]const u8, logctx: ?*c_void, offset: c_uint, max_probe_size: c_uint) c_int;
+pub extern fn av_probe_input_buffer2(pb: [*c]AVIOContext, fmt: [*c][*c]AVInputFormat, url: [*c]const u8, logctx: ?*anyopaque, offset: c_uint, max_probe_size: c_uint) c_int;
+pub extern fn av_probe_input_buffer(pb: [*c]AVIOContext, fmt: [*c][*c]AVInputFormat, url: [*c]const u8, logctx: ?*anyopaque, offset: c_uint, max_probe_size: c_uint) c_int;
 pub extern fn avformat_open_input(ps: [*c][*c]AVFormatContext, url: [*c]const u8, fmt: [*c]AVInputFormat, options: [*c]?*AVDictionary) c_int;
 pub extern fn av_demuxer_open(ic: [*c]AVFormatContext) c_int;
 pub extern fn avformat_find_stream_info(ic: [*c]AVFormatContext, options: [*c]?*AVDictionary) c_int;
@@ -5304,9 +5304,9 @@ pub extern fn av_guess_format(short_name: [*c]const u8, filename: [*c]const u8, 
 pub extern fn av_guess_codec(fmt: [*c]AVOutputFormat, short_name: [*c]const u8, filename: [*c]const u8, mime_type: [*c]const u8, type: enum_AVMediaType) enum_AVCodecID;
 pub extern fn av_get_output_timestamp(s: [*c]struct_AVFormatContext, stream: c_int, dts: [*c]i64, wall: [*c]i64) c_int;
 pub extern fn av_hex_dump(f: [*c]FILE, buf: [*c]const u8, size: c_int) void;
-pub extern fn av_hex_dump_log(avcl: ?*c_void, level: c_int, buf: [*c]const u8, size: c_int) void;
+pub extern fn av_hex_dump_log(avcl: ?*anyopaque, level: c_int, buf: [*c]const u8, size: c_int) void;
 pub extern fn av_pkt_dump2(f: [*c]FILE, pkt: [*c]const AVPacket, dump_payload: c_int, st: [*c]const AVStream) void;
-pub extern fn av_pkt_dump_log2(avcl: ?*c_void, level: c_int, pkt: [*c]const AVPacket, dump_payload: c_int, st: [*c]const AVStream) void;
+pub extern fn av_pkt_dump_log2(avcl: ?*anyopaque, level: c_int, pkt: [*c]const AVPacket, dump_payload: c_int, st: [*c]const AVStream) void;
 pub extern fn av_codec_get_id(tags: [*c]const ?*const struct_AVCodecTag, tag: c_uint) enum_AVCodecID;
 pub extern fn av_codec_get_tag(tags: [*c]const ?*const struct_AVCodecTag, id: enum_AVCodecID) c_uint;
 pub extern fn av_codec_get_tag2(tags: [*c]const ?*const struct_AVCodecTag, id: enum_AVCodecID, tag: [*c]c_uint) c_int;
@@ -6505,7 +6505,7 @@ pub const __STDC_VERSION__ = @as(c_long, 201710);
 pub const __STDC_UTF_16__ = 1;
 pub const __STDC_UTF_32__ = 1;
 pub const _DEBUG = 1;
-pub fn __P(protos: anytype) callconv(.Inline) @TypeOf(protos) {
+pub inline fn __P(protos: anytype) @TypeOf(protos) {
     return protos;
 }
 pub const __signed = c_int;
@@ -6515,10 +6515,10 @@ pub const __unused = __attribute__(__unused__);
 pub const __used = __attribute__(__used__);
 pub const __cold = __attribute__(__cold__);
 pub const __deprecated = __attribute__(__deprecated__);
-pub fn __deprecated_msg(_msg: anytype) callconv(.Inline) @TypeOf(__attribute__(__deprecated__(_msg))) {
+pub inline fn __deprecated_msg(_msg: anytype) @TypeOf(__attribute__(__deprecated__(_msg))) {
     return __attribute__(__deprecated__(_msg));
 }
-pub fn __deprecated_enum_msg(_msg: anytype) callconv(.Inline) @TypeOf(__deprecated_msg(_msg)) {
+pub inline fn __deprecated_enum_msg(_msg: anytype) @TypeOf(__deprecated_msg(_msg)) {
     return __deprecated_msg(_msg);
 }
 pub const __unavailable = __attribute__(__unavailable__);
@@ -6528,25 +6528,25 @@ pub const __result_use_check = __attribute__(__warn_unused_result__);
 pub const __abortlike = __dead2 ++ __cold ++ __not_tail_called;
 pub const __header_always_inline = __header_inline ++ __attribute__(__always_inline__);
 pub const __unreachable_ok_pop = _Pragma("clang diagnostic pop");
-pub fn __printflike(fmtarg: anytype, firstvararg: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__printf__, fmtarg, firstvararg))) {
+pub inline fn __printflike(fmtarg: anytype, firstvararg: anytype) @TypeOf(__attribute__(__format__(__printf__, fmtarg, firstvararg))) {
     return __attribute__(__format__(__printf__, fmtarg, firstvararg));
 }
-pub fn __printf0like(fmtarg: anytype, firstvararg: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__printf0__, fmtarg, firstvararg))) {
+pub inline fn __printf0like(fmtarg: anytype, firstvararg: anytype) @TypeOf(__attribute__(__format__(__printf0__, fmtarg, firstvararg))) {
     return __attribute__(__format__(__printf0__, fmtarg, firstvararg));
 }
-pub fn __scanflike(fmtarg: anytype, firstvararg: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__scanf__, fmtarg, firstvararg))) {
+pub inline fn __scanflike(fmtarg: anytype, firstvararg: anytype) @TypeOf(__attribute__(__format__(__scanf__, fmtarg, firstvararg))) {
     return __attribute__(__format__(__scanf__, fmtarg, firstvararg));
 }
-pub fn __COPYRIGHT(s: anytype) callconv(.Inline) @TypeOf(__IDSTRING(copyright, s)) {
+pub inline fn __COPYRIGHT(s: anytype) @TypeOf(__IDSTRING(copyright, s)) {
     return __IDSTRING(copyright, s);
 }
-pub fn __RCSID(s: anytype) callconv(.Inline) @TypeOf(__IDSTRING(rcsid, s)) {
+pub inline fn __RCSID(s: anytype) @TypeOf(__IDSTRING(rcsid, s)) {
     return __IDSTRING(rcsid, s);
 }
-pub fn __SCCSID(s: anytype) callconv(.Inline) @TypeOf(__IDSTRING(sccsid, s)) {
+pub inline fn __SCCSID(s: anytype) @TypeOf(__IDSTRING(sccsid, s)) {
     return __IDSTRING(sccsid, s);
 }
-pub fn __PROJECT_VERSION(s: anytype) callconv(.Inline) @TypeOf(__IDSTRING(project_version, s)) {
+pub inline fn __PROJECT_VERSION(s: anytype) @TypeOf(__IDSTRING(project_version, s)) {
     return __IDSTRING(project_version, s);
 }
 pub const __DARWIN_ONLY_64_BIT_INO_T = 0;
@@ -6559,100 +6559,100 @@ pub const __DARWIN_NON_CANCELABLE = 0;
 pub const __DARWIN_SUF_64_BIT_INO_T = "$INODE64";
 pub const __DARWIN_SUF_1050 = "$1050";
 pub const __DARWIN_SUF_EXTSN = "$DARWIN_EXTSN";
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_0(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_0(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_1(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_1(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_2(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_2(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_3(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_3(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_4(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_4(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_5(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_5(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_6(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_6(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_7(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_7(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_8(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_8(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_9(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_9(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_10(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_10(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_10_2(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_10_2(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_10_3(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_10_3(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_2(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_2(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_3(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_3(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_4(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_4(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_1(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_1(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_2(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_2(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_4(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_4(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_1(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_1(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_2(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_2(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_4(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_4(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_1(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_1(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_4(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_4(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_5(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_5(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_6(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_6(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_15(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_15(x: anytype) @TypeOf(x) {
     return x;
 }
-pub fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_15_1(x: anytype) callconv(.Inline) @TypeOf(x) {
+pub inline fn __DARWIN_ALIAS_STARTING_MAC___MAC_10_15_1(x: anytype) @TypeOf(x) {
     return x;
 }
 pub const __DARWIN_C_ANSI = @as(c_long, 0o010000);
@@ -6663,7 +6663,7 @@ pub const __DARWIN_NO_LONG_LONG = 0;
 pub const _DARWIN_FEATURE_64_BIT_INODE = 1;
 pub const _DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE = 1;
 pub const _DARWIN_FEATURE_UNIX_CONFORMANCE = 3;
-pub fn __CAST_AWAY_QUALIFIER(variable: anytype, qualifier: anytype, type_1: anytype) callconv(.Inline) @TypeOf(@import("std").meta.cast(type_1, c_long)(variable)) {
+pub inline fn __CAST_AWAY_QUALIFIER(variable: anytype, qualifier: anytype, type_1: anytype) @TypeOf(@import("std").meta.cast(type_1, c_long)(variable)) {
     return @import("std").meta.cast(type_1, c_long)(variable);
 }
 pub const __XNU_PRIVATE_EXTERN = __attribute__(visibility("hidden"));
@@ -6779,7 +6779,7 @@ pub const EOWNERDEAD = 105;
 pub const EQFULL = 106;
 pub const ELAST = 106;
 pub const __WORDSIZE = 64;
-pub const __DARWIN_NULL = @import("std").meta.cast(?*c_void, 0);
+pub const __DARWIN_NULL = @import("std").meta.cast(?*anyopaque, 0);
 pub const __PTHREAD_SIZE__ = 8176;
 pub const __PTHREAD_ATTR_SIZE__ = 56;
 pub const __PTHREAD_MUTEXATTR_SIZE__ = 8;
@@ -6789,26 +6789,26 @@ pub const __PTHREAD_COND_SIZE__ = 40;
 pub const __PTHREAD_ONCE_SIZE__ = 8;
 pub const __PTHREAD_RWLOCK_SIZE__ = 192;
 pub const __PTHREAD_RWLOCKATTR_SIZE__ = 16;
-pub fn __offsetof(type_1: anytype, field: anytype) callconv(.Inline) @TypeOf(__builtin_offsetof(type_1, field)) {
+pub inline fn __offsetof(type_1: anytype, field: anytype) @TypeOf(__builtin_offsetof(type_1, field)) {
     return __builtin_offsetof(type_1, field);
 }
 pub const USER_ADDR_NULL = @import("std").meta.cast(user_addr_t, 0);
-pub fn CAST_USER_ADDR_T(a_ptr: anytype) callconv(.Inline) user_addr_t {
+pub inline fn CAST_USER_ADDR_T(a_ptr: anytype) user_addr_t {
     return @import("std").meta.cast(user_addr_t, @import("std").meta.cast(usize, a_ptr));
 }
-pub fn INT8_C(v: anytype) callconv(.Inline) @TypeOf(v) {
+pub inline fn INT8_C(v: anytype) @TypeOf(v) {
     return v;
 }
-pub fn INT16_C(v: anytype) callconv(.Inline) @TypeOf(v) {
+pub inline fn INT16_C(v: anytype) @TypeOf(v) {
     return v;
 }
-pub fn INT32_C(v: anytype) callconv(.Inline) @TypeOf(v) {
+pub inline fn INT32_C(v: anytype) @TypeOf(v) {
     return v;
 }
-pub fn UINT8_C(v: anytype) callconv(.Inline) @TypeOf(v) {
+pub inline fn UINT8_C(v: anytype) @TypeOf(v) {
     return v;
 }
-pub fn UINT16_C(v: anytype) callconv(.Inline) @TypeOf(v) {
+pub inline fn UINT16_C(v: anytype) @TypeOf(v) {
     return v;
 }
 pub const INT8_MAX = 127;
@@ -7149,7 +7149,7 @@ pub const __DRIVERKIT_19_0 = 190000;
 pub const __MAC_OS_X_VERSION_MIN_REQUIRED = __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__;
 pub const __MAC_OS_X_VERSION_MAX_ALLOWED = __MAC_10_15;
 pub const __AVAILABILITY_INTERNAL_DEPRECATED = __attribute__(deprecated);
-pub fn __AVAILABILITY_INTERNAL_DEPRECATED_MSG(_msg: anytype) callconv(.Inline) @TypeOf(__attribute__(deprecated(_msg))) {
+pub inline fn __AVAILABILITY_INTERNAL_DEPRECATED_MSG(_msg: anytype) @TypeOf(__attribute__(deprecated(_msg))) {
     return __attribute__(deprecated(_msg));
 }
 pub const __AVAILABILITY_INTERNAL_UNAVAILABLE = __attribute__(unavailable);
@@ -7157,39 +7157,39 @@ pub const __AVAILABILITY_INTERNAL_WEAK_IMPORT = __attribute__(weak_import);
 pub const __ENABLE_LEGACY_MAC_AVAILABILITY = 1;
 pub const __AVAILABILITY_INTERNAL__MAC_NA = __attribute__(availability(macosx, unavailable));
 pub const __AVAILABILITY_INTERNAL__MAC_NA_DEP__MAC_NA = __attribute__(availability(macosx, unavailable));
-pub fn __AVAILABILITY_INTERNAL__MAC_NA_DEP__MAC_NA_MSG(_msg: anytype) callconv(.Inline) @TypeOf(__attribute__(availability(macosx, unavailable))) {
+pub inline fn __AVAILABILITY_INTERNAL__MAC_NA_DEP__MAC_NA_MSG(_msg: anytype) @TypeOf(__attribute__(availability(macosx, unavailable))) {
     return __attribute__(availability(macosx, unavailable));
 }
 pub const __AVAILABILITY_INTERNAL__IPHONE_NA = __attribute__(availability(ios, unavailable));
 pub const __AVAILABILITY_INTERNAL__IPHONE_NA__IPHONE_NA = __attribute__(availability(ios, unavailable));
 pub const __AVAILABILITY_INTERNAL__IPHONE_NA_DEP__IPHONE_NA = __attribute__(availability(ios, unavailable));
-pub fn __AVAILABILITY_INTERNAL__IPHONE_NA_DEP__IPHONE_NA_MSG(_msg: anytype) callconv(.Inline) @TypeOf(__attribute__(availability(ios, unavailable))) {
+pub inline fn __AVAILABILITY_INTERNAL__IPHONE_NA_DEP__IPHONE_NA_MSG(_msg: anytype) @TypeOf(__attribute__(availability(ios, unavailable))) {
     return __attribute__(availability(ios, unavailable));
 }
 pub const __AVAILABILITY_INTERNAL__IPHONE_COMPAT_VERSION = __attribute__(availability(ios, unavailable));
 pub const __AVAILABILITY_INTERNAL__IPHONE_COMPAT_VERSION_DEP__IPHONE_COMPAT_VERSION = __attribute__(availability(ios, unavailable));
-pub fn __AVAILABILITY_INTERNAL__IPHONE_COMPAT_VERSION_DEP__IPHONE_COMPAT_VERSION_MSG(_msg: anytype) callconv(.Inline) @TypeOf(__attribute__(availability(ios, unavailable))) {
+pub inline fn __AVAILABILITY_INTERNAL__IPHONE_COMPAT_VERSION_DEP__IPHONE_COMPAT_VERSION_MSG(_msg: anytype) @TypeOf(__attribute__(availability(ios, unavailable))) {
     return __attribute__(availability(ios, unavailable));
 }
-pub fn __API_AVAILABLE1(x: anytype) callconv(.Inline) @TypeOf(__API_A(x)) {
+pub inline fn __API_AVAILABLE1(x: anytype) @TypeOf(__API_A(x)) {
     return __API_A(x);
 }
-pub fn __API_RANGE_STRINGIFY(x: anytype) callconv(.Inline) @TypeOf(__API_RANGE_STRINGIFY2(x)) {
+pub inline fn __API_RANGE_STRINGIFY(x: anytype) @TypeOf(__API_RANGE_STRINGIFY2(x)) {
     return __API_RANGE_STRINGIFY2(x);
 }
-pub fn __API_AVAILABLE_BEGIN1(a: anytype) callconv(.Inline) @TypeOf(__API_A_BEGIN(a)) {
+pub inline fn __API_AVAILABLE_BEGIN1(a: anytype) @TypeOf(__API_A_BEGIN(a)) {
     return __API_A_BEGIN(a);
 }
-pub fn __API_DEPRECATED_MSG2(msg: anytype, x: anytype) callconv(.Inline) @TypeOf(__API_D(msg, x)) {
+pub inline fn __API_DEPRECATED_MSG2(msg: anytype, x: anytype) @TypeOf(__API_D(msg, x)) {
     return __API_D(msg, x);
 }
-pub fn __API_DEPRECATED_BEGIN_MSG2(msg: anytype, a: anytype) callconv(.Inline) @TypeOf(__API_D_BEGIN(msg, a)) {
+pub inline fn __API_DEPRECATED_BEGIN_MSG2(msg: anytype, a: anytype) @TypeOf(__API_D_BEGIN(msg, a)) {
     return __API_D_BEGIN(msg, a);
 }
-pub fn __API_DEPRECATED_REP2(rep: anytype, x: anytype) callconv(.Inline) @TypeOf(__API_R(rep, x)) {
+pub inline fn __API_DEPRECATED_REP2(rep: anytype, x: anytype) @TypeOf(__API_R(rep, x)) {
     return __API_R(rep, x);
 }
-pub fn __API_DEPRECATED_BEGIN_REP2(rep: anytype, a: anytype) callconv(.Inline) @TypeOf(__API_R_BEGIN(rep, a)) {
+pub inline fn __API_DEPRECATED_BEGIN_REP2(rep: anytype, a: anytype) @TypeOf(__API_R_BEGIN(rep, a)) {
     return __API_R_BEGIN(rep, a);
 }
 pub const __API_UNAVAILABLE_PLATFORM_macos = blk: {
@@ -7216,7 +7216,7 @@ pub const __API_UNAVAILABLE_PLATFORM_macCatalyst = blk: {
     _ = macCatalyst;
     break :blk unavailable;
 };
-pub fn __API_UNAVAILABLE_PLATFORM_uikitformac(x: anytype) callconv(.Inline) @TypeOf(unavailable) {
+pub inline fn __API_UNAVAILABLE_PLATFORM_uikitformac(x: anytype) @TypeOf(unavailable) {
     return blk: {
         _ = uikitformac;
         break :blk unavailable;
@@ -7226,19 +7226,19 @@ pub const __API_UNAVAILABLE_PLATFORM_driverkit = blk: {
     _ = driverkit;
     break :blk unavailable;
 };
-pub fn __API_UNAVAILABLE1(x: anytype) callconv(.Inline) @TypeOf(__API_U(x)) {
+pub inline fn __API_UNAVAILABLE1(x: anytype) @TypeOf(__API_U(x)) {
     return __API_U(x);
 }
-pub fn __API_UNAVAILABLE_BEGIN1(a: anytype) callconv(.Inline) @TypeOf(__API_U_BEGIN(a)) {
+pub inline fn __API_UNAVAILABLE_BEGIN1(a: anytype) @TypeOf(__API_U_BEGIN(a)) {
     return __API_U_BEGIN(a);
 }
-pub fn __OS_AVAILABILITY(_target: anytype, _availability: anytype) callconv(.Inline) @TypeOf(__attribute__(availability(_target, _availability))) {
+pub inline fn __OS_AVAILABILITY(_target: anytype, _availability: anytype) @TypeOf(__attribute__(availability(_target, _availability))) {
     return __attribute__(availability(_target, _availability));
 }
-pub fn __OSX_EXTENSION_UNAVAILABLE(_msg: anytype) callconv(.Inline) @TypeOf(__OS_AVAILABILITY_MSG(macosx_app_extension, unavailable, _msg)) {
+pub inline fn __OSX_EXTENSION_UNAVAILABLE(_msg: anytype) @TypeOf(__OS_AVAILABILITY_MSG(macosx_app_extension, unavailable, _msg)) {
     return __OS_AVAILABILITY_MSG(macosx_app_extension, unavailable, _msg);
 }
-pub fn __IOS_EXTENSION_UNAVAILABLE(_msg: anytype) callconv(.Inline) @TypeOf(__OS_AVAILABILITY_MSG(ios_app_extension, unavailable, _msg)) {
+pub inline fn __IOS_EXTENSION_UNAVAILABLE(_msg: anytype) @TypeOf(__OS_AVAILABILITY_MSG(ios_app_extension, unavailable, _msg)) {
     return __OS_AVAILABILITY_MSG(ios_app_extension, unavailable, _msg);
 }
 pub const __OSX_UNAVAILABLE = __OS_AVAILABILITY(macosx, unavailable);
@@ -7249,17 +7249,17 @@ pub const __TVOS_PROHIBITED = __OS_AVAILABILITY(tvos, unavailable);
 pub const __WATCHOS_UNAVAILABLE = __OS_AVAILABILITY(watchos, unavailable);
 pub const __WATCHOS_PROHIBITED = __OS_AVAILABILITY(watchos, unavailable);
 pub const __SWIFT_UNAVAILABLE = __OS_AVAILABILITY(swift, unavailable);
-pub fn __SWIFT_UNAVAILABLE_MSG(_msg: anytype) callconv(.Inline) @TypeOf(__OS_AVAILABILITY_MSG(swift, unavailable, _msg)) {
+pub inline fn __SWIFT_UNAVAILABLE_MSG(_msg: anytype) @TypeOf(__OS_AVAILABILITY_MSG(swift, unavailable, _msg)) {
     return __OS_AVAILABILITY_MSG(swift, unavailable, _msg);
 }
 pub const __API_AVAILABLE_END = _Pragma("clang attribute pop");
 pub const __API_DEPRECATED_END = _Pragma("clang attribute pop");
 pub const __API_DEPRECATED_WITH_REPLACEMENT_END = _Pragma("clang attribute pop");
 pub const __API_UNAVAILABLE_END = _Pragma("clang attribute pop");
-pub fn __strfmonlike(fmtarg: anytype, firstvararg: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__strfmon__, fmtarg, firstvararg))) {
+pub inline fn __strfmonlike(fmtarg: anytype, firstvararg: anytype) @TypeOf(__attribute__(__format__(__strfmon__, fmtarg, firstvararg))) {
     return __attribute__(__format__(__strfmon__, fmtarg, firstvararg));
 }
-pub fn __strftimelike(fmtarg: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__strftime__, fmtarg, 0))) {
+pub inline fn __strftimelike(fmtarg: anytype) @TypeOf(__attribute__(__format__(__strftime__, fmtarg, 0))) {
     return __attribute__(__format__(__strftime__, fmtarg, 0));
 }
 pub const __DARWIN_WCHAR_MAX = __WCHAR_MAX__;
@@ -7398,22 +7398,22 @@ pub const FP_ILOGB0 = -2147483647 - 1;
 pub const FP_ILOGBNAN = -2147483647 - 1;
 pub const MATH_ERRNO = 1;
 pub const MATH_ERREXCEPT = 2;
-pub fn isgreater(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isgreater(x, y)) {
+pub inline fn isgreater(x: anytype, y: anytype) @TypeOf(__builtin_isgreater(x, y)) {
     return __builtin_isgreater(x, y);
 }
-pub fn isgreaterequal(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isgreaterequal(x, y)) {
+pub inline fn isgreaterequal(x: anytype, y: anytype) @TypeOf(__builtin_isgreaterequal(x, y)) {
     return __builtin_isgreaterequal(x, y);
 }
-pub fn isless(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isless(x, y)) {
+pub inline fn isless(x: anytype, y: anytype) @TypeOf(__builtin_isless(x, y)) {
     return __builtin_isless(x, y);
 }
-pub fn islessequal(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_islessequal(x, y)) {
+pub inline fn islessequal(x: anytype, y: anytype) @TypeOf(__builtin_islessequal(x, y)) {
     return __builtin_islessequal(x, y);
 }
-pub fn islessgreater(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_islessgreater(x, y)) {
+pub inline fn islessgreater(x: anytype, y: anytype) @TypeOf(__builtin_islessgreater(x, y)) {
     return __builtin_islessgreater(x, y);
 }
-pub fn isunordered(x: anytype, y: anytype) callconv(.Inline) @TypeOf(__builtin_isunordered(x, y)) {
+pub inline fn isunordered(x: anytype, y: anytype) @TypeOf(__builtin_isunordered(x, y)) {
     return __builtin_isunordered(x, y);
 }
 pub const M_E = 2.71828182845904523536028747135266250;
@@ -7477,41 +7477,41 @@ pub const stdin = __stdinp;
 pub const stdout = __stdoutp;
 pub const stderr = __stderrp;
 pub const L_ctermid = 1024;
-pub fn __swift_unavailable_on(osx_msg: anytype, ios_msg: anytype) callconv(.Inline) @TypeOf(__swift_unavailable(osx_msg)) {
+pub inline fn __swift_unavailable_on(osx_msg: anytype, ios_msg: anytype) @TypeOf(__swift_unavailable(osx_msg)) {
     return __swift_unavailable(osx_msg);
 }
-pub fn __sfeof(p: anytype) callconv(.Inline) @TypeOf((p.*._flags & __SEOF) != 0) {
+pub inline fn __sfeof(p: anytype) @TypeOf((p.*._flags & __SEOF) != 0) {
     return (p.*._flags & __SEOF) != 0;
 }
-pub fn __sferror(p: anytype) callconv(.Inline) @TypeOf((p.*._flags & __SERR) != 0) {
+pub inline fn __sferror(p: anytype) @TypeOf((p.*._flags & __SERR) != 0) {
     return (p.*._flags & __SERR) != 0;
 }
-pub fn __sfileno(p: anytype) callconv(.Inline) @TypeOf(p.*._file) {
+pub inline fn __sfileno(p: anytype) @TypeOf(p.*._file) {
     return p.*._file;
 }
-pub fn fropen(cookie: anytype, @"fn": anytype) callconv(.Inline) @TypeOf(funopen(cookie, @"fn", 0, 0, 0)) {
+pub inline fn fropen(cookie: anytype, @"fn": anytype) @TypeOf(funopen(cookie, @"fn", 0, 0, 0)) {
     return funopen(cookie, @"fn", 0, 0, 0);
 }
-pub fn fwopen(cookie: anytype, @"fn": anytype) callconv(.Inline) @TypeOf(funopen(cookie, 0, @"fn", 0, 0)) {
+pub inline fn fwopen(cookie: anytype, @"fn": anytype) @TypeOf(funopen(cookie, 0, @"fn", 0, 0)) {
     return funopen(cookie, 0, @"fn", 0, 0);
 }
-pub fn feof_unlocked(p: anytype) callconv(.Inline) @TypeOf(__sfeof(p)) {
+pub inline fn feof_unlocked(p: anytype) @TypeOf(__sfeof(p)) {
     return __sfeof(p);
 }
-pub fn ferror_unlocked(p: anytype) callconv(.Inline) @TypeOf(__sferror(p)) {
+pub inline fn ferror_unlocked(p: anytype) @TypeOf(__sferror(p)) {
     return __sferror(p);
 }
-pub fn clearerr_unlocked(p: anytype) callconv(.Inline) @TypeOf(__sclearerr(p)) {
+pub inline fn clearerr_unlocked(p: anytype) @TypeOf(__sclearerr(p)) {
     return __sclearerr(p);
 }
-pub fn fileno_unlocked(p: anytype) callconv(.Inline) @TypeOf(__sfileno(p)) {
+pub inline fn fileno_unlocked(p: anytype) @TypeOf(__sfileno(p)) {
     return __sfileno(p);
 }
 pub const _USE_FORTIFY_LEVEL = 2;
-pub fn __darwin_obsz0(object: anytype) callconv(.Inline) @TypeOf(__builtin_object_size(object, 0)) {
+pub inline fn __darwin_obsz0(object: anytype) @TypeOf(__builtin_object_size(object, 0)) {
     return __builtin_object_size(object, 0);
 }
-pub fn __darwin_obsz(object: anytype) callconv(.Inline) @TypeOf(__builtin_object_size(object, if (_USE_FORTIFY_LEVEL > 1) 1 else 0)) {
+pub inline fn __darwin_obsz(object: anytype) @TypeOf(__builtin_object_size(object, if (_USE_FORTIFY_LEVEL > 1) 1 else 0)) {
     return __builtin_object_size(object, if (_USE_FORTIFY_LEVEL > 1) 1 else 0);
 }
 pub const __DARWIN_NSIG = 32;
@@ -7665,7 +7665,7 @@ pub const SV_NODEFER = SA_NODEFER;
 pub const SV_NOCLDSTOP = SA_NOCLDSTOP;
 pub const SV_SIGINFO = SA_SIGINFO;
 pub const sv_onstack = sv_flags;
-pub fn sigmask(m: anytype) callconv(.Inline) @TypeOf(1 << (m - 1)) {
+pub inline fn sigmask(m: anytype) @TypeOf(1 << (m - 1)) {
     return 1 << (m - 1);
 }
 pub const BADSIG = SIG_ERR;
@@ -7739,42 +7739,42 @@ pub const IOPOL_VFS_STATFS_NO_DATA_VOLUME_DEFAULT = 0;
 pub const IOPOL_VFS_STATFS_FORCE_NO_DATA_VOLUME = 1;
 pub const WNOHANG = 0x00000001;
 pub const WUNTRACED = 0x00000002;
-pub fn _W_INT(w: anytype) callconv(.Inline) @TypeOf([*c]c_int.* & w) {
+pub inline fn _W_INT(w: anytype) @TypeOf([*c]c_int.* & w) {
     return [*c]c_int.* & w;
 }
 pub const WCOREFLAG = 0o0200;
-pub fn _WSTATUS(x: anytype) callconv(.Inline) @TypeOf(_W_INT(x) & 0o0177) {
+pub inline fn _WSTATUS(x: anytype) @TypeOf(_W_INT(x) & 0o0177) {
     return _W_INT(x) & 0o0177;
 }
 pub const _WSTOPPED = 0o0177;
-pub fn WEXITSTATUS(x: anytype) callconv(.Inline) @TypeOf((_W_INT(x) >> 8) & 0x000000ff) {
+pub inline fn WEXITSTATUS(x: anytype) @TypeOf((_W_INT(x) >> 8) & 0x000000ff) {
     return (_W_INT(x) >> 8) & 0x000000ff;
 }
-pub fn WSTOPSIG(x: anytype) callconv(.Inline) @TypeOf(_W_INT(x) >> 8) {
+pub inline fn WSTOPSIG(x: anytype) @TypeOf(_W_INT(x) >> 8) {
     return _W_INT(x) >> 8;
 }
-pub fn WIFCONTINUED(x: anytype) callconv(.Inline) @TypeOf((_WSTATUS(x) == _WSTOPPED) and (WSTOPSIG(x) == 0x13)) {
+pub inline fn WIFCONTINUED(x: anytype) @TypeOf((_WSTATUS(x) == _WSTOPPED) and (WSTOPSIG(x) == 0x13)) {
     return (_WSTATUS(x) == _WSTOPPED) and (WSTOPSIG(x) == 0x13);
 }
-pub fn WIFSTOPPED(x: anytype) callconv(.Inline) @TypeOf((_WSTATUS(x) == _WSTOPPED) and (WSTOPSIG(x) != 0x13)) {
+pub inline fn WIFSTOPPED(x: anytype) @TypeOf((_WSTATUS(x) == _WSTOPPED) and (WSTOPSIG(x) != 0x13)) {
     return (_WSTATUS(x) == _WSTOPPED) and (WSTOPSIG(x) != 0x13);
 }
-pub fn WIFEXITED(x: anytype) callconv(.Inline) @TypeOf(_WSTATUS(x) == 0) {
+pub inline fn WIFEXITED(x: anytype) @TypeOf(_WSTATUS(x) == 0) {
     return _WSTATUS(x) == 0;
 }
-pub fn WIFSIGNALED(x: anytype) callconv(.Inline) @TypeOf((_WSTATUS(x) != _WSTOPPED) and (_WSTATUS(x) != 0)) {
+pub inline fn WIFSIGNALED(x: anytype) @TypeOf((_WSTATUS(x) != _WSTOPPED) and (_WSTATUS(x) != 0)) {
     return (_WSTATUS(x) != _WSTOPPED) and (_WSTATUS(x) != 0);
 }
-pub fn WTERMSIG(x: anytype) callconv(.Inline) @TypeOf(_WSTATUS(x)) {
+pub inline fn WTERMSIG(x: anytype) @TypeOf(_WSTATUS(x)) {
     return _WSTATUS(x);
 }
-pub fn WCOREDUMP(x: anytype) callconv(.Inline) @TypeOf(_W_INT(x) & WCOREFLAG) {
+pub inline fn WCOREDUMP(x: anytype) @TypeOf(_W_INT(x) & WCOREFLAG) {
     return _W_INT(x) & WCOREFLAG;
 }
-pub fn W_EXITCODE(ret: anytype, sig: anytype) callconv(.Inline) @TypeOf((ret << 8) | sig) {
+pub inline fn W_EXITCODE(ret: anytype, sig: anytype) @TypeOf((ret << 8) | sig) {
     return (ret << 8) | sig;
 }
-pub fn W_STOPCODE(sig: anytype) callconv(.Inline) @TypeOf((sig << 8) | _WSTOPPED) {
+pub inline fn W_STOPCODE(sig: anytype) @TypeOf((sig << 8) | _WSTOPPED) {
     return (sig << 8) | _WSTOPPED;
 }
 pub const WEXITED = 0x00000004;
@@ -7793,40 +7793,40 @@ pub const LITTLE_ENDIAN = __DARWIN_LITTLE_ENDIAN;
 pub const BIG_ENDIAN = __DARWIN_BIG_ENDIAN;
 pub const PDP_ENDIAN = __DARWIN_PDP_ENDIAN;
 pub const BYTE_ORDER = __DARWIN_BYTE_ORDER;
-pub fn __DARWIN_OSSwapConstInt16(x: anytype) callconv(.Inline) __uint16_t {
+pub inline fn __DARWIN_OSSwapConstInt16(x: anytype) __uint16_t {
     return @import("std").meta.cast(__uint16_t, ((@import("std").meta.cast(__uint16_t, x) & 0xff00) >> 8) | ((@import("std").meta.cast(__uint16_t, x) & 0x00ff) << 8));
 }
-pub fn __DARWIN_OSSwapConstInt32(x: anytype) callconv(.Inline) __uint32_t {
+pub inline fn __DARWIN_OSSwapConstInt32(x: anytype) __uint32_t {
     return @import("std").meta.cast(__uint32_t, ((((@import("std").meta.cast(__uint32_t, x) & 0xff000000) >> 24) | ((@import("std").meta.cast(__uint32_t, x) & 0x00ff0000) >> 8)) | ((@import("std").meta.cast(__uint32_t, x) & 0x0000ff00) << 8)) | ((@import("std").meta.cast(__uint32_t, x) & 0x000000ff) << 24));
 }
-pub fn __DARWIN_OSSwapConstInt64(x: anytype) callconv(.Inline) __uint64_t {
+pub inline fn __DARWIN_OSSwapConstInt64(x: anytype) __uint64_t {
     return @import("std").meta.cast(__uint64_t, ((((((((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0xff00000000000000)) >> 56) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x00ff000000000000)) >> 40)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x0000ff0000000000)) >> 24)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x000000ff00000000)) >> 8)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x00000000ff000000)) << 8)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x0000000000ff0000)) << 24)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x000000000000ff00)) << 40)) | ((@import("std").meta.cast(__uint64_t, x) & @as(c_ulonglong, 0x00000000000000ff)) << 56));
 }
-pub fn __DARWIN_OSSwapInt16(x: anytype) callconv(.Inline) __uint16_t {
+pub inline fn __DARWIN_OSSwapInt16(x: anytype) __uint16_t {
     return @import("std").meta.cast(__uint16_t, if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt16(x) else _OSSwapInt16(x));
 }
-pub fn __DARWIN_OSSwapInt32(x: anytype) callconv(.Inline) @TypeOf(if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt32(x) else _OSSwapInt32(x)) {
+pub inline fn __DARWIN_OSSwapInt32(x: anytype) @TypeOf(if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt32(x) else _OSSwapInt32(x)) {
     return if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt32(x) else _OSSwapInt32(x);
 }
-pub fn __DARWIN_OSSwapInt64(x: anytype) callconv(.Inline) @TypeOf(if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt64(x) else _OSSwapInt64(x)) {
+pub inline fn __DARWIN_OSSwapInt64(x: anytype) @TypeOf(if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt64(x) else _OSSwapInt64(x)) {
     return if (__builtin_constant_p(x)) __DARWIN_OSSwapConstInt64(x) else _OSSwapInt64(x);
 }
-pub fn ntohs(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt16(x)) {
+pub inline fn ntohs(x: anytype) @TypeOf(__DARWIN_OSSwapInt16(x)) {
     return __DARWIN_OSSwapInt16(x);
 }
-pub fn htons(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt16(x)) {
+pub inline fn htons(x: anytype) @TypeOf(__DARWIN_OSSwapInt16(x)) {
     return __DARWIN_OSSwapInt16(x);
 }
-pub fn ntohl(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt32(x)) {
+pub inline fn ntohl(x: anytype) @TypeOf(__DARWIN_OSSwapInt32(x)) {
     return __DARWIN_OSSwapInt32(x);
 }
-pub fn htonl(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt32(x)) {
+pub inline fn htonl(x: anytype) @TypeOf(__DARWIN_OSSwapInt32(x)) {
     return __DARWIN_OSSwapInt32(x);
 }
-pub fn ntohll(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt64(x)) {
+pub inline fn ntohll(x: anytype) @TypeOf(__DARWIN_OSSwapInt64(x)) {
     return __DARWIN_OSSwapInt64(x);
 }
-pub fn htonll(x: anytype) callconv(.Inline) @TypeOf(__DARWIN_OSSwapInt64(x)) {
+pub inline fn htonll(x: anytype) @TypeOf(__DARWIN_OSSwapInt64(x)) {
     return __DARWIN_OSSwapInt64(x);
 }
 pub const w_termsig = w_T.w_Termsig;
@@ -7834,7 +7834,7 @@ pub const w_coredump = w_T.w_Coredump;
 pub const w_retcode = w_T.w_Retcode;
 pub const w_stopval = w_S.w_Stopval;
 pub const w_stopsig = w_S.w_Stopsig;
-pub fn __alloca(size: anytype) callconv(.Inline) @TypeOf(__builtin_alloca(size)) {
+pub inline fn __alloca(size: anytype) @TypeOf(__builtin_alloca(size)) {
     return __builtin_alloca(size);
 }
 pub const EXIT_FAILURE = 1;
@@ -7843,13 +7843,13 @@ pub const RAND_MAX = 0x7fffffff;
 pub const MB_CUR_MAX = __mb_cur_max;
 pub const __sort_noescape = __attribute__(__noescape__);
 pub const __HAS_FIXED_CHK_PROTOTYPES = 1;
-pub fn AV_GCC_VERSION_AT_LEAST(x: anytype, y: anytype) callconv(.Inline) @TypeOf((__GNUC__ > x) or ((__GNUC__ == x) and (__GNUC_MINOR__ >= y))) {
+pub inline fn AV_GCC_VERSION_AT_LEAST(x: anytype, y: anytype) @TypeOf((__GNUC__ > x) or ((__GNUC__ == x) and (__GNUC_MINOR__ >= y))) {
     return (__GNUC__ > x) or ((__GNUC__ == x) and (__GNUC_MINOR__ >= y));
 }
-pub fn AV_GCC_VERSION_AT_MOST(x: anytype, y: anytype) callconv(.Inline) @TypeOf((__GNUC__ < x) or ((__GNUC__ == x) and (__GNUC_MINOR__ <= y))) {
+pub inline fn AV_GCC_VERSION_AT_MOST(x: anytype, y: anytype) @TypeOf((__GNUC__ < x) or ((__GNUC__ == x) and (__GNUC_MINOR__ <= y))) {
     return (__GNUC__ < x) or ((__GNUC__ == x) and (__GNUC_MINOR__ <= y));
 }
-pub fn AV_HAS_BUILTIN(x: anytype) callconv(.Inline) @TypeOf(__has_builtin(x)) {
+pub inline fn AV_HAS_BUILTIN(x: anytype) @TypeOf(__has_builtin(x)) {
     return __has_builtin(x);
 }
 pub const av_warn_unused_result = __attribute__(warn_unused_result);
@@ -7857,39 +7857,39 @@ pub const av_noinline = __attribute__(@"noinline");
 pub const av_pure = __attribute__(pure);
 pub const av_cold = __attribute__(cold);
 pub const attribute_deprecated = __attribute__(deprecated);
-pub fn AV_NOWARN_DEPRECATED(code: anytype) callconv(.Inline) @TypeOf(code) {
+pub inline fn AV_NOWARN_DEPRECATED(code: anytype) @TypeOf(code) {
     return code;
 }
 pub const av_unused = __attribute__(unused);
 pub const av_used = __attribute__(used);
 pub const av_alias = __attribute__(may_alias);
 pub const av_builtin_constant_p = __builtin_constant_p;
-pub fn av_printf_format(fmtpos: anytype, attrpos: anytype) callconv(.Inline) @TypeOf(__attribute__(__format__(__printf__, fmtpos, attrpos))) {
+pub inline fn av_printf_format(fmtpos: anytype, attrpos: anytype) @TypeOf(__attribute__(__format__(__printf__, fmtpos, attrpos))) {
     return __attribute__(__format__(__printf__, fmtpos, attrpos));
 }
 pub const av_noreturn = __attribute__(noreturn);
-pub fn AV_STRINGIFY(s: anytype) callconv(.Inline) @TypeOf(AV_TOSTRING(s)) {
+pub inline fn AV_STRINGIFY(s: anytype) @TypeOf(AV_TOSTRING(s)) {
     return AV_TOSTRING(s);
 }
-pub fn AV_JOIN(a: anytype, b: anytype) callconv(.Inline) @TypeOf(AV_GLUE(a, b)) {
+pub inline fn AV_JOIN(a: anytype, b: anytype) @TypeOf(AV_GLUE(a, b)) {
     return AV_GLUE(a, b);
 }
-pub fn FFALIGN(x: anytype, a: anytype) callconv(.Inline) @TypeOf(((x + a) - 1) & ~(a - 1)) {
+pub inline fn FFALIGN(x: anytype, a: anytype) @TypeOf(((x + a) - 1) & ~(a - 1)) {
     return ((x + a) - 1) & ~(a - 1);
 }
-pub fn AV_VERSION_INT(a: anytype, b: anytype, c: anytype) callconv(.Inline) @TypeOf(((a << 16) | (b << 8)) | c) {
+pub inline fn AV_VERSION_INT(a: anytype, b: anytype, c: anytype) @TypeOf(((a << 16) | (b << 8)) | c) {
     return ((a << 16) | (b << 8)) | c;
 }
-pub fn AV_VERSION(a: anytype, b: anytype, c: anytype) callconv(.Inline) @TypeOf(AV_VERSION_DOT(a, b, c)) {
+pub inline fn AV_VERSION(a: anytype, b: anytype, c: anytype) @TypeOf(AV_VERSION_DOT(a, b, c)) {
     return AV_VERSION_DOT(a, b, c);
 }
-pub fn AV_VERSION_MAJOR(a: anytype) callconv(.Inline) @TypeOf(a >> 16) {
+pub inline fn AV_VERSION_MAJOR(a: anytype) @TypeOf(a >> 16) {
     return a >> 16;
 }
-pub fn AV_VERSION_MINOR(a: anytype) callconv(.Inline) @TypeOf((a & 0x00FF00) >> 8) {
+pub inline fn AV_VERSION_MINOR(a: anytype) @TypeOf((a & 0x00FF00) >> 8) {
     return (a & 0x00FF00) >> 8;
 }
-pub fn AV_VERSION_MICRO(a: anytype) callconv(.Inline) @TypeOf(a & 0xFF) {
+pub inline fn AV_VERSION_MICRO(a: anytype) @TypeOf(a & 0xFF) {
     return a & 0xFF;
 }
 pub const LIBAVUTIL_VERSION_MAJOR = 56;
@@ -7909,50 +7909,50 @@ pub const FF_API_FRAME_GET_SET = LIBAVUTIL_VERSION_MAJOR < 57;
 pub const FF_API_PSEUDOPAL = LIBAVUTIL_VERSION_MAJOR < 57;
 pub const AV_HAVE_BIGENDIAN = 0;
 pub const AV_HAVE_FAST_UNALIGNED = 1;
-pub fn AV_NE(be: anytype, le: anytype) callconv(.Inline) @TypeOf(le) {
+pub inline fn AV_NE(be: anytype, le: anytype) @TypeOf(le) {
     return le;
 }
-pub fn RSHIFT(a: anytype, b: anytype) callconv(.Inline) @TypeOf(if (a > 0) (a + ((1 << b) >> 1)) >> b else ((a + ((1 << b) >> 1)) - 1) >> b) {
+pub inline fn RSHIFT(a: anytype, b: anytype) @TypeOf(if (a > 0) (a + ((1 << b) >> 1)) >> b else ((a + ((1 << b) >> 1)) - 1) >> b) {
     return if (a > 0) (a + ((1 << b) >> 1)) >> b else ((a + ((1 << b) >> 1)) - 1) >> b;
 }
-pub fn ROUNDED_DIV(a: anytype, b: anytype) callconv(.Inline) @TypeOf((if (a >= 0) a + (b >> 1) else a - (b >> 1)) / b) {
+pub inline fn ROUNDED_DIV(a: anytype, b: anytype) @TypeOf((if (a >= 0) a + (b >> 1) else a - (b >> 1)) / b) {
     return (if (a >= 0) a + (b >> 1) else a - (b >> 1)) / b;
 }
-pub fn AV_CEIL_RSHIFT(a: anytype, b: anytype) callconv(.Inline) @TypeOf(if (!(av_builtin_constant_p(b) != 0)) -(-a >> b) else ((a + (1 << b)) - 1) >> b) {
+pub inline fn AV_CEIL_RSHIFT(a: anytype, b: anytype) @TypeOf(if (!(av_builtin_constant_p(b) != 0)) -(-a >> b) else ((a + (1 << b)) - 1) >> b) {
     return if (!(av_builtin_constant_p(b) != 0)) -(-a >> b) else ((a + (1 << b)) - 1) >> b;
 }
 pub const FF_CEIL_RSHIFT = AV_CEIL_RSHIFT;
-pub fn FFUDIV(a: anytype, b: anytype) callconv(.Inline) @TypeOf((if (a > 0) a else (a - b) + 1) / b) {
+pub inline fn FFUDIV(a: anytype, b: anytype) @TypeOf((if (a > 0) a else (a - b) + 1) / b) {
     return (if (a > 0) a else (a - b) + 1) / b;
 }
-pub fn FFUMOD(a: anytype, b: anytype) callconv(.Inline) @TypeOf(a - (b * FFUDIV(a, b))) {
+pub inline fn FFUMOD(a: anytype, b: anytype) @TypeOf(a - (b * FFUDIV(a, b))) {
     return a - (b * FFUDIV(a, b));
 }
-pub fn FFABS(a: anytype) callconv(.Inline) @TypeOf(if (a >= 0) a else -a) {
+pub inline fn FFABS(a: anytype) @TypeOf(if (a >= 0) a else -a) {
     return if (a >= 0) a else -a;
 }
-pub fn FFSIGN(a: anytype) callconv(.Inline) @TypeOf(if (a > 0) 1 else -1) {
+pub inline fn FFSIGN(a: anytype) @TypeOf(if (a > 0) 1 else -1) {
     return if (a > 0) 1 else -1;
 }
-pub fn FFNABS(a: anytype) callconv(.Inline) @TypeOf(if (a <= 0) a else -a) {
+pub inline fn FFNABS(a: anytype) @TypeOf(if (a <= 0) a else -a) {
     return if (a <= 0) a else -a;
 }
-pub fn FFDIFFSIGN(x: anytype, y: anytype) callconv(.Inline) @TypeOf(@boolToInt(x > y) - @boolToInt(x < y)) {
+pub inline fn FFDIFFSIGN(x: anytype, y: anytype) @TypeOf(@boolToInt(x > y) - @boolToInt(x < y)) {
     return @boolToInt(x > y) - @boolToInt(x < y);
 }
-pub fn FFMAX(a: anytype, b: anytype) callconv(.Inline) @TypeOf(if (a > b) a else b) {
+pub inline fn FFMAX(a: anytype, b: anytype) @TypeOf(if (a > b) a else b) {
     return if (a > b) a else b;
 }
-pub fn FFMAX3(a: anytype, b: anytype, c: anytype) callconv(.Inline) @TypeOf(FFMAX(FFMAX(a, b), c)) {
+pub inline fn FFMAX3(a: anytype, b: anytype, c: anytype) @TypeOf(FFMAX(FFMAX(a, b), c)) {
     return FFMAX(FFMAX(a, b), c);
 }
-pub fn FFMIN(a: anytype, b: anytype) callconv(.Inline) @TypeOf(if (a > b) b else a) {
+pub inline fn FFMIN(a: anytype, b: anytype) @TypeOf(if (a > b) b else a) {
     return if (a > b) b else a;
 }
-pub fn FFMIN3(a: anytype, b: anytype, c: anytype) callconv(.Inline) @TypeOf(FFMIN(FFMIN(a, b), c)) {
+pub inline fn FFMIN3(a: anytype, b: anytype, c: anytype) @TypeOf(FFMIN(FFMIN(a, b), c)) {
     return FFMIN(FFMIN(a, b), c);
 }
-pub fn FF_ARRAY_ELEMS(a: anytype) callconv(.Inline) @TypeOf(@import("std").meta.sizeof(a) / @import("std").meta.sizeof(a[0])) {
+pub inline fn FF_ARRAY_ELEMS(a: anytype) @TypeOf(@import("std").meta.sizeof(a) / @import("std").meta.sizeof(a[0])) {
     return @import("std").meta.sizeof(a) / @import("std").meta.sizeof(a[0]);
 }
 pub const av_ceil_log2 = av_ceil_log2_c;
@@ -7977,22 +7977,22 @@ pub const av_clipd = av_clipd_c;
 pub const av_popcount = av_popcount_c;
 pub const av_popcount64 = av_popcount64_c;
 pub const av_parity = av_parity_c;
-pub fn MKTAG(a: anytype, b: anytype, c: anytype, d: anytype) callconv(.Inline) @TypeOf(((a | (b << 8)) | (c << 16)) | (@import("std").meta.cast(c_uint, d) << 24)) {
+pub inline fn MKTAG(a: anytype, b: anytype, c: anytype, d: anytype) @TypeOf(((a | (b << 8)) | (c << 16)) | (@import("std").meta.cast(c_uint, d) << 24)) {
     return ((a | (b << 8)) | (c << 16)) | (@import("std").meta.cast(c_uint, d) << 24);
 }
-pub fn MKBETAG(a: anytype, b: anytype, c: anytype, d: anytype) callconv(.Inline) @TypeOf(((d | (c << 8)) | (b << 16)) | (@import("std").meta.cast(c_uint, a) << 24)) {
+pub inline fn MKBETAG(a: anytype, b: anytype, c: anytype, d: anytype) @TypeOf(((d | (c << 8)) | (b << 16)) | (@import("std").meta.cast(c_uint, a) << 24)) {
     return ((d | (c << 8)) | (b << 16)) | (@import("std").meta.cast(c_uint, a) << 24);
 }
-pub fn offsetof(t: anytype, d: anytype) callconv(.Inline) @TypeOf(__builtin_offsetof(t, d)) {
+pub inline fn offsetof(t: anytype, d: anytype) @TypeOf(__builtin_offsetof(t, d)) {
     return __builtin_offsetof(t, d);
 }
-pub fn AVERROR(e: anytype) callconv(.Inline) @TypeOf(-e) {
+pub inline fn AVERROR(e: anytype) @TypeOf(-e) {
     return -e;
 }
-pub fn AVUNERROR(e: anytype) callconv(.Inline) @TypeOf(-e) {
+pub inline fn AVUNERROR(e: anytype) @TypeOf(-e) {
     return -e;
 }
-pub fn FFERRTAG(a: anytype, b: anytype, c: anytype, d: anytype) callconv(.Inline) @TypeOf(-@import("std").meta.cast(c_int, MKTAG(a, b, c, d))) {
+pub inline fn FFERRTAG(a: anytype, b: anytype, c: anytype, d: anytype) @TypeOf(-@import("std").meta.cast(c_int, MKTAG(a, b, c, d))) {
     return -@import("std").meta.cast(c_int, MKTAG(a, b, c, d));
 }
 pub const AVERROR_BSF_NOT_FOUND = FFERRTAG(0xF8, 'B', 'S', 'F');
@@ -8023,32 +8023,32 @@ pub const AVERROR_HTTP_NOT_FOUND = FFERRTAG(0xF8, '4', '0', '4');
 pub const AVERROR_HTTP_OTHER_4XX = FFERRTAG(0xF8, '4', 'X', 'X');
 pub const AVERROR_HTTP_SERVER_ERROR = FFERRTAG(0xF8, '5', 'X', 'X');
 pub const AV_ERROR_MAX_STRING_SIZE = 64;
-pub fn av_err2str(errnum: anytype) callconv(.Inline) @TypeOf(av_make_error_string(@import("std").mem.zeroInit(u8[AV_ERROR_MAX_STRING_SIZE], .{0}), AV_ERROR_MAX_STRING_SIZE, errnum)) {
+pub inline fn av_err2str(errnum: anytype) @TypeOf(av_make_error_string(@import("std").mem.zeroInit(u8[AV_ERROR_MAX_STRING_SIZE], .{0}), AV_ERROR_MAX_STRING_SIZE, errnum)) {
     return av_make_error_string(@import("std").mem.zeroInit(u8[AV_ERROR_MAX_STRING_SIZE], .{0}), AV_ERROR_MAX_STRING_SIZE, errnum);
 }
 pub const av_malloc_attrib = __attribute__(__malloc__);
 pub const M_LOG2_10 = 3.32192809488736234787;
 pub const M_PHI = 1.61803398874989484820;
-pub fn va_start(ap: anytype, param: anytype) callconv(.Inline) @TypeOf(__builtin_va_start(ap, param)) {
+pub inline fn va_start(ap: anytype, param: anytype) @TypeOf(__builtin_va_start(ap, param)) {
     return __builtin_va_start(ap, param);
 }
-pub fn va_end(ap: anytype) callconv(.Inline) @TypeOf(__builtin_va_end(ap)) {
+pub inline fn va_end(ap: anytype) @TypeOf(__builtin_va_end(ap)) {
     return __builtin_va_end(ap);
 }
-pub fn va_arg(ap: anytype, type_1: anytype) callconv(.Inline) @TypeOf(__builtin_va_arg(ap, type_1)) {
+pub inline fn va_arg(ap: anytype, type_1: anytype) @TypeOf(__builtin_va_arg(ap, type_1)) {
     return __builtin_va_arg(ap, type_1);
 }
-pub fn __va_copy(d: anytype, s: anytype) callconv(.Inline) @TypeOf(__builtin_va_copy(d, s)) {
+pub inline fn __va_copy(d: anytype, s: anytype) @TypeOf(__builtin_va_copy(d, s)) {
     return __builtin_va_copy(d, s);
 }
-pub fn va_copy(dest: anytype, src: anytype) callconv(.Inline) @TypeOf(__builtin_va_copy(dest, src)) {
+pub inline fn va_copy(dest: anytype, src: anytype) @TypeOf(__builtin_va_copy(dest, src)) {
     return __builtin_va_copy(dest, src);
 }
 pub const __GNUC_VA_LIST = 1;
-pub fn AV_IS_INPUT_DEVICE(category: anytype) callconv(.Inline) @TypeOf(((category == AV_CLASS_CATEGORY_DEVICE_VIDEO_INPUT) or (category == AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT)) or (category == AV_CLASS_CATEGORY_DEVICE_INPUT)) {
+pub inline fn AV_IS_INPUT_DEVICE(category: anytype) @TypeOf(((category == AV_CLASS_CATEGORY_DEVICE_VIDEO_INPUT) or (category == AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT)) or (category == AV_CLASS_CATEGORY_DEVICE_INPUT)) {
     return ((category == AV_CLASS_CATEGORY_DEVICE_VIDEO_INPUT) or (category == AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT)) or (category == AV_CLASS_CATEGORY_DEVICE_INPUT);
 }
-pub fn AV_IS_OUTPUT_DEVICE(category: anytype) callconv(.Inline) @TypeOf(((category == AV_CLASS_CATEGORY_DEVICE_VIDEO_OUTPUT) or (category == AV_CLASS_CATEGORY_DEVICE_AUDIO_OUTPUT)) or (category == AV_CLASS_CATEGORY_DEVICE_OUTPUT)) {
+pub inline fn AV_IS_OUTPUT_DEVICE(category: anytype) @TypeOf(((category == AV_CLASS_CATEGORY_DEVICE_VIDEO_OUTPUT) or (category == AV_CLASS_CATEGORY_DEVICE_AUDIO_OUTPUT)) or (category == AV_CLASS_CATEGORY_DEVICE_OUTPUT)) {
     return ((category == AV_CLASS_CATEGORY_DEVICE_VIDEO_OUTPUT) or (category == AV_CLASS_CATEGORY_DEVICE_AUDIO_OUTPUT)) or (category == AV_CLASS_CATEGORY_DEVICE_OUTPUT);
 }
 pub const AV_LOG_QUIET = -8;
@@ -8061,7 +8061,7 @@ pub const AV_LOG_VERBOSE = 40;
 pub const AV_LOG_DEBUG = 48;
 pub const AV_LOG_TRACE = 56;
 pub const AV_LOG_MAX_OFFSET = AV_LOG_TRACE - AV_LOG_QUIET;
-pub fn AV_LOG_C(x: anytype) callconv(.Inline) @TypeOf(x << 8) {
+pub inline fn AV_LOG_C(x: anytype) @TypeOf(x << 8) {
     return x << 8;
 }
 pub const AV_LOG_SKIP_REPEATED = 1;
@@ -8138,11 +8138,11 @@ pub const AV_PIX_FMT_AYUV64 = AV_PIX_FMT_NE(AYUV64BE, AYUV64LE);
 pub const AV_PIX_FMT_P010 = AV_PIX_FMT_NE(P010BE, P010LE);
 pub const AV_PIX_FMT_P016 = AV_PIX_FMT_NE(P016BE, P016LE);
 pub const AV_PIX_FMT_Y210 = AV_PIX_FMT_NE(Y210BE, Y210LE);
-pub fn av_int_list_length(list: anytype, term: anytype) callconv(.Inline) @TypeOf(av_int_list_length_for_size(@import("std").meta.sizeof(list.*), list, term)) {
+pub inline fn av_int_list_length(list: anytype, term: anytype) @TypeOf(av_int_list_length_for_size(@import("std").meta.sizeof(list.*), list, term)) {
     return av_int_list_length_for_size(@import("std").meta.sizeof(list.*), list, term);
 }
 pub const AV_FOURCC_MAX_STRING_SIZE = 32;
-pub fn av_fourcc2str(fourcc: anytype) callconv(.Inline) @TypeOf(av_fourcc_make_string(@import("std").mem.zeroInit(u8[AV_FOURCC_MAX_STRING_SIZE], .{0}), fourcc)) {
+pub inline fn av_fourcc2str(fourcc: anytype) @TypeOf(av_fourcc_make_string(@import("std").mem.zeroInit(u8[AV_FOURCC_MAX_STRING_SIZE], .{0}), fourcc)) {
     return av_fourcc_make_string(@import("std").mem.zeroInit(u8[AV_FOURCC_MAX_STRING_SIZE], .{0}), fourcc);
 }
 pub const AV_BUFFER_FLAG_READONLY = 1 << 0;
