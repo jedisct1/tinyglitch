@@ -1,0 +1,12 @@
+.{
+    .name = .tinyglitch,
+    .version = "0.0.0",
+    .fingerprint = 0x12551bf536d9aac,
+    .dependencies = .{
+        .zigly = .{
+            .url = "git+https://github.com/jedisct1/zigly#df70fcd28c3c177fe4baf70b255bbe6499f7b4b6",
+            .hash = "zigly-0.1.20-QJiBOdWZAwCIouTm8eTQI0q-vD3bi33eR8U5Fgh9UCvx",
+        },
+    },
+    .paths = .{ "build.zig", "build.zig.zon", "src", "ffmpeg-wasi.a" },
+}

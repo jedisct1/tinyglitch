@@ -1,20 +1,23 @@
 const std = @import("std");
-const Builder = std.build.Builder;
 
-pub fn build(b: *Builder) !void {
-    const target = try std.zig.CrossTarget.parse(.{ .arch_os_abi = "wasm32-wasi" });
+pub fn build(b: *std.Build) void {
+    const target = b.resolveTargetQuery(.{ .cpu_arch = .wasm32, .os_tag = .wasi });
 
-    const mode = b.standardReleaseOptions();
+    const optimize = b.standardOptimizeOption(.{});
 
-    const exe = b.addExecutable("avglitch", "src/main.zig");
-    exe.setTarget(target);
-    exe.setBuildMode(mode);
-    exe.addObjectFile("ffmpeg-wasi.a");
-    exe.install();
+    const exe = b.addExecutable(.{
+        .name = "avglitch",
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/main.zig"),
+            .target = target,
+            .optimize = optimize,
+            .imports = &.{.{ .name = "zigly", .module = b.dependency("zigly", .{}).module("zigly") }},
+        }),
+    });
+    exe.root_module.addObjectFile(b.path("ffmpeg-wasi.a"));
+    b.installArtifact(exe);
 
-    const run_cmd = exe.run();
+    const run_cmd = b.addRunArtifact(exe);
     run_cmd.step.dependOn(b.getInstallStep());
-    if (b.args) |args| {
-        run_cmd.addArgs(args);
-    }
+    run_cmd.addPassthruArgs();
 }

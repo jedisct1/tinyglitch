@@ -6,7 +6,7 @@ const mem = std.mem;
 const av = @import("ffmpeg.zig");
 const fs = std.fs;
 const heap = std.heap;
-const zigly = @import("zigly/lib.zig");
+const zigly = @import("zigly");
 
 const AVFormatContext = av.AVFormatContext;
 const AVCodecContext = av.AVCodecContext;
@@ -23,24 +23,24 @@ const AVBufferedReader = struct {
     data: []u8,
     pos: usize = 0,
 
-    fn read_buffer(c_self: ?*anyopaque, c_buf: [*c]u8, c_buf_len: c_int) callconv(.C) c_int {
-        var self = @intToPtr(*AVBufferedReader, @ptrToInt(c_self));
+    fn read_buffer(c_self: ?*anyopaque, c_buf: [*c]u8, c_buf_len: c_int) callconv(.c) c_int {
+        const self = @as(*AVBufferedReader, @ptrFromInt(@intFromPtr(c_self)));
         if (self.pos >= self.data.len) {
             return -1;
         }
-        var buf: []u8 = c_buf[0..@intCast(usize, c_buf_len)];
-        const len = math.min(self.data.len - self.pos, buf.len);
-        mem.copy(u8, buf, self.data[self.pos..][0..len]);
+        const buf: []u8 = c_buf[0..@as(usize, @intCast(c_buf_len))];
+        const len = @min(self.data.len - self.pos, buf.len);
+        @memcpy(buf, self.data[self.pos..][0..len]);
         self.pos += len;
-        return @intCast(c_int, len);
+        return @as(c_int, @intCast(len));
     }
 
-    fn seek(c_self: ?*anyopaque, offset: i64, whence: c_int) callconv(.C) i64 {
-        var self = @intToPtr(*AVBufferedReader, @ptrToInt(c_self));
+    fn seek(c_self: ?*anyopaque, offset: i64, whence: c_int) callconv(.c) i64 {
+        const self = @as(*AVBufferedReader, @ptrFromInt(@intFromPtr(c_self)));
         if (whence == av.AVSEEK_SIZE) {
-            return @intCast(i64, self.data.len);
+            return @as(i64, @intCast(self.data.len));
         }
-        self.pos = @intCast(usize, offset);
+        self.pos = @as(usize, @intCast(offset));
         return offset;
     }
 };
@@ -59,22 +59,22 @@ const AVBufferedWriter = struct {
         return self.data[0..self.pos];
     }
 
-    fn write_buffer(c_self: ?*anyopaque, c_buf: [*c]u8, c_buf_len: c_int) callconv(.C) c_int {
-        var self = @intToPtr(*AVBufferedWriter, @ptrToInt(c_self));
-        const buf: []u8 = c_buf[0..@intCast(usize, c_buf_len)];
-        const required_len = self.pos + @intCast(usize, buf.len);
+    fn write_buffer(c_self: ?*anyopaque, c_buf: [*c]u8, c_buf_len: c_int) callconv(.c) c_int {
+        const self = @as(*AVBufferedWriter, @ptrFromInt(@intFromPtr(c_self)));
+        const buf: []u8 = c_buf[0..@as(usize, @intCast(c_buf_len))];
+        const required_len = self.pos + @as(usize, @intCast(buf.len));
         if (self.data.len < required_len) {
             self.data = self.allocator.realloc(self.data, required_len) catch return -1;
         }
-        mem.copy(u8, self.data[self.pos..][0..buf.len], buf);
+        @memcpy(self.data[self.pos..][0..buf.len], buf);
         self.pos += buf.len;
         return c_buf_len;
     }
 
-    fn seek(c_self: ?*anyopaque, offset: i64, whence: c_int) callconv(.C) i64 {
+    fn seek(c_self: ?*anyopaque, offset: i64, whence: c_int) callconv(.c) i64 {
         _ = whence;
-        var self = @intToPtr(*AVBufferedWriter, @ptrToInt(c_self));
-        self.pos = @intCast(usize, offset);
+        const self = @as(*AVBufferedWriter, @ptrFromInt(@intFromPtr(c_self)));
+        self.pos = @as(usize, @intCast(offset));
         return offset;
     }
 };
@@ -92,7 +92,7 @@ fn start() !void {
     const prf = SipHash.init(&prf_key);
 
     // Read the input data
-    var downstream = try zigly.downstream();
+    const downstream = try zigly.downstream();
     var request = downstream.request;
     if (!try request.isPost()) {
         var response = downstream.response;
@@ -105,13 +105,13 @@ fn start() !void {
     const in_data = try request.body.readAll(allocator, max_in_data_len);
     defer allocator.free(in_data);
     std.debug.print("input size: {d}\n", .{in_data.len});
-    std.debug.print("input start: {s}\n", .{std.fmt.fmtSliceHexLower(in_data[0..16])});
-    std.debug.print("input end: {s}\n", .{std.fmt.fmtSliceHexLower(in_data[in_data.len - 16 ..])});
+    std.debug.print("input start: {s}\n", .{std.fmt.bytesToHex(in_data[0..16].*, .lower)});
+    std.debug.print("input end: {s}\n", .{std.fmt.bytesToHex(in_data[in_data.len - 16 ..][0..16].*, .lower)});
 
     // Create a buffered reader for libavformat
 
-    const in_buffer_size = mem.page_size;
-    var buffered_reader = AVBufferedReader{ .data = in_data, .buffer = @ptrCast([*c]u8, av.av_malloc(in_buffer_size).?) };
+    const in_buffer_size = std.heap.page_size_min;
+    var buffered_reader = AVBufferedReader{ .data = in_data, .buffer = @as([*c]u8, @ptrCast(av.av_malloc(in_buffer_size).?)) };
     const avio_in_ctx = av.avio_alloc_context(buffered_reader.buffer, in_buffer_size, 0, &buffered_reader, AVBufferedReader.read_buffer, null, AVBufferedReader.seek);
     if (avio_in_ctx == null) {
         return error.InternalError;
@@ -137,9 +137,9 @@ fn start() !void {
 
     // Create a buffered writer for libavformat
 
-    const out_buffer_size = mem.page_size;
-    var out_data = try allocator.alloc(u8, 2 * in_data.len);
-    var buffered_writer = AVBufferedWriter{ .data = out_data, .allocator = allocator, .buffer = @ptrCast([*c]u8, av.av_malloc(out_buffer_size).?) };
+    const out_buffer_size = std.heap.page_size_min;
+    const out_data = try allocator.alloc(u8, 2 * in_data.len);
+    var buffered_writer = AVBufferedWriter{ .data = out_data, .allocator = allocator, .buffer = @as([*c]u8, @ptrCast(av.av_malloc(out_buffer_size).?)) };
     defer buffered_writer.deinit();
     const avio_out_ctx = av.avio_alloc_context(buffered_writer.buffer, out_buffer_size, 1, &buffered_writer, null, AVBufferedWriter.write_buffer, AVBufferedWriter.seek);
     if (avio_out_ctx == null) {
@@ -176,7 +176,7 @@ fn start() !void {
     i = 0;
     const video_stream_idx = video_stream_idx: {
         while (i < nb_streams) : (i += 1) {
-            if (@enumToInt(format_ctx.*.streams[i].*.codec.*.codec_type) == av.AVMEDIA_TYPE_VIDEO) {
+            if (format_ctx.*.streams[i].*.codec.*.codec_type == av.AVMEDIA_TYPE_VIDEO) {
                 break :video_stream_idx i;
             }
         }
@@ -205,13 +205,13 @@ fn start() !void {
     var keyframe_idx: u32 = 0;
     while (av.av_read_frame(format_ctx, &packet) == 0) {
         defer av.av_packet_unref(&packet);
-        const data: []u8 = packet.data[0..@intCast(usize, packet.size)];
+        const data: []u8 = packet.data[0..@as(usize, @intCast(packet.size))];
         if (packet.stream_index != video_stream_idx) {
             continue;
         } else if (packet.flags == av.AVINDEX_KEYFRAME) {
             var prfx = prf;
             prfx.update(&mem.toBytes(keyframe_idx));
-            const glitch = @truncate(u8, prfx.finalInt());
+            const glitch = @as(u8, @truncate(prfx.finalInt()));
             data[data.len - 1] = glitch;
             std.debug.print("glitching key frame {d} with {d}\n", .{ keyframe_idx, glitch });
             keyframe_idx += 1;
@@ -231,6 +231,6 @@ fn start() !void {
     try response.flush();
 }
 
-pub export fn _start() callconv(.C) void {
+pub export fn _start() callconv(.c) void {
     start() catch unreachable;
 }
